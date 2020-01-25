@@ -61,6 +61,9 @@ class Controller {
                 response = false;
             }
         });
+        if (this._canPlayerContinueFalling() && !this.player.jumping && !this.player.falling) {
+            this.playerFalling();
+        }
 
         return response;
     }
@@ -72,6 +75,9 @@ class Controller {
                 response = false;
             }
         });
+        if (this._canPlayerContinueFalling() && !this.player.jumping && !this.player.falling) {
+            this.playerFalling();
+        }
 
         return response;
     }
@@ -95,6 +101,9 @@ class Controller {
     startJumpingListener() {
         this.view.jumpPlayer((event) => {
             if (event.key === 'w' && !this.player.jumping && !this.player.falling) {
+
+                if (this.player.falling) this.player.stopPlayerJumping();
+
                 const initialPlayerYPos = this.player.position.y;
                 this.player.startPlayerJumping(setInterval(() => {
                     if (this.player.position.y < initialPlayerYPos - (this.board.gravity * this.player.height)) {
@@ -110,6 +119,9 @@ class Controller {
 
     playerFalling() {
         this.player.startPlayerFalling(setInterval(() => {
+
+            if (this.player.jumping) this.player.stopPlayerFalling();
+
             if (this.player.position.y < this.board.height - this.board.portion - this.player.height && this._canPlayerContinueFalling()) {
                 this.player.position.y += 2;
             } else {
@@ -125,6 +137,8 @@ class Controller {
         const playerXPos = this.player.position.x;
         const portion = this.board.portion;
         const playerWidth = this.player.width;
+
+        if (this.player.jumping)  return false;
 
         this.board.getPosiblesCollitionsInX(playerXPos).forEach(brick => {
             if (playerXPos >= brick[0] + 2 && playerXPos <= brick[0] + portion) {
