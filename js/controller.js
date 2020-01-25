@@ -15,6 +15,7 @@ class Controller {
     startListeners() {
         this.movePlayerListener();
         this.stopMovingPlayerListener();
+        this.startJumpingListener();
         this.startLosingOxygen();
     }
 
@@ -80,6 +81,7 @@ class Controller {
             this.player.stopMoving();
         });
     }
+
     startLosingOxygen() {
         this.player.startLosingOxygen(setInterval(() => {
             if (this.player.oxygen <= 0) {
@@ -88,6 +90,21 @@ class Controller {
                 this.player.oxygen--;
             }
         }, 1500));
+    }
+
+    startJumpingListener() {
+        this.view.jumpPlayer((event) => {
+            if (event.key === 'w' && !this.player.jumping && !this.player.falling) {
+                const initialPlayerYPos = this.player.position.y;
+                this.player.startPlayerJumping(setInterval(() => {
+                    if (this.player.position.y < initialPlayerYPos - (this.board.gravity * this.player.height)) {
+                        this.player.stopPlayerJumping();
+                    } else {
+                        this.player.position.y -= 3;
+                    }
+                }, 1));
+            }
+        });
     }
 
     changeStatusScreen(status) {
