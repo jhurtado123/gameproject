@@ -41,3 +41,17 @@ html,body {
 #launchers {
     display: none;
 }
+
+#oxygen {
+    height:30px;
+    width:300px;
+    border:1px solid black;
+    position: absolute;
+    top:40px;
+    right:40px;
+}
+#oxygen .fill-bar {
+    transition: width 0.5s;
+    background: cornflowerblue;
+    height:100%;
+}

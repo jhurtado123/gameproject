@@ -6,6 +6,7 @@ class View {
         this.ctx = null;
         this.interval = null;
         this.domElement = null;
+        this.oxygenBar = document.querySelector('#oxygen');
     }
 
     startGame(player, board) {
@@ -44,6 +45,8 @@ class View {
                 playerElement.style.top = `${player.position.y}px`;
                 playerElement.style.left = `${player.position.x}px`;
                 playerElement.style.backgroundSize = '100% 100%';
+
+                this.oxygenBar.querySelector('.fill-bar').style.width = `${player.oxygen}%`;
 
             });
         }

@@ -15,6 +15,7 @@ class Controller {
     startListeners() {
         this.movePlayerListener();
         this.stopMovingPlayerListener();
+        this.startLosingOxygen();
     }
 
     movePlayerListener() {
@@ -78,6 +79,15 @@ class Controller {
         this.view.stopMovingPlayer(() => {
             this.player.stopMoving();
         });
+    }
+    startLosingOxygen() {
+        this.player.startLosingOxygen(setInterval(() => {
+            if (this.player.oxygen <= 0) {
+                //TODO : GAME OVER SCREEN
+            } else {
+                this.player.oxygen--;
+            }
+        }, 1500));
     }
 
     changeStatusScreen(status) {
