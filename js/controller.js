@@ -106,7 +106,7 @@ class Controller {
 
                 const initialPlayerYPos = this.player.position.y;
                 this.player.startPlayerJumping(setInterval(() => {
-                    if (this.player.position.y < initialPlayerYPos - (this.board.gravity * this.player.height)) {
+                    if (this.player.position.y < initialPlayerYPos - (this.board.gravity * this.player.height) || !this._canPlayerContinueJumping()) {
                         this.player.stopPlayerJumping();
                         this.playerFalling();
                     } else {
@@ -115,6 +115,32 @@ class Controller {
                 }, 1));
             }
         });
+    }
+
+    _canPlayerContinueJumping() {
+        let response = true;
+
+        const playerYPos = this.player.position.y;
+        const playerXPos = this.player.position.x;
+        const portion = this.board.portion;
+        const playerWidth = this.player.width;
+
+        this.board.getPosiblesCollitionsInX(playerXPos).forEach(brick => {
+            if (playerXPos >= brick[0] + 2 && playerXPos <= brick[0] + portion) {
+                if (this._getRoundedPosition(playerYPos+ 10) === brick[1]) {
+                    console.log(playerYPos);
+                    console.log(brick[1]);
+                    console.log("---");
+                    response = false;
+                }
+            } else if (playerXPos + playerWidth <= brick[0] + 1 + portion && playerXPos + playerWidth >= brick[0] + 1) {
+                if (this._getRoundedPosition(playerYPos+10) === brick[1]) {
+                    response = false;
+                }
+            }
+        });
+
+        return response;
     }
 
     playerFalling() {
@@ -142,11 +168,14 @@ class Controller {
 
         this.board.getPosiblesCollitionsInX(playerXPos).forEach(brick => {
             if (playerXPos >= brick[0] + 2 && playerXPos <= brick[0] + portion) {
-                if (playerYPos >= brick[1]) {
+                if (playerYPos <= brick[1] && playerYPos + portion >= brick[1]+ portion-1) {
+                    console.log(playerYPos);
+                    console.log(brick[1]);
+                    console.log("--");
                     response = false;
                 }
             } else if (playerXPos + playerWidth <= brick[0] + 1 + portion && playerXPos + playerWidth >= brick[0] + 1) {
-                if (playerYPos >= brick[1]) {
+                if (playerYPos <= brick[1] && playerYPos + portion >= brick[1]+ portion-1) {
                     response = false;
                 }
             }
