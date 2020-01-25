@@ -21,8 +21,16 @@ html,body {
     height:100%;
     overflow: hidden;
 }
-.block {
+#htmlCanvas .brick {
+    width:50px;
+    height:50px;
     background: black;
+    position: absolute;
+}
+.player {
+    position: absolute;
+    background-size: 100% 100%;
+    background: url("/img/player.png") no-repeat center;
 }
 .player.left {
     transform: scaleX(-1);
