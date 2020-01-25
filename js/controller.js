@@ -3,7 +3,7 @@ class Controller {
     constructor(boardWidth, boardHeight, boardPortion ,level) {
         this.board = new Board(boardWidth, boardHeight, boardPortion, level, 1.5);
         this.view = new View();
-        this.player =  new Player(this.board.portion,this.board.portion*2,{x:0, y: this.board.height - this.board.portion *2 - this.board.portion },3, 100, 5);
+        this.player =  new Player(this.board.portion,this.board.portion*2,{x:0, y: this.board.height - this.board.portion *2 - this.board.portion },3, 100, 2);
         this.view.startGame(this.player, this.board);
         this.startListeners();
 
@@ -34,18 +34,29 @@ class Controller {
         this.player.moveInterval = setInterval(() => {
             switch(this.player.facing) {
                 case 'right':
-                    this.player.moveRight();
+                    if (this.canPlayerMoveRight()) {
+                        this.player.moveRight();
+                        this.view.moveCameraToRight(this.board, this.player.position.x);
+                    }
                     break;
                 case 'left':
-                    this.player.moveLeft();
+                    if (this.canPlayerMoveLeft()) {
+                        this.player.moveLeft();
+                        this.view.moveCameraToLeft(this.board, this.player.position.x);
+                    }
                     break;
             }
         }, 1);
     }
 
-    canPlayerMoveRight() {}
+    canPlayerMoveRight() {
+        return true;
+    }
 
-    canPlayerMoveLeft() {}
+    canPlayerMoveLeft() {
+
+        return true;
+    }
 
     stopMovingPlayerListener() {
         this.view.stopMovingPlayer(() => {

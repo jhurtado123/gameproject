@@ -81,5 +81,21 @@ class View {
         this.domElement.scrollLeft = 0;
     }
 
+    moveCameraToRight(board, posX) {
+        const rightQuart = (this.domElement.scrollLeft + board.width) - (board.width / 4);
+
+        if (posX > rightQuart) {
+            this.domElement.scrollLeft += 2;
+        }
+    }
+
+    moveCameraToLeft(board, posX) {
+        const leftQuart = this.domElement.scrollLeft + (board.width / 4);
+
+        if (posX < leftQuart && this.domElement.scrollLeft > 0) {
+            this.domElement.scrollLeft -= 2;
+        }
+    }
+
 
 }
