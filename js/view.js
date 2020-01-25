@@ -15,6 +15,21 @@ class View {
 
     }
 
+    /*
+    * EVENTS
+    */
+    movePlayer(callback) {
+        document.addEventListener('keypress', callback);
+    }
+
+    stopMovingPlayer(callback) {
+        document.addEventListener('keyup', callback);
+    }
+
+    jumpPlayer(callback) {
+        document.addEventListener('keypress', callback);
+    }
+
     updatePlayer(player) {
         if (!this.interval) {
             this.interval = setInterval(() => {
