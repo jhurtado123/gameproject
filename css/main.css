@@ -55,3 +55,13 @@ html,body {
     background: cornflowerblue;
     height:100%;
 }
+
+#livesWrap {
+    position: absolute;
+    top:90px;
+    right:40px;
+}
+#livesWrap img {
+    width:50px;
+    height: 50px;
+}

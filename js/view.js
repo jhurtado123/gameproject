@@ -7,6 +7,7 @@ class View {
         this.interval = null;
         this.domElement = null;
         this.oxygenBar = document.querySelector('#oxygen');
+        this.livesWrap = document.querySelector('#livesWrap');
     }
 
     startGame(player, board) {
@@ -47,6 +48,13 @@ class View {
                 playerElement.style.backgroundSize = '100% 100%';
 
                 this.oxygenBar.querySelector('.fill-bar').style.width = `${player.oxygen}%`;
+
+                this.livesWrap.innerHTML = '';
+                for (let i = 0; i < player.life; i++) {
+                    const heart = document.createElement('img');
+                    heart.src = 'img/heart.png';
+                    this.livesWrap.appendChild(heart);
+                }
 
             });
         }
