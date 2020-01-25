@@ -1,0 +1,29 @@
+html,body {
+    height: 100%;
+    padding:0;
+    margin:0;
+
+}
+#root {
+    width:1400px;
+    height:600px;
+    position: relative;
+}
+#root canvas {
+    width: 100%;
+    height:100%;
+}
+#htmlCanvas {
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height:100%;
+    overflow: hidden;
+}
+.block {
+    background: black;
+}
+.player.left {
+    transform: scaleX(-1);
+}
