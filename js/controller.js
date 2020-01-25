@@ -99,12 +99,46 @@ class Controller {
                 this.player.startPlayerJumping(setInterval(() => {
                     if (this.player.position.y < initialPlayerYPos - (this.board.gravity * this.player.height)) {
                         this.player.stopPlayerJumping();
+                        this.playerFalling();
                     } else {
                         this.player.position.y -= 3;
                     }
                 }, 1));
             }
         });
+    }
+
+    playerFalling() {
+        this.player.startPlayerFalling(setInterval(() => {
+            if (this.player.position.y < this.board.height - this.board.portion - this.player.height && this._canPlayerContinueFalling()) {
+                this.player.position.y += 2;
+            } else {
+                this.player.stopPlayerFalling();
+            }
+        }, 1));
+    }
+
+    _canPlayerContinueFalling() {
+        let response = true;
+
+        const playerYPos = this.player.position.y + this.player.height;
+        const playerXPos = this.player.position.x;
+        const portion = this.board.portion;
+        const playerWidth = this.player.width;
+
+        this.board.getPosiblesCollitionsInX(playerXPos).forEach(brick => {
+            if (playerXPos >= brick[0] + 2 && playerXPos <= brick[0] + portion) {
+                if (playerYPos >= brick[1]) {
+                    response = false;
+                }
+            } else if (playerXPos + playerWidth <= brick[0] + 1 + portion && playerXPos + playerWidth >= brick[0] + 1) {
+                if (playerYPos >= brick[1]) {
+                    response = false;
+                }
+            }
+        });
+
+        return response;
     }
 
     changeStatusScreen(status) {

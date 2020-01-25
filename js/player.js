@@ -15,7 +15,7 @@ class Player extends Entity {
     }
 
     startPlayerJumping(interval) {
-        if (!this.jumping) {
+        if (!this.jumping && !this.falling) {
             this.jumping = interval;
         }
     }
@@ -23,5 +23,13 @@ class Player extends Entity {
         clearInterval(this.jumping);
         this.jumping = null;
     }
-
+    startPlayerFalling(interval) {
+        if (!this.jumping && !this.falling) {
+            this.falling = interval;
+        }
+    }
+    stopPlayerFalling() {
+        clearInterval(this.falling);
+        this.falling = null;
+    }
 }
