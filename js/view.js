@@ -5,7 +5,7 @@ class View {
         this.canvas = null;
         this.ctx = null;
         this.interval = null;
-        this.dom = null;
+        this.domElement = null;
     }
 
     startGame(player, board) {
@@ -16,18 +16,22 @@ class View {
     }
 
     updatePlayer(player) {
-        this.interval = setInterval(() => {
-            if ( document.querySelector('.player')) {
-                document.querySelector('.player').remove();
-            }
-            const playerElement = document.createElement('div');
-            this.dom.appendChild(player);
-            playerElement.className = `player ${player.direction}`;
-            playerElement.style.width =`${player.width}px`;
-            playerElement.style.height =`${player.height}px`;
-            playerElement.style.top = `${player.position.y}px`;
-            playerElement.style.left = `${player.position.x}px`;
-        });
+        if (!this.interval) {
+            this.interval = setInterval(() => {
+                if (document.querySelector('.player')) {
+                    document.querySelector('.player').remove();
+                }
+                const playerElement = document.createElement('div');
+                this.domElement.appendChild(playerElement);
+                playerElement.className = `player ${player.facing}`;
+                playerElement.style.width = `${player.width}px`;
+                playerElement.style.height = `${player.height}px`;
+                playerElement.style.top = `${player.position.y}px`;
+                playerElement.style.left = `${player.position.x}px`;
+                playerElement.style.backgroundSize = '100% 100%';
+
+            });
+        }
     }
 
     createCanvasElement(board) {
@@ -45,21 +49,21 @@ class View {
         const htmlCanvas = document.createElement('div');
         htmlCanvas.id = 'htmlCanvas';
         this.root.appendChild(htmlCanvas);
-        this.dom = document.querySelector('#htmlCanvas');
+        this.domElement = document.querySelector('#htmlCanvas');
 
         this._fillDomElement(board);
     }
 
     _fillDomElement(board) {
-        board.level.forEach(brick => {
-            const block = document.createElement('div');
-            this.dom.appendChild(block);
-            block.className = 'brick';
-            block.style.top = `${brick[0]}px`;
-            block.style.left = `${brick[1]}px`;
+        board.levelBricksPositions.forEach(brick => {
+            const brickElement = document.createElement('div');
+            this.domElement.appendChild(brickElement);
+            brickElement.className = 'brick';
+            brickElement.style.top = `${brick[1]}px`;
+            brickElement.style.left = `${brick[0]}px`;
         });
 
-        this.dom.scrollLeft = 0;
+        this.domElement.scrollLeft = 0;
     }
 
 

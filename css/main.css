@@ -29,9 +29,11 @@ html,body {
 }
 .player {
     position: absolute;
-    background-size: 100% 100%;
-    background: url("/img/player.png") no-repeat center;
+    background: url("../img/player.png") no-repeat center;
 }
 .player.left {
     transform: scaleX(-1);
+}
+#launchers {
+    display: none;
 }
