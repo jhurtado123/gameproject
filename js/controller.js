@@ -40,8 +40,11 @@ class Controller {
     }
 
     setBoostersOnBoard() {
-
-
+        this.board.boosters.push(new Booster(this.board.portion, this.board.portion, -1, {
+                x: 3200,
+                y: 1000
+            }, -1, 'life'
+        ))
     }
 
     movePlayerListener() {
@@ -95,10 +98,14 @@ class Controller {
                 } else {
                     this.player.oxygen = 100;
                 }
+                break;
+            case 'life':
+                this.player.life++;
+                break;
         }
         booster.position = {
             x: -1,
-            y: 0
+            y: -1
         };
         this.view.printBoosters(this.board);
         booster.sound.play();
