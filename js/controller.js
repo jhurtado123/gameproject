@@ -7,6 +7,9 @@ class Controller {
             x: 100,
             y: this.board.height - this.board.portion * 2 - this.board.portion
         }, 3, 100, 2);
+
+        this.setBoostersOnBoard();
+
         this.view.startGame(this.player, this.board);
         this.startListeners();
         this.player.position.y = this.view.domElement.scrollHeight - this.board.portion * 2 - this.board.portion;
@@ -18,6 +21,21 @@ class Controller {
         this.stopMovingPlayerListener();
         this.startJumpingListener();
         this.startLosingOxygen();
+    }
+
+    setBoostersOnBoard() {
+
+        this.board.boosters.push(new Booster(this.board.portion, this.board.portion, -1, {
+                x: 2200,
+                y: 900
+            }, -1, 'oxygen')
+        );
+        this.board.boosters.push(new Booster(this.board.portion, this.board.portion, -1, {
+                x: 1500,
+                y: 500
+            }, -1, 'oxygen')
+        );
+
     }
 
     movePlayerListener() {
@@ -43,16 +61,53 @@ class Controller {
                     if (this.canPlayerMoveRight([this.player.position.x + this.player.velX, this.player.position.y])) {
                         this.player.moveRight();
                         this.view.moveCameraToRight(this.board, this.player.position.x);
+                        const anyBooster = this.isThereAnyBoosterInPlayerPosition();
+                        if (anyBooster) {
+                            this.applyBooster(anyBooster);
+                        }
                     }
                     break;
                 case 'left':
                     if (this.canPlayerMoveLeft([this.player.position.x - this.player.velX, this.player.position.y])) {
                         this.player.moveLeft();
                         this.view.moveCameraToLeft(this.board, this.player.position.x);
+                        const anyBooster = this.isThereAnyBoosterInPlayerPosition();
+                        if (anyBooster) {
+                            this.applyBooster(anyBooster);
+                        }
                     }
                     break;
             }
         }, 1);
+    }
+
+    applyBooster(booster) {
+        switch (booster.type) {
+            case 'oxygen':
+                if (this.player.oxygen < 90) {
+                    this.player.oxygen +=10;
+                } else {
+                    this.player.oxygen = 100;
+                }
+        }
+        booster.position = {
+            x: -1,
+            y:0
+        };
+        this.view.printBoosters(this.board);
+        booster.sound.play();
+    }
+
+    isThereAnyBoosterInPlayerPosition() {
+        let response = null;
+
+        this.board.boosters.forEach(booster => {
+            if (booster.position.x === this._getRoundedPosition(this.player.position.x ) && (booster.position.y === this._getRoundedPosition(this.player.position.y + this.board.portion) || booster.position.y === this._getRoundedPosition(this.player.position.y))) {
+                response = booster;
+            }
+        });
+
+        return response
     }
 
     canPlayerMoveRight(position) {
@@ -130,14 +185,14 @@ class Controller {
 
         this.board.getPosiblesCollitionsInX(playerXPos).forEach(brick => {
             if (playerXPos >= brick[0] + 2 && playerXPos <= brick[0] + portion) {
-                if (this._getRoundedPosition(playerYPos+ 10) === brick[1]) {
+                if (this._getRoundedPosition(playerYPos + 10) === brick[1]) {
                     console.log(playerYPos);
                     console.log(brick[1]);
                     console.log("---");
                     response = false;
                 }
             } else if (playerXPos + playerWidth <= brick[0] + 1 + portion && playerXPos + playerWidth >= brick[0] + 1) {
-                if (this._getRoundedPosition(playerYPos+10) === brick[1]) {
+                if (this._getRoundedPosition(playerYPos + 10) === brick[1]) {
                     response = false;
                 }
             }
@@ -168,15 +223,15 @@ class Controller {
         const portion = this.board.portion;
         const playerWidth = this.player.width;
 
-        if (this.player.jumping)  return false;
+        if (this.player.jumping) return false;
 
         this.board.getPosiblesCollitionsInX(playerXPos).forEach(brick => {
             if (playerXPos >= brick[0] + 2 && playerXPos <= brick[0] + portion) {
-                if (playerYPos <= brick[1] && playerYPos + portion >= brick[1]+ portion-1) {
+                if (playerYPos <= brick[1] && playerYPos + portion >= brick[1] + portion - 1) {
                     response = false;
                 }
             } else if (playerXPos + playerWidth <= brick[0] + 1 + portion && playerXPos + playerWidth >= brick[0] + 1) {
-                if (playerYPos <= brick[1] && playerYPos + portion >= brick[1]+ portion-1) {
+                if (playerYPos <= brick[1] && playerYPos + portion >= brick[1] + portion - 1) {
                     response = false;
                 }
             }

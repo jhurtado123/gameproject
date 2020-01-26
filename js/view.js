@@ -87,10 +87,31 @@ class View {
             brickElement.className = 'brick';
             brickElement.style.top = `${brick[1]}px`;
             brickElement.style.left = `${brick[0]}px`;
+            brickElement.style.width = `${board.portion}px`;
+            brickElement.style.height = `${board.portion}px`;
         });
+
+        this.printBoosters(board);
 
         this.domElement.scrollLeft = 0;
         this.domElement.scrollTop = 2000;
+    }
+
+    printBoosters(board) {
+
+        document.querySelectorAll('.booster').forEach(boosterElement => boosterElement.remove());
+        board.boosters.forEach( booster => {
+            const boosterElement = document.createElement('div');
+            this.domElement.appendChild(boosterElement);
+            boosterElement.className = `booster ${booster.type}`;
+            boosterElement.style.top = `${booster.position.y}px`;
+            boosterElement.style.left = `${booster.position.x}px`;
+            boosterElement.style.width = `${booster.width}px`;
+            boosterElement.style.height = `${booster.height}px`;
+            boosterElement.style.backgroundSize = '100% 100%';
+
+
+        });
     }
 
     moveCameraToRight(board, posX) {

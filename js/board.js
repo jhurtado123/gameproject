@@ -7,6 +7,7 @@ class Board {
         this.level = level;
         this.levelBricksPositions = [];
         this.gravity = gravity;
+        this.boosters = [];
 
         this._setBricksPositions();
     }
