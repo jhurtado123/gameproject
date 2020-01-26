@@ -169,9 +169,6 @@ class Controller {
         this.board.getPosiblesCollitionsInX(playerXPos).forEach(brick => {
             if (playerXPos >= brick[0] + 2 && playerXPos <= brick[0] + portion) {
                 if (playerYPos <= brick[1] && playerYPos + portion >= brick[1]+ portion-1) {
-                    console.log(playerYPos);
-                    console.log(brick[1]);
-                    console.log("--");
                     response = false;
                 }
             } else if (playerXPos + playerWidth <= brick[0] + 1 + portion && playerXPos + playerWidth >= brick[0] + 1) {
