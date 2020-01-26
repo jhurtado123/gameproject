@@ -263,10 +263,11 @@ class Controller {
                    }, 20, this.player.facing
                );
                this.board.shoots.push(bullet);
+               bullet.sound.play();
                bullet.moveInterval = setInterval(() => {
                    switch (bullet.facing) {
                        case 'right':
-                           if (this.canBulletMoveRight(bullet)) {
+                           if (this.canBulletMoveRight(bullet) && !this.isThereAnySpider(bullet)) {
                                bullet.position.x += bullet.velX;
 
                            } else {
@@ -278,7 +279,7 @@ class Controller {
                            }
                            break;
                        case 'left':
-                          if (this.canBulletMoveLeft(bullet)) {
+                          if (this.canBulletMoveLeft(bullet) && !this.isThereAnySpider(bullet)) {
                               bullet.position.x -= bullet.velX;
                           } else {
                               bullet.stopMoving();
@@ -290,11 +291,37 @@ class Controller {
                            break;
                    }
                },1);
-               bullet.sound.play();
-
            }
         });
     }
+
+    isThereAnySpider(bullet) {
+        let response = false;
+
+        switch (bullet.facing) {
+            case "left":
+                this.board.mobs.forEach(mob => {
+                    if (this._getRoundedPosition(bullet.position.x + bullet.velX) === mob.position.x + mob.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y*2 + this.board.portion >= bullet.position.y)) {
+                        response = true;
+                        mob.die();
+
+                    }
+                });
+                break;
+            case "right":
+                this.board.mobs.forEach(mob => {
+                    if (mob.position.x === this._getRoundedPosition(bullet.position.x + bullet.width - bullet.velX)  && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y*2 + this.board.portion >= bullet.position.y)) {
+                        response = true;
+                        mob.die();
+                    }
+                });
+                break;
+        }
+
+
+        return response;
+    }
+
     canBulletMoveLeft(bullet) {
         let response = true;
         this.board.getPosiblesCollitionsInX(bullet.position.x, 500).forEach(brick => {
