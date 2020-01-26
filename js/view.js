@@ -41,6 +41,7 @@ class View {
             this.interval = setInterval(() => {
                 this.updatePlayer(player);
                 this.updateBullets(board.shoots);
+                this.updateSpiders(board.mobs);
 
             });
         }
@@ -83,7 +84,20 @@ class View {
             bulletElement.style.backgroundSize = '100% 100%';
         });
     }
-
+    updateSpiders(spiders) {
+        document.querySelectorAll('.spider').forEach(spider => spider.remove());
+        
+        spiders.forEach(spider => {
+            const spiderElement =  document.createElement('div');
+            this.domElement.appendChild(spiderElement);
+            spiderElement.className = `spider facing-${spider.facing}`;
+            spiderElement.style.width = `${spider.width}px`;
+            spiderElement.style.height = `${spider.height}px`;
+            spiderElement.style.left = `${spider.position.x}px`;
+            spiderElement.style.top = `${spider.position.y}px`;
+            spiderElement.style.backgroundSize = '100% 100%';
+        });
+    }
     createCanvasElement(board) {
         const canvas = document.createElement('canvas');
         canvas.width = board.width;

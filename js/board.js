@@ -14,6 +14,10 @@ class Board {
         this._setBricksPositions();
     }
 
+    addSpiders() {
+
+    }
+
     getPosiblesCollitionsInX(x, range) {
         return  this.levelBricksPositions.filter( brick => {
             return brick[0] >= x - range && brick[0] <= x + range;

@@ -9,11 +9,11 @@ class Controller {
         }, 3, 100, 2);
 
         this.setBoostersOnBoard();
+        this.setSpidersOnBoard();
 
         this.view.startGame(this.player, this.board);
         this.startListeners();
         this.player.position.y = this.view.domElement.scrollHeight - this.board.portion * 2 - this.board.portion;
-
     }
 
     startListeners() {
@@ -22,6 +22,21 @@ class Controller {
         this.startJumpingListener();
         this.startPlayerShooting();
         this.startLosingOxygen();
+    }
+
+    setSpidersOnBoard() {
+        this.board.mobs.push(
+            new Spider(this.board.portion* 4, this.board.portion*2 , 1, {
+                x: 2250,
+                y:850
+            }, 4)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion* 4, this.board.portion*2 , 1, {
+                x: 1500,
+                y:450
+            }, 4)
+        );
     }
 
     setBoostersOnBoard() {
