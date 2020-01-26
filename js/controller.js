@@ -20,6 +20,7 @@ class Controller {
         this.movePlayerListener();
         this.stopMovingPlayerListener();
         this.startJumpingListener();
+        this.startPlayerShooting();
         this.startLosingOxygen();
     }
 
@@ -149,7 +150,7 @@ class Controller {
             if (this.player.oxygen <= 0) {
                 //TODO : GAME OVER SCREEN
             } else {
-                this.player.oxygen--;
+                this.player.oxygen -= 2;
             }
         }, 1500));
     }
@@ -238,6 +239,32 @@ class Controller {
         });
 
         return response;
+    }
+
+    startPlayerShooting() {
+        this.view.playerShoot((event) => {
+           if (event.key === 'Enter') {
+               const bullet =  new Bullet(15, 8, -1,
+                   {
+                       x: this.player.facing === 'right' ? this.player.position.x + this.player.width : this.player.position.x,
+                       y: this.player.position.y + this.board.portion
+                   }, 20, this.player.facing
+               );
+               this.board.shoots.push(bullet);
+               bullet.move = setInterval(() => {
+                   switch (bullet.facing) {
+                       case 'right':
+                           bullet.position.x += bullet.velX;
+                           break;
+                       case 'left':
+                          bullet.position.x -= bullet.velX;
+                           break;
+                   }
+               },1);
+               bullet.sound.play();
+
+           }
+        });
     }
 
     changeStatusScreen(status) {

@@ -1,0 +1,9 @@
+class Bullet extends Entity {
+
+    constructor(width,height, life, position, velX, facing) {
+        super(width,height, life, position, velX);
+        this.sound =  new Audio('sounds/shoot.mp3');
+        this.move = null;
+        this.facing = facing
+    }
+}

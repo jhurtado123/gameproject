@@ -61,13 +61,17 @@ html, body {
 .booster.oxygen {
     background: url("../img/oxygen-booster.png") no-repeat center;
 }
+#htmlCanvas .bullet {
+    position: absolute;
+    background: url("../img/bullet.png") no-repeat center;
+}
 
 .player {
     position: absolute;
     background: url("../img/player.png") no-repeat center;
 }
 
-.player.left {
+.facing-left {
     transform: scaleX(-1);
 }
 

@@ -13,7 +13,7 @@ class View {
     startGame(player, board) {
         this.createCanvasElement(board);
         this.createDomElement(board);
-        this.updatePlayer(player);
+        this.updateEntities(board, player);
 
     }
 
@@ -32,32 +32,56 @@ class View {
         document.addEventListener('keypress', callback);
     }
 
-    updatePlayer(player) {
+    playerShoot(callback) {
+        document.addEventListener('keypress', callback);
+    }
+
+    updateEntities(board, player) {
         if (!this.interval) {
             this.interval = setInterval(() => {
-                if (document.querySelector('.player')) {
-                    document.querySelector('.player').remove();
-                }
-                const playerElement = document.createElement('div');
-                this.domElement.appendChild(playerElement);
-                playerElement.className = `player ${player.facing}`;
-                playerElement.style.width = `${player.width}px`;
-                playerElement.style.height = `${player.height}px`;
-                playerElement.style.top = `${player.position.y}px`;
-                playerElement.style.left = `${player.position.x}px`;
-                playerElement.style.backgroundSize = '100% 100%';
-
-                this.oxygenBar.querySelector('.fill-bar').style.width = `${player.oxygen}%`;
-
-                this.livesWrap.innerHTML = '';
-                for (let i = 0; i < player.life; i++) {
-                    const heart = document.createElement('img');
-                    heart.src = 'img/heart.png';
-                    this.livesWrap.appendChild(heart);
-                }
+                this.updatePlayer(player);
+                this.updateBullets(board.shoots);
 
             });
         }
+    }
+
+    updatePlayer(player) {
+        if (document.querySelector('.player')) {
+            document.querySelector('.player').remove();
+        }
+        const playerElement = document.createElement('div');
+        this.domElement.appendChild(playerElement);
+        playerElement.className = `player facing-${player.facing}`;
+        playerElement.style.width = `${player.width}px`;
+        playerElement.style.height = `${player.height}px`;
+        playerElement.style.top = `${player.position.y}px`;
+        playerElement.style.left = `${player.position.x}px`;
+        playerElement.style.backgroundSize = '100% 100%';
+
+        this.oxygenBar.querySelector('.fill-bar').style.width = `${player.oxygen}%`;
+
+        this.livesWrap.innerHTML = '';
+        for (let i = 0; i < player.life; i++) {
+            const heart = document.createElement('img');
+            heart.src = 'img/heart.png';
+            this.livesWrap.appendChild(heart);
+        }
+    }
+
+    updateBullets(shoots) {
+        document.querySelectorAll('.bullet').forEach(bullet => bullet.remove());
+
+        shoots.forEach(bullet => {
+            const bulletElement = document.createElement('div');
+            this.domElement.appendChild(bulletElement);
+            bulletElement.className = `bullet facing-${bullet.facing}`;
+            bulletElement.style.width = `${bullet.width}px`;
+            bulletElement.style.height = `${bullet.height}px`;
+            bulletElement.style.left = `${bullet.position.x}px`;
+            bulletElement.style.top = `${bullet.position.y}px`;
+            bulletElement.style.backgroundSize = '100% 100%';
+        });
     }
 
     createCanvasElement(board) {
@@ -100,7 +124,7 @@ class View {
     printBoosters(board) {
 
         document.querySelectorAll('.booster').forEach(boosterElement => boosterElement.remove());
-        board.boosters.forEach( booster => {
+        board.boosters.forEach(booster => {
             const boosterElement = document.createElement('div');
             this.domElement.appendChild(boosterElement);
             boosterElement.className = `booster ${booster.type}`;
@@ -109,8 +133,6 @@ class View {
             boosterElement.style.width = `${booster.width}px`;
             boosterElement.style.height = `${booster.height}px`;
             boosterElement.style.backgroundSize = '100% 100%';
-
-
         });
     }
 
@@ -133,18 +155,18 @@ class View {
     moveCameraToTop(board, posY) {
         const rightQuart = (board.height / 4) * 3;
 
-        if (posY+200 < rightQuart) {
+        if (posY + 200 < rightQuart) {
             this.domElement.scrollTop -= 2;
         }
     }
+
     moveCameraToBottom(board, posY) {
         const rightQuart = 700;
 
-        if (posY+200 > rightQuart) {
+        if (posY + 200 > rightQuart) {
             this.domElement.scrollTop += 2;
         }
     }
-
 
 
 }
