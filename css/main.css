@@ -112,3 +112,9 @@ html, body {
     position: absolute;
     background: url("../img/spider.png") no-repeat center;
 }
+.spider.facing-left {
+    transform: scaleX(1);
+}
+.spider.facing-right {
+    transform: scaleX(-1);
+}

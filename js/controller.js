@@ -311,7 +311,6 @@ class Controller {
                     if (this._getRoundedPosition(bullet.position.x + bullet.velX) === mob.position.x + mob.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y  + this.board.portion*2 >= bullet.position.y)) {
                         response = true;
                         this.bulletTouchesSpider(mob);
-
                     }
                 });
                 break;
