@@ -9,7 +9,6 @@ class Spider extends Entity {
 
     restLife() {
         this.life--;
-        if (this.life === 0) this.die();
     }
 
     die() {

@@ -26,31 +26,21 @@ class Controller {
 
     setSpidersOnBoard() {
         this.board.mobs.push(
-            new Spider(this.board.portion* 4, this.board.portion*2 , 1, {
+            new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
                 x: 2250,
-                y:850
+                y: 850
             }, 4)
         );
         this.board.mobs.push(
-            new Spider(this.board.portion* 4, this.board.portion*2 , 1, {
+            new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
                 x: 1500,
-                y:450
+                y: 450
             }, 4)
         );
     }
 
     setBoostersOnBoard() {
 
-        this.board.boosters.push(new Booster(this.board.portion, this.board.portion, -1, {
-                x: 2200,
-                y: 900
-            }, -1, 'oxygen')
-        );
-        this.board.boosters.push(new Booster(this.board.portion, this.board.portion, -1, {
-                x: 1500,
-                y: 500
-            }, -1, 'oxygen')
-        );
 
     }
 
@@ -101,14 +91,14 @@ class Controller {
         switch (booster.type) {
             case 'oxygen':
                 if (this.player.oxygen < 90) {
-                    this.player.oxygen +=10;
+                    this.player.oxygen += 10;
                 } else {
                     this.player.oxygen = 100;
                 }
         }
         booster.position = {
             x: -1,
-            y:0
+            y: 0
         };
         this.view.printBoosters(this.board);
         booster.sound.play();
@@ -118,7 +108,7 @@ class Controller {
         let response = null;
 
         this.board.boosters.forEach(booster => {
-            if (booster.position.x === this._getRoundedPosition(this.player.position.x ) && (booster.position.y === this._getRoundedPosition(this.player.position.y + this.board.portion) || booster.position.y === this._getRoundedPosition(this.player.position.y))) {
+            if (booster.position.x === this._getRoundedPosition(this.player.position.x) && (booster.position.y === this._getRoundedPosition(this.player.position.y + this.board.portion) || booster.position.y === this._getRoundedPosition(this.player.position.y))) {
                 response = booster;
             }
         });
@@ -255,43 +245,43 @@ class Controller {
 
     startPlayerShooting() {
         this.view.playerShoot((event) => {
-           if (event.key === 'Enter') {
-               const bullet =  new Bullet(15, 8, -1,
-                   {
-                       x: this.player.facing === 'right' ? this.player.position.x + this.player.width : this.player.position.x,
-                       y: this.player.position.y + this.board.portion
-                   }, 20, this.player.facing
-               );
-               this.board.shoots.push(bullet);
-               bullet.sound.play();
-               bullet.moveInterval = setInterval(() => {
-                   switch (bullet.facing) {
-                       case 'right':
-                           if (this.canBulletMoveRight(bullet) && !this.isThereAnySpider(bullet)) {
-                               bullet.position.x += bullet.velX;
+            if (event.key === 'Enter') {
+                const bullet = new Bullet(15, 8, -1,
+                    {
+                        x: this.player.facing === 'right' ? this.player.position.x + this.player.width : this.player.position.x,
+                        y: this.player.position.y + this.board.portion
+                    }, 20, this.player.facing
+                );
+                this.board.shoots.push(bullet);
+                bullet.sound.play();
+                bullet.moveInterval = setInterval(() => {
+                    switch (bullet.facing) {
+                        case 'right':
+                            if (this.canBulletMoveRight(bullet) && !this.isThereAnySpider(bullet)) {
+                                bullet.position.x += bullet.velX;
 
-                           } else {
-                               bullet.stopMoving();
-                               bullet.position = {
-                                   x: -1,
-                                   y:-1
-                               }
-                           }
-                           break;
-                       case 'left':
-                          if (this.canBulletMoveLeft(bullet) && !this.isThereAnySpider(bullet)) {
-                              bullet.position.x -= bullet.velX;
-                          } else {
-                              bullet.stopMoving();
-                              bullet.position = {
-                                  x: -1,
-                                  y:-1
-                              }
-                          }
-                           break;
-                   }
-               },1);
-           }
+                            } else {
+                                bullet.stopMoving();
+                                bullet.position = {
+                                    x: -1,
+                                    y: -1
+                                }
+                            }
+                            break;
+                        case 'left':
+                            if (this.canBulletMoveLeft(bullet) && !this.isThereAnySpider(bullet)) {
+                                bullet.position.x -= bullet.velX;
+                            } else {
+                                bullet.stopMoving();
+                                bullet.position = {
+                                    x: -1,
+                                    y: -1
+                                }
+                            }
+                            break;
+                    }
+                }, 1);
+            }
         });
     }
 
@@ -301,41 +291,64 @@ class Controller {
         switch (bullet.facing) {
             case "left":
                 this.board.mobs.forEach(mob => {
-                    if (this._getRoundedPosition(bullet.position.x + bullet.velX) === mob.position.x + mob.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y*2 + this.board.portion >= bullet.position.y)) {
+                    if (this._getRoundedPosition(bullet.position.x + bullet.velX) === mob.position.x + mob.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y * 2 + this.board.portion >= bullet.position.y)) {
                         response = true;
-                        mob.restLife();
+                        this.bulletTouchesSpider(mob);
 
                     }
                 });
                 break;
             case "right":
                 this.board.mobs.forEach(mob => {
-                    if (mob.position.x === this._getRoundedPosition(bullet.position.x + bullet.width - bullet.velX)  && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y*2 + this.board.portion >= bullet.position.y)) {
+                    if (mob.position.x === this._getRoundedPosition(bullet.position.x + bullet.width - bullet.velX) && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y * 2 + this.board.portion >= bullet.position.y)) {
                         response = true;
-                        mob.restLife();
+                        this.bulletTouchesSpider(mob);
                     }
                 });
                 break;
         }
 
-
         return response;
+    }
+
+    bulletTouchesSpider(spider) {
+        spider.restLife();
+
+        if (spider.life === 0) {
+
+            const posX = spider.position.x;
+            const posY = spider.position.y;
+
+            setTimeout(() => {
+                this.board.boosters.push(new Booster(this.board.portion, this.board.portion, -1, {
+                        x: posX + this.board.portion,
+                        y: posY+this.board.portion
+                    }, -1, 'oxygen')
+                );
+                this.view.printBoosters(this.board);
+
+            }, 800);
+
+            spider.die();
+        }
+
     }
 
     canBulletMoveLeft(bullet) {
         let response = true;
         this.board.getPosiblesCollitionsInX(bullet.position.x, 500).forEach(brick => {
-            if (this._getRoundedPosition(bullet.position.x + bullet.velX)  < 0 || this._getRoundedPosition(bullet.position.x + bullet.velX) === brick[0] + this.board.portion && (brick[1] <= bullet.position.y + bullet.height && brick[1] + this.board.portion >= bullet.position.y)) {
+            if (this._getRoundedPosition(bullet.position.x + bullet.velX) < 0 || this._getRoundedPosition(bullet.position.x + bullet.velX) === brick[0] + this.board.portion && (brick[1] <= bullet.position.y + bullet.height && brick[1] + this.board.portion >= bullet.position.y)) {
                 response = false;
             }
         });
 
         return response;
     }
+
     canBulletMoveRight(bullet) {
         let response = true;
         this.board.getPosiblesCollitionsInX(bullet.position.x, 500).forEach(brick => {
-            if (this._getRoundedPosition(bullet.position.x + bullet.velX)  > this.view.domElement.scrollWidth || brick[0] === this._getRoundedPosition(bullet.position.x + bullet.width - bullet.velX)  && (brick[1] <= bullet.position.y + bullet.height && brick[1] + this.board.portion >= bullet.position.y)) {
+            if (this._getRoundedPosition(bullet.position.x + bullet.velX) > this.view.domElement.scrollWidth || brick[0] === this._getRoundedPosition(bullet.position.x + bullet.width - bullet.velX) && (brick[1] <= bullet.position.y + bullet.height && brick[1] + this.board.portion >= bullet.position.y)) {
                 response = false;
             }
         });
