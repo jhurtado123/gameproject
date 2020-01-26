@@ -9,6 +9,7 @@ class Controller {
         }, 3, 100, 2);
         this.view.startGame(this.player, this.board);
         this.startListeners();
+        this.player.position.y = this.view.domElement.scrollHeight - this.board.portion * 2 - this.board.portion;
 
     }
 
@@ -111,6 +112,8 @@ class Controller {
                         this.playerFalling();
                     } else {
                         this.player.position.y -= 3;
+                        this.view.moveCameraToTop(this.board, this.player.position.y);
+
                     }
                 }, 1));
             }
@@ -148,8 +151,9 @@ class Controller {
 
             if (this.player.jumping) this.player.stopPlayerFalling();
 
-            if (this.player.position.y < this.board.height - this.board.portion - this.player.height && this._canPlayerContinueFalling()) {
+            if (this.player.position.y < this.view.domElement.scrollHeight - this.board.portion - this.player.height && this._canPlayerContinueFalling()) {
                 this.player.position.y += 2;
+                this.view.moveCameraToBottom(this.board, this.player.position.y);
             } else {
                 this.player.stopPlayerFalling();
             }

@@ -90,6 +90,7 @@ class View {
         });
 
         this.domElement.scrollLeft = 0;
+        this.domElement.scrollTop = 2000;
     }
 
     moveCameraToRight(board, posX) {
@@ -107,6 +108,22 @@ class View {
             this.domElement.scrollLeft -= 2;
         }
     }
+
+    moveCameraToTop(board, posY) {
+        const rightQuart = (board.height / 4) * 3;
+
+        if (posY+200 < rightQuart) {
+            this.domElement.scrollTop -= 2;
+        }
+    }
+    moveCameraToBottom(board, posY) {
+        const rightQuart = 700;
+
+        if (posY+200 > rightQuart) {
+            this.domElement.scrollTop += 2;
+        }
+    }
+
 
 
 }
