@@ -8,13 +8,12 @@ class Spider extends Entity {
         this.moveSound = null;
         this.deathSound = new Audio('sounds/spider-death.ogg');
 
-        this.intervalMove = null;
         this.startMoving();
     }
 
     startMoving() {
-        if (!this.intervalMove) {
-            this.intervalMove = setInterval(() => {
+        if (!this.moveInterval) {
+            this.moveInterval = setInterval(() => {
                if (this.facing === 'right') {
                    this.position.x += this.velX;
                    if (this.position.x - this.firstPosition > 100) {
@@ -42,7 +41,9 @@ class Spider extends Entity {
         this.life--;
     }
 
+
     die() {
+        this.stopMoving();
         setTimeout(() => this.deathSound.play(), 500);
         this.position = {
             x: -1,
