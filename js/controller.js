@@ -246,6 +246,12 @@ class Controller {
     startPlayerShooting() {
         this.view.playerShoot((event) => {
             if (event.key === 'Enter') {
+
+                if (Date.now() / 1000 - this.player.lastShot < 1.5) {
+                    this.player.noAmmoSound.play();
+                    return false;
+                }
+
                 const bullet = new Bullet(15, 8, -1,
                     {
                         x: this.player.facing === 'right' ? this.player.position.x + this.player.width : this.player.position.x,
@@ -254,6 +260,10 @@ class Controller {
                 );
                 this.board.shoots.push(bullet);
                 bullet.sound.play();
+                this.player.lastShot = Date.now() / 1000;
+                setTimeout(() => {
+                    this.player.ammoRecharged.play();
+                }, 1500);
                 bullet.moveInterval = setInterval(() => {
                     switch (bullet.facing) {
                         case 'right':

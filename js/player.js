@@ -6,6 +6,10 @@ class Player extends Entity {
         this.oxygenInterval = null;
         this.jumping = null;
         this.falling = null;
+        this.noAmmoSound = new Audio('sounds/no-ammo.mp3');
+        this.ammoRecharged = new Audio('sounds/gun-reload.mp3');
+        this.lastShot = Date.now() / 1000;
+
     }
 
     startLosingOxygen(interval) {
@@ -19,16 +23,19 @@ class Player extends Entity {
             this.jumping = interval;
         }
     }
+
     stopPlayerJumping() {
         clearInterval(this.jumping);
         this.jumping = null;
     }
+
     startPlayerFalling(interval) {
         clearInterval(this.falling);
         if (!this.jumping && !this.falling) {
             this.falling = interval;
         }
     }
+
     stopPlayerFalling() {
         clearInterval(this.falling);
         this.falling = null;
