@@ -308,7 +308,7 @@ class Controller {
         switch (bullet.facing) {
             case "left":
                 this.board.mobs.forEach(mob => {
-                    if (this._getRoundedPosition(bullet.position.x + bullet.velX) === mob.position.x + mob.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y  + this.board.portion*2 >= bullet.position.y)) {
+                    if (bullet.position.x + bullet.width >= mob.position.x && bullet.position.x + bullet.width <= mob.position.x + mob.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y  + this.board.portion*2 >= bullet.position.y)) {
                         response = true;
                         this.bulletTouchesSpider(mob);
                     }
@@ -316,7 +316,7 @@ class Controller {
                 break;
             case "right":
                 this.board.mobs.forEach(mob => {
-                    if (mob.position.x === this._getRoundedPosition(bullet.position.x + bullet.width - bullet.velX) && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y + this.board.portion*2 >= bullet.position.y)) {
+                    if (mob.position.x <= bullet.position.x + bullet.width && mob.position.x + mob.width >=  bullet.position.x + bullet.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y + this.board.portion*2 >= bullet.position.y)) {
                         response = true;
                         this.bulletTouchesSpider(mob);
                     }
