@@ -14,9 +14,9 @@ class Board {
         this._setBricksPositions();
     }
 
-    getPosiblesCollitionsInX(x) {
+    getPosiblesCollitionsInX(x, range) {
         return  this.levelBricksPositions.filter( brick => {
-            return brick[0] >= x - 150 && brick[0] <= x + 150;
+            return brick[0] >= x - range && brick[0] <= x + range;
         });
     }
 

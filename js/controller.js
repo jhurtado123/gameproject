@@ -113,7 +113,7 @@ class Controller {
 
     canPlayerMoveRight(position) {
         let response = true;
-        this.board.getPosiblesCollitionsInX(position[0]).forEach(brick => {
+        this.board.getPosiblesCollitionsInX(position[0], 150).forEach(brick => {
             if (brick[0] === this._getRoundedPosition(position[0] + this.player.width / 2 - this.player.velX) && (brick[1] === this._getRoundedPosition(position[1] + this.board.portion) || brick[1] === this._getRoundedPosition(position[1]))) {
                 response = false;
             }
@@ -127,7 +127,7 @@ class Controller {
 
     canPlayerMoveLeft(position) {
         let response = true;
-        this.board.getPosiblesCollitionsInX(position[0]).forEach(brick => {
+        this.board.getPosiblesCollitionsInX(position[0], 150).forEach(brick => {
             if (this._getRoundedPosition(position[0] + this.player.velX * 10) === brick[0] + this.board.portion && (brick[1] === this._getRoundedPosition(position[1] + this.board.portion) || brick[1] === this._getRoundedPosition(position[1]))) {
                 response = false;
             }
@@ -184,12 +184,9 @@ class Controller {
         const portion = this.board.portion;
         const playerWidth = this.player.width;
 
-        this.board.getPosiblesCollitionsInX(playerXPos).forEach(brick => {
+        this.board.getPosiblesCollitionsInX(playerXPos, 150).forEach(brick => {
             if (playerXPos >= brick[0] + 2 && playerXPos <= brick[0] + portion) {
                 if (this._getRoundedPosition(playerYPos + 10) === brick[1]) {
-                    console.log(playerYPos);
-                    console.log(brick[1]);
-                    console.log("---");
                     response = false;
                 }
             } else if (playerXPos + playerWidth <= brick[0] + 1 + portion && playerXPos + playerWidth >= brick[0] + 1) {
@@ -226,7 +223,7 @@ class Controller {
 
         if (this.player.jumping) return false;
 
-        this.board.getPosiblesCollitionsInX(playerXPos).forEach(brick => {
+        this.board.getPosiblesCollitionsInX(playerXPos, 150).forEach(brick => {
             if (playerXPos >= brick[0] + 2 && playerXPos <= brick[0] + portion) {
                 if (playerYPos <= brick[1] && playerYPos + portion >= brick[1] + portion - 1) {
                     response = false;
@@ -251,13 +248,30 @@ class Controller {
                    }, 20, this.player.facing
                );
                this.board.shoots.push(bullet);
-               bullet.move = setInterval(() => {
+               bullet.moveInterval = setInterval(() => {
                    switch (bullet.facing) {
                        case 'right':
-                           bullet.position.x += bullet.velX;
+                           if (this.canBulletMoveRight(bullet)) {
+                               bullet.position.x += bullet.velX;
+
+                           } else {
+                               bullet.stopMoving();
+                               bullet.position = {
+                                   x: -1,
+                                   y:-1
+                               }
+                           }
                            break;
                        case 'left':
-                          bullet.position.x -= bullet.velX;
+                          if (this.canBulletMoveLeft(bullet)) {
+                              bullet.position.x -= bullet.velX;
+                          } else {
+                              bullet.stopMoving();
+                              bullet.position = {
+                                  x: -1,
+                                  y:-1
+                              }
+                          }
                            break;
                    }
                },1);
@@ -265,6 +279,26 @@ class Controller {
 
            }
         });
+    }
+    canBulletMoveLeft(bullet) {
+        let response = true;
+        this.board.getPosiblesCollitionsInX(bullet.position.x, 500).forEach(brick => {
+            if (this._getRoundedPosition(bullet.position.x + bullet.velX)  < 0 || this._getRoundedPosition(bullet.position.x + bullet.velX) === brick[0] + this.board.portion && (brick[1] <= bullet.position.y + bullet.height && brick[1] + this.board.portion >= bullet.position.y)) {
+                response = false;
+            }
+        });
+
+        return response;
+    }
+    canBulletMoveRight(bullet) {
+        let response = true;
+        this.board.getPosiblesCollitionsInX(bullet.position.x, 500).forEach(brick => {
+            if (this._getRoundedPosition(bullet.position.x + bullet.velX)  > this.view.domElement.scrollWidth || brick[0] === this._getRoundedPosition(bullet.position.x + bullet.width - bullet.velX)  && (brick[1] <= bullet.position.y + bullet.height && brick[1] + this.board.portion >= bullet.position.y)) {
+                response = false;
+            }
+        });
+
+        return response;
     }
 
     changeStatusScreen(status) {
