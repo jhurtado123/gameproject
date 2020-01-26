@@ -337,7 +337,7 @@ class Controller {
 
             setTimeout(() => {
                 this.board.boosters.push(new Booster(this.board.portion, this.board.portion, -1, {
-                        x: posX + this.board.portion,
+                        x: this._getRoundedPosition(posX + this.board.portion),
                         y: posY+this.board.portion
                     }, -1, 'oxygen')
                 );
