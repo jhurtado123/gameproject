@@ -7,11 +7,16 @@ class Spider extends Entity {
         this.deathSound = new Audio('sounds/spider-death.ogg');
     }
 
+    restLife() {
+        this.life--;
+        if (this.life === 0) this.die();
+    }
+
     die() {
         setTimeout(() => this.deathSound.play(), 500);
         this.position = {
             x: -1,
-            y:-1
+            y: -1
         }
     }
 }

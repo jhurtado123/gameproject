@@ -303,7 +303,7 @@ class Controller {
                 this.board.mobs.forEach(mob => {
                     if (this._getRoundedPosition(bullet.position.x + bullet.velX) === mob.position.x + mob.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y*2 + this.board.portion >= bullet.position.y)) {
                         response = true;
-                        mob.die();
+                        mob.restLife();
 
                     }
                 });
@@ -312,7 +312,7 @@ class Controller {
                 this.board.mobs.forEach(mob => {
                     if (mob.position.x === this._getRoundedPosition(bullet.position.x + bullet.width - bullet.velX)  && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y*2 + this.board.portion >= bullet.position.y)) {
                         response = true;
-                        mob.die();
+                        mob.restLife();
                     }
                 });
                 break;
