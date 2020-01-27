@@ -7,26 +7,11 @@ class Spider extends Entity {
         this.attackSound = null;
         this.moveSound = null;
         this.deathSound = new Audio('sounds/spider-death.ogg');
-
-        this.startMoving();
+        this.status = 'walking';
     }
 
-    startMoving() {
-        if (!this.moveInterval) {
-            this.moveInterval = setInterval(() => {
-               if (this.facing === 'right') {
-                   this.position.x += this.velX;
-                   if (this.position.x - this.firstPosition > 100) {
-                       this.toggleFacing();
-                   }
-               }  else {
-                   this.position.x -= this.velX;
-                   if (this.firstPosition - this.position.x > 100) {
-                       this.toggleFacing();
-                   }
-               }
-            },40);
-        }
+    startFollowingPlayer(player) {
+
     }
 
     toggleFacing() {

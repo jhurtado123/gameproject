@@ -37,6 +37,65 @@ class Controller {
                 y: 450
             }, 4)
         );
+        this.startSpidersWalking();
+    }
+
+    startSpidersWalking() {
+
+        this.board.mobs.forEach(spider => {
+            if (!spider.moveInterval) {
+                spider.moveInterval = setInterval(() => {
+                    if (spider.facing === 'right') {
+                        spider.position.x += spider.velX;
+
+                        if (this.hasPlayerInRange(spider)) {
+                            this.setSpiderHuntingMode(spider);
+                        } else {
+                            if (spider.position.x - spider.firstPosition > 100 && spider.status === 'walking') {
+                                spider.toggleFacing();
+                            }
+                        }
+                    } else {
+                        spider.position.x -= spider.velX;
+                        if (this.hasPlayerInRange(spider)) {
+                            this.setSpiderHuntingMode(spider);
+                        } else {
+                            if (spider.firstPosition - spider.position.x > 100 && spider.status === 'walking') {
+                                spider.toggleFacing();
+                            }
+                        }
+                    }
+                }, 40);
+            }
+        });
+
+    }
+
+    setSpiderHuntingMode(spider) {
+        spider.status = 'hunting';
+        spider.velX *= 1.3;
+    }
+
+    hasPlayerInRange(spider) {
+        const spiderX = spider.position.x;
+        const spiderY = spider.position.y;
+        const playerX = this.player.position.x;
+        const playerY = this.player.position.y;
+
+        let response = false;
+
+        if (spider.facing === 'left') {
+            if (playerX + this.player.width >= spiderX - 100 - spider.width && playerX + this.player.width <= spiderX - spider.width && playerY >= spiderY - this.board.portion && playerY <= spiderY + spider.height + this.board.portion) {
+                response = true;
+            }
+        } else {
+            if (playerX <= spiderX + 100 + spider.width && playerX  >= spiderX + spider.width && playerY >= spiderY - this.board.portion && playerY <= spiderY + spider.height + this.board.portion) {
+                response = true;
+            }
+        }
+
+        return response;
+
     }
 
     setBoostersOnBoard() {
@@ -308,7 +367,7 @@ class Controller {
         switch (bullet.facing) {
             case "left":
                 this.board.mobs.forEach(mob => {
-                    if (bullet.position.x + bullet.width >= mob.position.x && bullet.position.x + bullet.width <= mob.position.x + mob.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y  + this.board.portion*2 >= bullet.position.y)) {
+                    if (bullet.position.x + bullet.width >= mob.position.x && bullet.position.x + bullet.width <= mob.position.x + mob.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y + this.board.portion * 2 >= bullet.position.y)) {
                         response = true;
                         this.bulletTouchesSpider(mob);
                     }
@@ -316,7 +375,7 @@ class Controller {
                 break;
             case "right":
                 this.board.mobs.forEach(mob => {
-                    if (mob.position.x <= bullet.position.x + bullet.width && mob.position.x + mob.width >=  bullet.position.x + bullet.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y + this.board.portion*2 >= bullet.position.y)) {
+                    if (mob.position.x <= bullet.position.x + bullet.width && mob.position.x + mob.width >= bullet.position.x + bullet.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y + this.board.portion * 2 >= bullet.position.y)) {
                         response = true;
                         this.bulletTouchesSpider(mob);
                     }
@@ -338,7 +397,7 @@ class Controller {
             setTimeout(() => {
                 this.board.boosters.push(new Booster(this.board.portion, this.board.portion, -1, {
                         x: this._getRoundedPosition(posX + this.board.portion),
-                        y: posY+this.board.portion
+                        y: posY + this.board.portion
                     }, -1, 'oxygen')
                 );
                 this.view.printBoosters(this.board);
