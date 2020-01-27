@@ -9,6 +9,7 @@ class Player extends Entity {
         this.noAmmoSound = new Audio('sounds/no-ammo.mp3');
         this.ammoRecharged = new Audio('sounds/gun-reload.mp3');
         this.lastShot = Date.now() / 1000;
+        this.hitSound = new Audio('sounds/hit.mp3');
 
     }
 
@@ -39,5 +40,18 @@ class Player extends Entity {
     stopPlayerFalling() {
         clearInterval(this.falling);
         this.falling = null;
+    }
+
+    getAttacked(from) {
+        this.life--;
+        for (let i = 0; i < 50; i++) {
+            if (from === 'right') {
+                this.position.x++;
+            } else {
+                this.position.x--;
+            }
+        }
+        this.hitSound.play();
+
     }
 }

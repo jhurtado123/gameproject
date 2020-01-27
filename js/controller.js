@@ -48,8 +48,12 @@ class Controller {
                     if (spider.facing === 'right') {
                         spider.position.x += spider.velX;
 
-                        if (this.hasPlayerInRange(spider)) {
-                            this.setSpiderHuntingMode(spider);
+                        if (this.isPlayerNextToSpider(spider)) {
+                            spider.setSpiderAttackingMode();
+                            this.player.getAttacked('right');
+                            spider.setSpiderHuntingMode();
+                        } else if (this.hasPlayerInRange(spider)) {
+                            spider.setSpiderHuntingMode();
                         } else {
                             if (spider.position.x - spider.firstPosition > 100 && spider.status === 'walking') {
                                 spider.toggleFacing();
@@ -57,8 +61,13 @@ class Controller {
                         }
                     } else {
                         spider.position.x -= spider.velX;
-                        if (this.hasPlayerInRange(spider)) {
-                            this.setSpiderHuntingMode(spider);
+
+                        if (this.isPlayerNextToSpider(spider)) {
+                            spider.setSpiderAttackingMode();
+                            this.player.getAttacked('left');
+                            spider.setSpiderHuntingMode();
+                        } else if (this.hasPlayerInRange(spider)) {
+                            spider.setSpiderHuntingMode();
                         } else {
                             if (spider.firstPosition - spider.position.x > 100 && spider.status === 'walking') {
                                 spider.toggleFacing();
@@ -71,9 +80,25 @@ class Controller {
 
     }
 
-    setSpiderHuntingMode(spider) {
-        spider.status = 'hunting';
-        spider.velX *= 1.3;
+    isPlayerNextToSpider(spider) {
+        const spiderX = spider.position.x;
+        const spiderY = spider.position.y;
+        const playerX = this.player.position.x;
+        const playerY = this.player.position.y;
+
+        let response = false;
+
+        if (spider.facing === 'left') {
+            if (playerX + this.player.width >= spiderX  && playerX + this.player.width <= spiderX + spider.width && playerY >= spiderY  && playerY <= spiderY + spider.height) {
+                response = true;
+            }
+        } else {
+            if (playerX <= spiderX + spider.width && playerX >= spiderX && playerY >= spiderY  && playerY <= spiderY + spider.height ) {
+                response = true;
+            }
+        }
+
+        return response
     }
 
     hasPlayerInRange(spider) {
@@ -89,7 +114,7 @@ class Controller {
                 response = true;
             }
         } else {
-            if (playerX <= spiderX + 100 + spider.width && playerX  >= spiderX + spider.width && playerY >= spiderY - this.board.portion && playerY <= spiderY + spider.height + this.board.portion) {
+            if (playerX <= spiderX + 100 + spider.width && playerX >= spiderX + spider.width && playerY >= spiderY - this.board.portion && playerY <= spiderY + spider.height + this.board.portion) {
                 response = true;
             }
         }
