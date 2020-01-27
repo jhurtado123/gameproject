@@ -29,13 +29,13 @@ class Controller {
             new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
                 x: 2250,
                 y: 850
-            }, 4)
+            }, 0.4)
         );
         this.board.mobs.push(
             new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
                 x: 1500,
                 y: 450
-            }, 4)
+            }, 0.4)
         );
         this.startSpidersWalking();
     }
@@ -51,10 +51,11 @@ class Controller {
                         if (this.isPlayerNextToSpider(spider)) {
                             spider.setSpiderAttackingMode();
                             this.player.getAttacked('right');
+                            setTimeout(() => spider.setSpiderHuntingMode(), 1000);
+                        } else if (this.hasPlayerInRange(spider) && spider.status !== 'attacking') {
                             spider.setSpiderHuntingMode();
-                        } else if (this.hasPlayerInRange(spider)) {
-                            spider.setSpiderHuntingMode();
-                        } else {
+                        } else if (spider.status !== 'attacking') {
+                            spider.setSpiderWalkingMode();
                             if (spider.position.x - spider.firstPosition > 100 && spider.status === 'walking') {
                                 spider.toggleFacing();
                             }
@@ -65,16 +66,17 @@ class Controller {
                         if (this.isPlayerNextToSpider(spider)) {
                             spider.setSpiderAttackingMode();
                             this.player.getAttacked('left');
+                            setTimeout(() => spider.setSpiderHuntingMode(), 1000);
+                        } else if (this.hasPlayerInRange(spider) && spider.status !== 'attacking') {
                             spider.setSpiderHuntingMode();
-                        } else if (this.hasPlayerInRange(spider)) {
-                            spider.setSpiderHuntingMode();
-                        } else {
+                        } else if (spider.status !== 'attacking') {
+                            spider.setSpiderWalkingMode();
                             if (spider.firstPosition - spider.position.x > 100 && spider.status === 'walking') {
                                 spider.toggleFacing();
                             }
                         }
                     }
-                }, 40);
+                }, 1);
             }
         });
 
@@ -110,15 +112,14 @@ class Controller {
         let response = false;
 
         if (spider.facing === 'left') {
-            if (playerX + this.player.width >= spiderX - 100 - spider.width && playerX + this.player.width <= spiderX - spider.width && playerY >= spiderY - this.board.portion && playerY <= spiderY + spider.height + this.board.portion) {
+            if (playerX + this.player.width >= spiderX - 300  && playerX + this.player.width <= spiderX  && playerY + this.player.height/2 >= spiderY - this.board.portion*3 && playerY + this.player.height/2 <= spiderY + spider.height + this.board.portion) {
                 response = true;
             }
         } else {
-            if (playerX <= spiderX + 100 + spider.width && playerX >= spiderX + spider.width && playerY >= spiderY - this.board.portion && playerY <= spiderY + spider.height + this.board.portion) {
+            if (playerX <= spiderX + 300 + spider.width && playerX >= spiderX + spider.width && playerY+ this.player.height/2 >= spiderY - this.board.portion*3 && playerY+ this.player.height/2 <= spiderY + spider.height + this.board.portion) {
                 response = true;
             }
         }
-
         return response;
 
     }

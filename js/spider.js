@@ -21,7 +21,11 @@ class Spider extends Entity {
 
     setSpiderHuntingMode() {
         this.status = 'hunting';
-        this.velX *= 1.4;
+        this.velX = 1.1;
+    }
+    setSpiderWalkingMode() {
+        this.status = 'walking';
+        this.velX = 0.4;
     }
 
     toggleFacing() {
