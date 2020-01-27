@@ -301,9 +301,13 @@ class Controller {
 
             if (this.player.jumping) this.player.stopPlayerFalling();
 
-            if (this.player.position.y < this.view.domElement.scrollHeight - this.board.portion - this.player.height && this._canPlayerContinueFalling()) {
+            if (this._canPlayerContinueFalling()) {
                 this.player.position.y += 2;
-                this.view.moveCameraToBottom(this.board, this.player.position.y);
+                if (this.player.position.y > 1000) {
+                    this.player.die();
+                } else {
+                    this.view.moveCameraToBottom(this.board, this.player.position.y);
+                }
             } else {
                 this.player.stopPlayerFalling();
             }
