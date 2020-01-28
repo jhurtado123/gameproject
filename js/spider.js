@@ -40,6 +40,16 @@ class Spider extends Entity {
         this.life--;
     }
 
+    jumpSpider(pixels) {
+        for (let i = 0; i < pixels; i++) {
+            this.position.y--;
+        }
+    }
+    fallSpider(pixels) {
+        for (let i = 0; i < pixels; i++) {
+            this.position.y++;
+        }
+    }
 
     die() {
         this.stopMoving();
