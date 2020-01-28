@@ -37,6 +37,12 @@ class Controller {
                 y: 450
             }, 0.4)
         );
+        this.board.mobs.push(
+            new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
+                x: 200,
+                y: 600
+            }, 0.4)
+        );
         this.startSpidersWalking();
     }
 
@@ -51,8 +57,8 @@ class Controller {
 
                         if (this.hasSpiderWallInFront(spider)) {
                             spider.jumpSpider(this.board.portion);
-                        } else if (this._canContinueFalling(spider)) {
-                          //  spider.fallSpider(this.board.portion);
+                        } else if (!this.hasSpiderFloor(spider)) {
+                            spider.fallSpider(this.board.portion);
                         }
 
                         if (this.isPlayerNextToSpider(spider)) {
@@ -72,9 +78,9 @@ class Controller {
                         spider.position.x -= spider.velX;
 
                         if (this.hasSpiderWallInFront(spider)) {
-                          //  spider.jumpSpider(this.board.portion);
-                        } else if (this._canContinueFalling(spider)) {
-                           // spider.fallSpider(this.board.portion);
+                            spider.jumpSpider(this.board.portion);
+                        } else if (!this.hasSpiderFloor(spider)) {
+                            spider.fallSpider(this.board.portion);
                         }
 
                         if (this.isPlayerNextToSpider(spider)) {
@@ -95,16 +101,35 @@ class Controller {
         });
 
     }
+    hasSpiderFloor(spider) {
+        let response = false;
+
+        this.board.getPosiblesCollitionsInX(spider.position.x, 100).forEach(brick => {
+            if (spider.facing === 'left') {
+                if (spider.position.x + this.board.portion >= brick[0] && spider.position.x + this.board.portion <= brick[0] + this.board.portion
+                    && brick[1] === spider.position.y + this.board.portion * 2) {
+                    response = true;
+                }
+            } else {
+                if (spider.position.x + this.board.portion  <= brick[0] && spider.position.x + this.board.portion  >= brick[0] - this.board.portion
+                    && brick[1] === spider.position.y + this.board.portion * 2) {
+                    response = true;
+                }
+            }
+        });
+
+        return response;
+    }
 
     hasSpiderWallInFront(spider) {
         let response = false;
         this.board.getPosiblesCollitionsInX(spider.position.x, 100).forEach(brick => {
             if (spider.facing === 'left') {
-                if (this._getRoundedPosition(spider.position.x)  - this.board.portion === brick[0] && spider.position.y + this.board.portion === brick[1] ) {
+                if (this._getRoundedPosition(spider.position.x)  === brick[0] && spider.position.y + this.board.portion === brick[1] ) {
                     response = true;
                 }
             } else {
-                if (this._getRoundedPosition(spider.position.x+ spider.width) +this.board.portion === brick[0] && spider.position.y + this.board.portion === brick[1] ) {
+                if (this._getRoundedPosition(spider.position.x + this.board.portion*2) === brick[0] && spider.position.y + this.board.portion === brick[1] ) {
                     response = true;
                 }
             }
