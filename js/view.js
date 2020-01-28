@@ -8,6 +8,9 @@ class View {
         this.domElement = null;
         this.oxygenBar = document.querySelector('#oxygen');
         this.livesWrap = document.querySelector('#livesWrap');
+        this.menu = document.querySelector('#start');
+        this.finished = document.querySelector('#win');
+        this.lose = document.querySelector('#lose');
     }
 
     startGame(player, board) {
@@ -15,11 +18,25 @@ class View {
         this.createDomElement(board);
         this.updateEntities(board, player);
 
+        this.menu.style.display = 'none';
+        this.finished.style.display = 'none';
+        this.lose.style.display = 'none';
     }
 
     /*
     * EVENTS
     */
+    startGameListener(callback) {
+        document.querySelectorAll('.start-game').forEach(element => {
+           element.addEventListener('click', callback);
+        });
+    }
+    startMenuListener(callback) {
+        document.querySelector('.menu').addEventListener('click', callback);
+    }
+    startRestartListener(callback) {
+        document.querySelector('.restart').addEventListener('click', callback);
+    }
     movePlayer(callback) {
         document.addEventListener('keypress', callback);
     }

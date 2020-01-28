@@ -5,6 +5,9 @@ html, body {
     height: 100vh;
 
 }
+*  {
+    outline:none;
+}
 
 #root {
     width: 1550px;
@@ -82,9 +85,35 @@ html, body {
 }
 
 #launchers {
-    display: none;
+    height:100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left:0;
+    z-index: 99;
 }
 
+section button {
+    border:1px solid white;
+    background: transparent;
+    font-size:34px;
+    margin-top:50px;
+    padding:15px 30px;
+    color:white;
+    cursor: pointer;
+}
+#launchers section {
+    height: 100%;
+    width:100%;
+    color:white;
+    background: black;
+    font-size: 80px;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
 #oxygen {
     height: 30px;
     width: 300px;

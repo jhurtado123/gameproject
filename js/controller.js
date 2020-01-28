@@ -8,12 +8,55 @@ class Controller {
             y: this.board.height - this.board.portion * 2 - this.board.portion
         }, 3, 100, 2);
 
+        this.playerController = null;
+        this.setInitGameListener();
+        this.setRestartGameListener();
+        this.setGoToMenuListener();
+
+    }
+
+    startGame() {
         this.setBoostersOnBoard();
         this.setSpidersOnBoard();
 
         this.view.startGame(this.player, this.board);
         this.startListeners();
         this.player.position.y = this.view.domElement.scrollHeight - this.board.portion * 2 - this.board.portion;
+        this.isPlayerDeath();
+    }
+    resetGame() {
+        clearInterval(this.player.oxygenInterval);
+        this.player.oxygenInterval= null;
+        this.board.mobs = [];
+        this.board.boosters = [];
+        if (this.view.domElement) {
+            this.view.domElement.innerHTML = '';
+        }
+        this.view = new View();
+        this.player = new Player(this.board.portion, this.board.portion * 2, {
+            x: 100,
+            y: this.board.height - this.board.portion * 2 - this.board.portion
+        }, 3, 100, 2);
+
+        this.startGame();
+    }
+
+    setInitGameListener() {
+        this.view.startGameListener(() => {
+           this.resetGame();
+        });
+    }
+    setRestartGameListener() {
+        this.view.startRestartListener(() => {
+           this.resetGame();
+        });
+    }
+    setGoToMenuListener() {
+        this.view.startMenuListener(() => {
+           clearInterval(this.view.interval);
+           clearInterval(this.player.moveInterval);
+           this.view.menu.style.display = 'flex';
+        });
     }
 
     startListeners() {
@@ -37,13 +80,25 @@ class Controller {
                 y: 450
             }, 0.4)
         );
-        this.board.mobs.push(
-            new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
-                x: 200,
-                y: 600
-            }, 0.4)
-        );
         this.startSpidersWalking();
+    }
+
+    isPlayerDeath() {
+        if (!this.playerController) {
+            this.playerController = setInterval(() =>  {
+                if (this.player.life <= 0 || this.player.oxygen <= 0) {
+                    //GAME OVER
+                    clearInterval(this.player.moveInterval);
+                    clearInterval(this.view.interval);
+                    clearInterval(this.playerController);
+                    this.view.lose.style.display = 'flex';
+                    this.playerController = null;
+                    this.player.position = {
+                        x: -10, y:-10
+                    }
+                }
+            }, 100);
+        }
     }
 
     startSpidersWalking() {
