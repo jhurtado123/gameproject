@@ -93,6 +93,10 @@ class Controller {
                     clearInterval(this.playerController);
                     this.view.lose.style.display = 'flex';
                     this.playerController = null;
+                    clearInterval(this.player.falling);
+                    this.player.falling = null;
+                    clearInterval(this.player.jumping);
+                    this.player.jumping = null;
                     this.player.position = {
                         x: -10, y:-10
                     }
@@ -463,7 +467,7 @@ class Controller {
                     {
                         x: this.player.facing === 'right' ? this.player.position.x + this.player.width : this.player.position.x,
                         y: this.player.position.y + this.board.portion
-                    }, 20, this.player.facing
+                    }, 15, this.player.facing
                 );
                 this.board.shoots.push(bullet);
                 bullet.sound.play();
@@ -497,7 +501,7 @@ class Controller {
                             }
                             break;
                     }
-                }, 1);
+                }, 0);
             }
         });
     }
