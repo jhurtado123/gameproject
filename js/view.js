@@ -117,7 +117,14 @@ class View {
         this.root.appendChild(htmlCanvas);
         this.domElement = document.querySelector('#htmlCanvas');
 
+
         this._fillDomElement(board);
+
+        const background = document.createElement('div');
+        this.domElement.appendChild(background);
+        background.className = "background";
+        background.style.width = `${this.domElement.scrollWidth}px`;
+        background.style.height = `${this.domElement.scrollHeight}px`;
     }
 
     _fillDomElement(board) {
