@@ -88,14 +88,16 @@ class View {
         document.querySelectorAll('.spider').forEach(spider => spider.remove());
         
         spiders.forEach(spider => {
-            const spiderElement =  document.createElement('div');
-            this.domElement.appendChild(spiderElement);
-            spiderElement.className = `spider facing-${spider.facing}`;
-            spiderElement.style.width = `${spider.width}px`;
-            spiderElement.style.height = `${spider.height}px`;
-            spiderElement.style.left = `${spider.position.x}px`;
-            spiderElement.style.top = `${spider.position.y}px`;
-            spiderElement.style.backgroundSize = '100% 100%';
+            if (spider.position.x !== -1 && spider.position.y !== -1) {
+                const spiderElement = document.createElement('div');
+                this.domElement.appendChild(spiderElement);
+                spiderElement.className = `spider facing-${spider.facing}`;
+                spiderElement.style.width = `${spider.width}px`;
+                spiderElement.style.height = `${spider.height}px`;
+                spiderElement.style.left = `${spider.position.x}px`;
+                spiderElement.style.top = `${spider.position.y}px`;
+                spiderElement.style.backgroundSize = '100% 100%';
+            }
         });
     }
     createCanvasElement(board) {
@@ -139,14 +141,16 @@ class View {
 
         document.querySelectorAll('.booster').forEach(boosterElement => boosterElement.remove());
         board.boosters.forEach(booster => {
-            const boosterElement = document.createElement('div');
-            this.domElement.appendChild(boosterElement);
-            boosterElement.className = `booster ${booster.type}`;
-            boosterElement.style.top = `${booster.position.y}px`;
-            boosterElement.style.left = `${booster.position.x}px`;
-            boosterElement.style.width = `${booster.width}px`;
-            boosterElement.style.height = `${booster.height}px`;
-            boosterElement.style.backgroundSize = '100% 100%';
+            if (booster.position.x !== -1 && booster.position.y !== -1) {
+                const boosterElement = document.createElement('div');
+                this.domElement.appendChild(boosterElement);
+                boosterElement.className = `booster ${booster.type}`;
+                boosterElement.style.top = `${booster.position.y}px`;
+                boosterElement.style.left = `${booster.position.x}px`;
+                boosterElement.style.width = `${booster.width}px`;
+                boosterElement.style.height = `${booster.height}px`;
+                boosterElement.style.backgroundSize = '100% 100%';
+            }
         });
     }
 
