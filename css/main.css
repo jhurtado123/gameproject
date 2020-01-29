@@ -34,12 +34,66 @@ html, body {
     overflow: hidden;
 }
 .background {
-    background: url("../img/backgroundprovisional.jpg")  center;
-    background-size: 100% 100%;
+    background: url("../img/background.png")  bottom no-repeat;
+    background-size: contain;
 }
 #htmlCanvas .brick {
-    background: black;
+    background: url("../img/blocks/brick.png") no-repeat  bottom;
+    background-size: cover;
     position: absolute;
+}
+#htmlCanvas .brick.center {
+    background: url("../img/blocks/brick-center.png") no-repeat  bottom;
+    background-size: cover;
+    position: absolute;
+}
+#htmlCanvas .brick.lava-brick.right {
+    background: url("../img/blocks/lava-right.png") no-repeat  bottom;
+    background-size: cover;
+}
+#htmlCanvas .brick.lava-brick.left {
+    background: url("../img/blocks/lava-right.png") no-repeat  bottom;
+    background-size: cover;
+    transform: scaleX(-1);
+}
+#htmlCanvas .brick.lava {
+    background: url("../img/blocks/lava.png") no-repeat  bottom;
+    background-size: cover;
+    animation: lava infinite;
+    animation-duration: 3s;
+    z-index: 98;
+}
+@keyframes lava {
+    10% {
+        background-size: 100% 95%;
+    }
+    20% {
+        background-size: 100% 96%;
+    }
+    30% {
+        background-size: 100% 97%;
+    }
+    40% {
+        background-size: 100% 98%;
+    }
+    50% {
+        background-size: 100% 99%;
+    }
+    60% {
+        background-size: 100% 100%;
+    }
+    70% {
+        background-size: 100% 99%;
+    }
+    80% {
+        background-size: 100% 98%;
+    }
+    90% {
+        background-size: 100% 97%;
+    }
+    100% {
+        background-size: 100% 96%;
+    }
 }
 
 #htmlCanvas .booster {

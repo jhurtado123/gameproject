@@ -145,15 +145,64 @@ class View {
     }
 
     _fillDomElement(board) {
-        board.levelBricksPositions.forEach(brick => {
-            const brickElement = document.createElement('div');
-            this.domElement.appendChild(brickElement);
-            brickElement.className = 'brick';
-            brickElement.style.top = `${brick[1]}px`;
-            brickElement.style.left = `${brick[0]}px`;
-            brickElement.style.width = `${board.portion}px`;
-            brickElement.style.height = `${board.portion}px`;
-        });
+
+        let yPos = 0;
+        let xPos = 0;
+        for (let y = 0; y < board.level.length; y++) {
+            for (let x = 0; x < board.level[y].length; x++) {
+                switch (board.level[y][x]) {
+                    case 'X':
+                        const brickElement = document.createElement('div');
+                        this.domElement.appendChild(brickElement);
+                        brickElement.className = 'brick';
+                        brickElement.style.top = `${yPos}px`;
+                        brickElement.style.left = `${xPos}px`;
+                        brickElement.style.width = `${board.portion}px`;
+                        brickElement.style.height = `${board.portion}px`;
+                        break;
+                    case 'L':
+                        const lavaElement = document.createElement('div');
+                        this.domElement.appendChild(lavaElement);
+                        lavaElement.className = 'brick lava';
+                        lavaElement.style.top = `${yPos}px`;
+                        lavaElement.style.left = `${xPos}px`;
+                        lavaElement.style.width = `${board.portion}px`;
+                        lavaElement.style.height = `${board.portion}px`;
+                        break;
+                    case 'Q':
+                        const lavaBrickLeftElement = document.createElement('div');
+                        this.domElement.appendChild(lavaBrickLeftElement);
+                        lavaBrickLeftElement.className = 'brick lava-brick left';
+                        lavaBrickLeftElement.style.top = `${yPos}px`;
+                        lavaBrickLeftElement.style.left = `${xPos}px`;
+                        lavaBrickLeftElement.style.width = `${board.portion}px`;
+                        lavaBrickLeftElement.style.height = `${board.portion}px`;
+                        break;
+                    case 'E':
+                        const lavaBrickRigthElement = document.createElement('div');
+                        this.domElement.appendChild(lavaBrickRigthElement);
+                        lavaBrickRigthElement.className = 'brick lava-brick right';
+                        lavaBrickRigthElement.style.top = `${yPos}px`;
+                        lavaBrickRigthElement.style.left = `${xPos}px`;
+                        lavaBrickRigthElement.style.width = `${board.portion}px`;
+                        lavaBrickRigthElement.style.height = `${board.portion}px`;
+                        break;
+                    case 'C':
+                        const brickCenterElement = document.createElement('div');
+                        this.domElement.appendChild(brickCenterElement);
+                        brickCenterElement.className = 'brick center';
+                        brickCenterElement.style.top = `${yPos}px`;
+                        brickCenterElement.style.left = `${xPos}px`;
+                        brickCenterElement.style.width = `${board.portion}px`;
+                        brickCenterElement.style.height = `${board.portion}px`;
+                        break;
+
+                }
+                xPos += board.portion;
+            }
+            xPos = 0;
+            yPos += board.portion;
+        }
 
         this.printBoosters(board);
 

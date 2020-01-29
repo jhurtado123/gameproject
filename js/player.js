@@ -43,18 +43,6 @@ class Player extends Entity {
         this.falling = null;
     }
 
-    getAttacked(from) {
-        this.life--;
-        for (let i = 0; i < 50; i++) {
-            if (from === 'right') {
-                this.position.x++;
-            } else {
-                this.position.x--;
-            }
-        }
-        this.hitSound.play();
-
-    }
 
     die() {
         this.life = 0;

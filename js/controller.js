@@ -24,9 +24,10 @@ class Controller {
         this.player.position.y = this.view.domElement.scrollHeight - this.board.portion * 2 - this.board.portion;
         this.isPlayerDeath();
     }
+
     resetGame() {
         clearInterval(this.player.oxygenInterval);
-        this.player.oxygenInterval= null;
+        this.player.oxygenInterval = null;
         this.board.mobs = [];
         this.board.boosters = [];
         if (this.view.domElement) {
@@ -43,19 +44,21 @@ class Controller {
 
     setInitGameListener() {
         this.view.startGameListener(() => {
-           this.resetGame();
+            this.resetGame();
         });
     }
+
     setRestartGameListener() {
         this.view.startRestartListener(() => {
-           this.resetGame();
+            this.resetGame();
         });
     }
+
     setGoToMenuListener() {
         this.view.startMenuListener(() => {
-           clearInterval(this.view.interval);
-           clearInterval(this.player.moveInterval);
-           this.view.menu.style.display = 'flex';
+            clearInterval(this.view.interval);
+            clearInterval(this.player.moveInterval);
+            this.view.menu.style.display = 'flex';
         });
     }
 
@@ -85,7 +88,7 @@ class Controller {
 
     isPlayerDeath() {
         if (!this.playerController) {
-            this.playerController = setInterval(() =>  {
+            this.playerController = setInterval(() => {
                 if (this.player.life <= 0 || this.player.oxygen <= 0) {
                     //GAME OVER
                     clearInterval(this.player.moveInterval);
@@ -98,7 +101,7 @@ class Controller {
                     clearInterval(this.player.jumping);
                     this.player.jumping = null;
                     this.player.position = {
-                        x: -10, y:-10
+                        x: -10, y: -10
                     }
                 }
             }, 100);
@@ -112,17 +115,18 @@ class Controller {
                 spider.moveInterval = setInterval(() => {
                     if (spider.facing === 'right') {
 
-                        spider.position.x += spider.velX;
-
                         if (this.hasSpiderWallInFront(spider)) {
-                            spider.jumpSpider(this.board.portion);
-                        } else if (!this.hasSpiderFloor(spider)) {
-                            spider.fallSpider(this.board.portion);
+                            spider.position.y -= 2;
+                        } else {
+                            if (!this.hasSpiderFloor(spider)) {
+                                spider.position.y++;
+                            }
+                            spider.position.x += spider.velX;
                         }
 
-                        if (this.isPlayerNextToSpider(spider)) {
+                        if (this.isPlayerNextToSpider(spider) && spider.status !== 'attacking') {
                             spider.setSpiderAttackingMode();
-                            this.player.getAttacked('right');
+                            this.getAttacked('right');
                             setTimeout(() => spider.setSpiderHuntingMode(), 1000);
                         } else if (this.hasPlayerInRange(spider) && spider.status !== 'attacking') {
                             spider.setSpiderHuntingMode();
@@ -134,17 +138,19 @@ class Controller {
                         }
                     } else {
 
-                        spider.position.x -= spider.velX;
-
                         if (this.hasSpiderWallInFront(spider)) {
-                            spider.jumpSpider(this.board.portion);
-                        } else if (!this.hasSpiderFloor(spider)) {
-                            spider.fallSpider(this.board.portion);
+                            spider.position.y -= 2;
+                        } else {
+                            if (!this.hasSpiderFloor(spider)) {
+                                spider.position.y++;
+                            }
+                            spider.position.x -= spider.velX;
                         }
 
-                        if (this.isPlayerNextToSpider(spider)) {
+
+                        if (this.isPlayerNextToSpider(spider) && spider.status !== 'attacking') {
                             spider.setSpiderAttackingMode();
-                            this.player.getAttacked('left');
+                            this.getAttacked('left');
                             setTimeout(() => spider.setSpiderHuntingMode(), 1000);
                         } else if (this.hasPlayerInRange(spider) && spider.status !== 'attacking') {
                             spider.setSpiderHuntingMode();
@@ -160,18 +166,36 @@ class Controller {
         });
 
     }
+
+    getAttacked(from) {
+        this.player.life--;
+        for (let i = 0; i < 50; i++) {
+            if (from === 'right') {
+                if (this.canPlayerMoveRight([this.player.position.x + 1, this.player.position.y])) {
+                    this.player.position.x++;
+                }
+            } else {
+                if (this.canPlayerMoveLeft([this.player.position.x - 1, this.player.position.y])) {
+                    this.player.position.x--;
+                }
+            }
+        }
+        this.player.hitSound.play();
+
+    }
+
     hasSpiderFloor(spider) {
         let response = false;
 
         this.board.getPosiblesCollitionsInX(spider.position.x, 100).forEach(brick => {
             if (spider.facing === 'left') {
                 if (spider.position.x + this.board.portion >= brick[0] && spider.position.x + this.board.portion <= brick[0] + this.board.portion
-                    && brick[1] === spider.position.y + this.board.portion * 2) {
+                    && brick[1] === this._getRoundedPosition(spider.position.y + this.board.portion * 2-30)) {
                     response = true;
                 }
             } else {
-                if (spider.position.x + this.board.portion  <= brick[0] && spider.position.x + this.board.portion  >= brick[0] - this.board.portion
-                    && brick[1] === spider.position.y + this.board.portion * 2) {
+                if (spider.position.x + this.board.portion <= brick[0] && spider.position.x + this.board.portion >= brick[0] - this.board.portion
+                    && brick[1] === this._getRoundedPosition(spider.position.y + this.board.portion * 2-30)) {
                     response = true;
                 }
             }
@@ -184,11 +208,11 @@ class Controller {
         let response = false;
         this.board.getPosiblesCollitionsInX(spider.position.x, 100).forEach(brick => {
             if (spider.facing === 'left') {
-                if (this._getRoundedPosition(spider.position.x)  === brick[0] && spider.position.y + this.board.portion === brick[1] ) {
+                if (this._getRoundedPosition(spider.position.x + this.board.portion) === brick[0] && this._getRoundedPosition(spider.position.y + this.board.portion) === brick[1]) {
                     response = true;
                 }
             } else {
-                if (this._getRoundedPosition(spider.position.x + this.board.portion*2) === brick[0] && spider.position.y + this.board.portion === brick[1] ) {
+                if (this._getRoundedPosition(spider.position.x + this.board.portion * 2) === brick[0] && this._getRoundedPosition(spider.position.y + this.board.portion) === brick[1]) {
                     response = true;
                 }
             }
@@ -206,11 +230,11 @@ class Controller {
         let response = false;
 
         if (spider.facing === 'left') {
-            if (playerX + this.player.width >= spiderX && playerX + this.player.width <= spiderX + spider.width && playerY >= spiderY && playerY <= spiderY + spider.height) {
+            if (playerX + this.player.width >= spiderX && playerX + this.player.width <= spiderX + spider.width && playerY >= spiderY - this.board.portion && playerY <= spiderY + spider.height) {
                 response = true;
             }
         } else {
-            if (playerX <= spiderX + spider.width && playerX >= spiderX && playerY >= spiderY && playerY <= spiderY + spider.height) {
+            if (playerX <= spiderX + spider.width + 20 && playerX >= spiderX && playerY >= spiderY - this.board.portion && playerY <= spiderY + spider.height) {
                 response = true;
             }
         }
@@ -227,11 +251,11 @@ class Controller {
         let response = false;
 
         if (spider.facing === 'left') {
-            if (playerX + this.player.width >= spiderX - 300 && playerX + this.player.width <= spiderX && playerY + this.player.height / 2 >= spiderY - this.board.portion * 3 && playerY + this.player.height / 2 <= spiderY + spider.height + this.board.portion) {
+            if (playerX + this.player.width >= spiderX - 300 && playerX + this.player.width <= spiderX + spider.width && playerY + this.player.height / 2 >= spiderY - this.board.portion * 4 && playerY + this.player.height / 2 <= spiderY + spider.height + this.board.portion) {
                 response = true;
             }
         } else {
-            if (playerX <= spiderX + 300 + spider.width && playerX >= spiderX + spider.width && playerY + this.player.height / 2 >= spiderY - this.board.portion * 3 && playerY + this.player.height / 2 <= spiderY + spider.height + this.board.portion) {
+            if (playerX <= spiderX + 300 + spider.width && playerX >= spiderX + spider.width && playerY + this.player.height / 2 >= spiderY - this.board.portion * 4 && playerY + this.player.height / 2 <= spiderY + spider.height + this.board.portion) {
                 response = true;
             }
         }
@@ -542,7 +566,7 @@ class Controller {
             setTimeout(() => {
                 this.board.boosters.push(new Booster(this.board.portion, this.board.portion, -1, {
                         x: this._getRoundedPosition(posX + this.board.portion),
-                        y: posY + this.board.portion
+                        y: this._getRoundedPosition(posY + this.board.portion)
                     }, -1, 'oxygen')
                 );
                 this.view.printBoosters(this.board);

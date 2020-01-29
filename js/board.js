@@ -25,15 +25,13 @@ class Board {
     }
 
     _setBricksPositions() {
+        const bricksCharacter = ['C', 'X', 'Q', 'E'];
         let yPos = 0;
         let xPos = 0;
         for (let y = 0; y < this.level.length; y++) {
             for (let x = 0; x < this.level[y].length; x++) {
-                switch (this.level[y][x]) {
-                    case 'X':
-                        this.levelBricksPositions.push([xPos, yPos]);
-                        break;
-
+                if (bricksCharacter.includes(this.level[y][x])) {
+                    this.levelBricksPositions.push([xPos, yPos]);
                 }
                 xPos += this.portion;
             }
