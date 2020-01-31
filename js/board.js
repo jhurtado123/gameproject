@@ -25,7 +25,7 @@ class Board {
     }
 
     _setBricksPositions() {
-        const bricksCharacter = ['C', 'X', 'Q', 'E'];
+        const bricksCharacter = ['C', 'X', 'Q', 'E', 'Z'];
         let yPos = 0;
         let xPos = 0;
         for (let y = 0; y < this.level.length; y++) {

@@ -11,6 +11,7 @@ class Player extends Entity {
         this.lastShot = Date.now() / 1000;
         this.hitSound = new Audio('sounds/hit.mp3');
         this.deathSound = new Audio('');
+        this.hasBulletBoostActive = false;
 
     }
 

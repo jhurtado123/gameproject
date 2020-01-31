@@ -269,6 +269,11 @@ class Controller {
                 y: 1000
             }, -1, 'life'
         ))
+        this.board.boosters.push(new Booster(this.board.portion, this.board.portion, -1, {
+                x: 900,
+                y: 1000
+            }, -1, 'bullet-boost'
+        ))
     }
 
     movePlayerListener() {
@@ -325,6 +330,9 @@ class Controller {
                 break;
             case 'life':
                 this.player.life++;
+                break;
+            case 'bullet-boost':
+                this.player.hasBulletBoostActive = true;
                 break;
         }
         booster.position = {
@@ -486,72 +494,142 @@ class Controller {
                     this.player.noAmmoSound.play();
                     return false;
                 }
+                const bullets = [];
 
-                const bullet = new Bullet(15, 8, -1,
-                    {
-                        x: this.player.facing === 'right' ? this.player.position.x + this.player.width : this.player.position.x,
-                        y: this.player.position.y + this.board.portion
-                    }, 15, this.player.facing
-                );
-                this.board.shoots.push(bullet);
-                bullet.sound.play();
+                if (this.player.hasBulletBoostActive) {
+                    bullets.push(new Bullet(15, 8, -1, {
+                            x: this.player.facing === 'right' ? this.player.position.x + this.player.width : this.player.position.x,
+                            y: this.player.position.y + this.board.portion
+                        }, 15, this.player.facing === 'right' ? 'right-bottom' : 'left-bottom'
+                    ));
+                    bullets.push(new Bullet(15, 8, -1, {
+                            x: this.player.facing === 'right' ? this.player.position.x + this.player.width : this.player.position.x,
+                            y: this.player.position.y + this.board.portion
+                        }, 15, this.player.facing
+                    ));
+                    bullets.push(new Bullet(15, 8, -1, {
+                            x: this.player.facing === 'right' ? this.player.position.x + this.player.width : this.player.position.x,
+                            y: this.player.position.y + this.board.portion
+                        }, 15, this.player.facing === 'right' ? 'right-top' : 'left-top'
+                    ));
+
+                } else {
+                    bullets.push(new Bullet(15, 8, -1, {
+                            x: this.player.facing === 'right' ? this.player.position.x + this.player.width : this.player.position.x,
+                            y: this.player.position.y + this.board.portion
+                        }, 15, this.player.facing
+                    ));
+                }
+
+                bullets[0].sound.play();
                 this.player.lastShot = Date.now() / 1000;
                 setTimeout(() => {
                     this.player.ammoRecharged.play();
                 }, 1200);
-                bullet.moveInterval = setInterval(() => {
-                    switch (bullet.facing) {
-                        case 'right':
-                            if (this.canBulletMoveRight(bullet) && !this.isThereAnySpider(bullet)) {
-                                bullet.position.x += bullet.velX;
 
-                            } else {
-                                bullet.stopMoving();
-                                bullet.position = {
-                                    x: -1,
-                                    y: -1
+                bullets.forEach(bullet => {
+                    this.board.shoots.push(bullet);
+
+                    bullet.moveInterval = setInterval(() => {
+                        switch (bullet.facing) {
+                            case 'right':
+                                if (this.canBulletMoveRight(bullet) && !this.isThereAnySpider(bullet)) {
+                                    bullet.position.x += bullet.velX;
+
+                                } else {
+                                    bullet.stopMoving();
+                                    bullet.position = {
+                                        x: -1,
+                                        y: -1
+                                    }
                                 }
-                            }
-                            break;
-                        case 'left':
-                            if (this.canBulletMoveLeft(bullet) && !this.isThereAnySpider(bullet)) {
-                                bullet.position.x -= bullet.velX;
-                            } else {
-                                bullet.stopMoving();
-                                bullet.position = {
-                                    x: -1,
-                                    y: -1
+                                break;
+                            case 'right-top':
+                                if (this.canBulletMoveRight(bullet) && !this.isThereAnySpider(bullet)) {
+                                    bullet.position.x += bullet.velX;
+                                    bullet.position.y += 1.5;
+
+                                } else {
+                                    bullet.stopMoving();
+                                    bullet.position = {
+                                        x: -1,
+                                        y: -1
+                                    }
                                 }
-                            }
-                            break;
-                    }
-                }, 0);
+                                break;
+                            case 'right-bottom':
+                                if (this.canBulletMoveRight(bullet) && !this.isThereAnySpider(bullet)) {
+                                    bullet.position.x += bullet.velX;
+                                    bullet.position.y -= 1.5;
+
+                                } else {
+                                    bullet.stopMoving();
+                                    bullet.position = {
+                                        x: -1,
+                                        y: -1
+                                    }
+                                }
+                                break;
+                            case 'left-top':
+                                if (this.canBulletMoveLeft(bullet) && !this.isThereAnySpider(bullet)) {
+                                    bullet.position.x -= bullet.velX;
+                                    bullet.position.y += 1.5;
+                                } else {
+                                    bullet.stopMoving();
+                                    bullet.position = {
+                                        x: -1,
+                                        y: -1
+                                    }
+                                }
+                                break;
+                            case 'left':
+                                if (this.canBulletMoveLeft(bullet) && !this.isThereAnySpider(bullet)) {
+                                    bullet.position.x -= bullet.velX;
+                                } else {
+                                    bullet.stopMoving();
+                                    bullet.position = {
+                                        x: -1,
+                                        y: -1
+                                    }
+                                }
+                                break;
+                            case 'left-bottom':
+                                if (this.canBulletMoveLeft(bullet) && !this.isThereAnySpider(bullet)) {
+                                    bullet.position.x -= bullet.velX;
+                                    bullet.position.y -= 1.5;
+                                } else {
+                                    bullet.stopMoving();
+                                    bullet.position = {
+                                        x: -1,
+                                        y: -1
+                                    }
+                                }
+                                break;
+
+                        }
+                    }, 0);
+                });
             }
         });
     }
 
     isThereAnySpider(bullet) {
         let response = false;
-
-        switch (bullet.facing) {
-            case "left":
-                this.board.mobs.forEach(mob => {
-                    if (bullet.position.x + bullet.width >= mob.position.x && bullet.position.x + bullet.width <= mob.position.x + mob.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y + this.board.portion * 2 >= bullet.position.y)) {
-                        response = true;
-                        this.bulletTouchesSpider(mob);
-                    }
-                });
-                break;
-            case "right":
-                this.board.mobs.forEach(mob => {
-                    if (mob.position.x <= bullet.position.x + bullet.width && mob.position.x + mob.width >= bullet.position.x + bullet.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y + this.board.portion * 2 >= bullet.position.y)) {
-                        response = true;
-                        this.bulletTouchesSpider(mob);
-                    }
-                });
-                break;
+        if (bullet.facing.includes('left')) {
+            this.board.mobs.forEach(mob => {
+                if (bullet.position.x + bullet.width >= mob.position.x && bullet.position.x + bullet.width <= mob.position.x + mob.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y + this.board.portion * 2 >= bullet.position.y)) {
+                    response = true;
+                    this.bulletTouchesSpider(mob);
+                }
+            });
+        } else {
+            this.board.mobs.forEach(mob => {
+                if (mob.position.x <= bullet.position.x + bullet.width && mob.position.x + mob.width >= bullet.position.x + bullet.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y + this.board.portion * 2 >= bullet.position.y)) {
+                    response = true;
+                    this.bulletTouchesSpider(mob);
+                }
+            });
         }
-
         return response;
     }
 

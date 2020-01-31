@@ -34,8 +34,8 @@ html, body {
     overflow: hidden;
 }
 .background {
-    background: url("../img/background.png")  bottom no-repeat;
-    background-size: contain;
+    background: white;
+    background-size: cover;
 }
 #htmlCanvas .brick {
     background: url("../img/blocks/brick.png") no-repeat  bottom;
@@ -100,6 +100,7 @@ html, body {
     position: absolute;
     animation: booster infinite;
     animation-duration: 4s;
+    z-index: 10;
 }
 
 @keyframes booster {
@@ -123,6 +124,9 @@ html, body {
 }
 .booster.life {
     background: url("../img/heart.png") no-repeat center;
+}
+.booster.bullet-boost {
+    background: url("../img/bullet-booster.png") no-repeat center;
 }
 #htmlCanvas .bullet {
     position: absolute;
@@ -205,4 +209,47 @@ section button {
 }
 .spider.facing-right {
     transform: scaleX(-1);
+}
+.brick.spider-web-1 {
+    background: url("../img/telaranas/telarana-1.png") no-repeat center!important;
+    background-size: contain!important;
+    opacity: 0.6;
+}
+.brick.spider-web-2 {
+    background: url("../img/telaranas/telarana-2.png") no-repeat center!important;
+    background-size: contain!important;
+    opacity: 0.4;
+}
+.brick.spider-web-3 {
+    background: url("../img/telaranas/telarana-3.png") no-repeat center!important;
+    background-size: contain!important;
+    opacity: 0.5;
+    margin-left:-10px;
+}
+.brick.spider-web-4 {
+    background: url("../img/telaranas/telarana-4.png") no-repeat center!important;
+    background-size: contain!important;
+    opacity: 0.5;
+}
+
+.l1 {
+    width:50px;
+    height:50px;
+}
+.l2 {
+    height:100px!important;
+    width: 100px!important;
+}
+.l3 {
+    width: 150px!important;
+    height:150px!important;
+}
+.l4 {
+    height:200px!important;
+    width: 200px!important;
+}
+
+.brick.lava-brick.right-left {
+    background: url("../img/blocks/lava-right-left.png") no-repeat center!important;
+    background-size: contain!important;
 }

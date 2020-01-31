@@ -150,54 +150,87 @@ class View {
         let xPos = 0;
         for (let y = 0; y < board.level.length; y++) {
             for (let x = 0; x < board.level[y].length; x++) {
+                let className = undefined;
                 switch (board.level[y][x]) {
                     case 'X':
-                        const brickElement = document.createElement('div');
-                        this.domElement.appendChild(brickElement);
-                        brickElement.className = 'brick';
-                        brickElement.style.top = `${yPos}px`;
-                        brickElement.style.left = `${xPos}px`;
-                        brickElement.style.width = `${board.portion}px`;
-                        brickElement.style.height = `${board.portion}px`;
+                       className = 'brick';
                         break;
                     case 'L':
-                        const lavaElement = document.createElement('div');
-                        this.domElement.appendChild(lavaElement);
-                        lavaElement.className = 'brick lava';
-                        lavaElement.style.top = `${yPos}px`;
-                        lavaElement.style.left = `${xPos}px`;
-                        lavaElement.style.width = `${board.portion}px`;
-                        lavaElement.style.height = `${board.portion}px`;
+                        className = 'brick lava';
                         break;
                     case 'Q':
-                        const lavaBrickLeftElement = document.createElement('div');
-                        this.domElement.appendChild(lavaBrickLeftElement);
-                        lavaBrickLeftElement.className = 'brick lava-brick left';
-                        lavaBrickLeftElement.style.top = `${yPos}px`;
-                        lavaBrickLeftElement.style.left = `${xPos}px`;
-                        lavaBrickLeftElement.style.width = `${board.portion}px`;
-                        lavaBrickLeftElement.style.height = `${board.portion}px`;
+                        className = 'brick lava-brick left';
                         break;
                     case 'E':
-                        const lavaBrickRigthElement = document.createElement('div');
-                        this.domElement.appendChild(lavaBrickRigthElement);
-                        lavaBrickRigthElement.className = 'brick lava-brick right';
-                        lavaBrickRigthElement.style.top = `${yPos}px`;
-                        lavaBrickRigthElement.style.left = `${xPos}px`;
-                        lavaBrickRigthElement.style.width = `${board.portion}px`;
-                        lavaBrickRigthElement.style.height = `${board.portion}px`;
+                        className = 'brick lava-brick right';
+                        break;
+                    case 'Z':
+                        className = 'brick lava-brick right-left';
                         break;
                     case 'C':
-                        const brickCenterElement = document.createElement('div');
-                        this.domElement.appendChild(brickCenterElement);
-                        brickCenterElement.className = 'brick center';
-                        brickCenterElement.style.top = `${yPos}px`;
-                        brickCenterElement.style.left = `${xPos}px`;
-                        brickCenterElement.style.width = `${board.portion}px`;
-                        brickCenterElement.style.height = `${board.portion}px`;
+                        className = 'brick center';
+                        break;
+                    case 'V1':
+                        className = 'brick spider-web-4 l1';
+                        break;
+                    case 'V2':
+                        className = 'brick spider-web-4 l2';
+                        break;
+                    case 'V3':
+                        className = 'brick spider-web-4 l3';
+                        break;
+                    case 'V4':
+                        className = 'brick spider-web-4 l4';
+                        break;
+                    case 'M1':
+                        className = 'brick spider-web-1 l1';
+                        break;
+                    case 'M2':
+                        className = 'brick spider-web-1 l2';
+                        break;
+                    case 'M3':
+                        className = 'brick spider-web-1 l3';
+                        break;
+                    case 'M4':
+                        className = 'brick spider-web-1 l4';
+                        break;
+                    case 'P1':
+                        className = 'brick spider-web-2 l1';
+                        break;
+                    case 'P2':
+                        className = 'brick spider-web-2 l2';
+                        break;
+                    case 'P3':
+                        className = 'brick spider-web-2 l3';
+                        break;
+                    case 'P4':
+                        className = 'brick spider-web-2 l3';
+                        break;
+                    case 'O1':
+                        className = 'brick spider-web-3 l1';
+                        break;
+                    case 'O2':
+                        className = 'brick spider-web-3 l2';
+                        break;
+                    case 'O3':
+                        className = 'brick spider-web-3 l3';
+                        break;
+                    case 'O4':
+                        className = 'brick spider-web-3 l4';
                         break;
 
+
                 }
+                if (className) {
+                    const brickElement = document.createElement('div');
+                    this.domElement.appendChild(brickElement);
+                    brickElement.className = className;
+                    brickElement.style.top = `${yPos}px`;
+                    brickElement.style.left = `${xPos}px`;
+                    brickElement.style.width = `${board.portion}px`;
+                    brickElement.style.height = `${board.portion}px`;
+                }
+
                 xPos += board.portion;
             }
             xPos = 0;
