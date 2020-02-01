@@ -28,15 +28,18 @@ class View {
     */
     startGameListener(callback) {
         document.querySelectorAll('.start-game').forEach(element => {
-           element.addEventListener('click', callback);
+            element.addEventListener('click', callback);
         });
     }
+
     startMenuListener(callback) {
         document.querySelector('.menu').addEventListener('click', callback);
     }
+
     startRestartListener(callback) {
         document.querySelector('.restart').addEventListener('click', callback);
     }
+
     movePlayer(callback) {
         document.addEventListener('keypress', callback);
     }
@@ -101,9 +104,10 @@ class View {
             bulletElement.style.backgroundSize = '100% 100%';
         });
     }
+
     updateSpiders(spiders) {
         document.querySelectorAll('.spider').forEach(spider => spider.remove());
-        
+
         spiders.forEach(spider => {
             if (spider.position.x !== -1 && spider.position.y !== -1) {
                 const spiderElement = document.createElement('div');
@@ -117,6 +121,7 @@ class View {
             }
         });
     }
+
     createCanvasElement(board) {
         const canvas = document.createElement('canvas');
         canvas.width = board.width;
@@ -151,76 +156,12 @@ class View {
         for (let y = 0; y < board.level.length; y++) {
             for (let x = 0; x < board.level[y].length; x++) {
                 let className = undefined;
-                switch (board.level[y][x]) {
-                    case 'X':
-                       className = 'brick';
-                        break;
-                    case 'L':
-                        className = 'brick lava';
-                        break;
-                    case 'Q':
-                        className = 'brick lava-brick left';
-                        break;
-                    case 'E':
-                        className = 'brick lava-brick right';
-                        break;
-                    case 'Z':
-                        className = 'brick lava-brick right-left';
-                        break;
-                    case 'C':
-                        className = 'brick center';
-                        break;
-                    case 'V1':
-                        className = 'brick spider-web-4 l1';
-                        break;
-                    case 'V2':
-                        className = 'brick spider-web-4 l2';
-                        break;
-                    case 'V3':
-                        className = 'brick spider-web-4 l3';
-                        break;
-                    case 'V4':
-                        className = 'brick spider-web-4 l4';
-                        break;
-                    case 'M1':
-                        className = 'brick spider-web-1 l1';
-                        break;
-                    case 'M2':
-                        className = 'brick spider-web-1 l2';
-                        break;
-                    case 'M3':
-                        className = 'brick spider-web-1 l3';
-                        break;
-                    case 'M4':
-                        className = 'brick spider-web-1 l4';
-                        break;
-                    case 'P1':
-                        className = 'brick spider-web-2 l1';
-                        break;
-                    case 'P2':
-                        className = 'brick spider-web-2 l2';
-                        break;
-                    case 'P3':
-                        className = 'brick spider-web-2 l3';
-                        break;
-                    case 'P4':
-                        className = 'brick spider-web-2 l3';
-                        break;
-                    case 'O1':
-                        className = 'brick spider-web-3 l1';
-                        break;
-                    case 'O2':
-                        className = 'brick spider-web-3 l2';
-                        break;
-                    case 'O3':
-                        className = 'brick spider-web-3 l3';
-                        break;
-                    case 'O4':
-                        className = 'brick spider-web-3 l4';
-                        break;
 
-
-                }
+                bricksClasses.forEach(brick => {
+                    if (brick.keyWord === board.level[y][x]) {
+                        className = brick.class;
+                    }
+                });
                 if (className) {
                     const brickElement = document.createElement('div');
                     this.domElement.appendChild(brickElement);
@@ -237,10 +178,15 @@ class View {
             yPos += board.portion;
         }
 
-        this.printBoosters(board);
+        this
+            .printBoosters(board);
 
-        this.domElement.scrollLeft = 0;
-        this.domElement.scrollTop = 2000;
+        this
+            .domElement
+            .scrollLeft = 0;
+        this
+            .domElement
+            .scrollTop = 2000;
     }
 
     printBoosters(board) {

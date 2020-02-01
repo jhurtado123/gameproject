@@ -35,7 +35,8 @@ html, body {
 }
 .background {
     background: white;
-    background-size: cover;
+    background: url("../img/background.png") no-repeat  bottom;
+    background-size: 100% 100%!important;
 }
 #htmlCanvas .brick {
     background: url("../img/blocks/brick.png") no-repeat  bottom;

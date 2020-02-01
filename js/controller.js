@@ -6,7 +6,7 @@ class Controller {
         this.player = new Player(this.board.portion, this.board.portion * 2, {
             x: 100,
             y: this.board.height - this.board.portion * 2 - this.board.portion
-        }, 3, 100, 2);
+        }, 3, 100, 1.5);
 
         this.playerController = null;
         this.setInitGameListener();
@@ -37,7 +37,7 @@ class Controller {
         this.player = new Player(this.board.portion, this.board.portion * 2, {
             x: 100,
             y: this.board.height - this.board.portion * 2 - this.board.portion
-        }, 3, 100, 2);
+        }, 3, 100, 1.5);
 
         this.startGame();
     }
