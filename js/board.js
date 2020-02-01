@@ -14,9 +14,6 @@ class Board {
         this._setBricksPositions();
     }
 
-    addSpiders() {
-
-    }
 
     getPosiblesCollitionsInX(x, range) {
         return  this.levelBricksPositions.filter( brick => {

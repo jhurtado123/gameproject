@@ -187,36 +187,42 @@ class Controller {
     hasSpiderFloor(spider) {
         let response = false;
 
-        this.board.getPosiblesCollitionsInX(spider.position.x, 100).forEach(brick => {
+        const posiblesCollitions = this.board.getPosiblesCollitionsInX(spider.position.x, 100);
+
+        for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
             if (spider.facing === 'left') {
-                if (spider.position.x + this.board.portion >= brick[0] && spider.position.x + this.board.portion <= brick[0] + this.board.portion
-                    && brick[1] === this._getRoundedPosition(spider.position.y + this.board.portion * 2-30)) {
+                if (spider.position.x + this.board.portion >= posiblesCollitions[i][0] && spider.position.x + this.board.portion <= posiblesCollitions[i][0] + this.board.portion
+                    && posiblesCollitions[i][1] === this._getRoundedPosition(spider.position.y + this.board.portion * 2 - 30)) {
                     response = true;
                 }
             } else {
-                if (spider.position.x + this.board.portion <= brick[0] && spider.position.x + this.board.portion >= brick[0] - this.board.portion
-                    && brick[1] === this._getRoundedPosition(spider.position.y + this.board.portion * 2-30)) {
+                if (spider.position.x + this.board.portion <= posiblesCollitions[i][0] && spider.position.x + this.board.portion >= posiblesCollitions[i][0] - this.board.portion
+                    && posiblesCollitions[i][1] === this._getRoundedPosition(spider.position.y + this.board.portion * 2 - 30)) {
                     response = true;
                 }
             }
-        });
+        }
+
 
         return response;
     }
 
     hasSpiderWallInFront(spider) {
         let response = false;
-        this.board.getPosiblesCollitionsInX(spider.position.x, 100).forEach(brick => {
+        const posiblesCollitions = this.board.getPosiblesCollitionsInX(spider.position.x, 100);
+
+        for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
             if (spider.facing === 'left') {
-                if (this._getRoundedPosition(spider.position.x + this.board.portion) === brick[0] && this._getRoundedPosition(spider.position.y + this.board.portion) === brick[1]) {
+                if (this._getRoundedPosition(spider.position.x + this.board.portion) === posiblesCollitions[i][0] && this._getRoundedPosition(spider.position.y + this.board.portion) === posiblesCollitions[i][1]) {
                     response = true;
                 }
             } else {
-                if (this._getRoundedPosition(spider.position.x + this.board.portion * 2) === brick[0] && this._getRoundedPosition(spider.position.y + this.board.portion) === brick[1]) {
+                if (this._getRoundedPosition(spider.position.x + this.board.portion * 2) === posiblesCollitions[i][0] && this._getRoundedPosition(spider.position.y + this.board.portion) === posiblesCollitions[i][1]) {
                     response = true;
                 }
             }
-        });
+        }
+
         return response;
     }
 
@@ -268,7 +274,7 @@ class Controller {
                 x: 3200,
                 y: 1000
             }, -1, 'life'
-        ))
+        ));
         this.board.boosters.push(new Booster(this.board.portion, this.board.portion, -1, {
                 x: 900,
                 y: 1000
@@ -297,18 +303,20 @@ class Controller {
             switch (this.player.facing) {
                 case 'right':
                     if (this.canPlayerMoveRight([this.player.position.x + this.player.velX, this.player.position.y])) {
+                        this.view.moveCameraToRight(this.board, this.player.position.x + this.player.width/2);
                         this.player.moveRight();
-                        this.view.moveCameraToRight(this.board, this.player.position.x);
                         const anyBooster = this.isThereAnyBoosterInPlayerPosition();
                         if (anyBooster) {
                             this.applyBooster(anyBooster);
                         }
+
                     }
                     break;
                 case 'left':
                     if (this.canPlayerMoveLeft([this.player.position.x - this.player.velX, this.player.position.y])) {
-                        this.player.moveLeft();
                         this.view.moveCameraToLeft(this.board, this.player.position.x);
+
+                        this.player.moveLeft();
                         const anyBooster = this.isThereAnyBoosterInPlayerPosition();
                         if (anyBooster) {
                             this.applyBooster(anyBooster);
@@ -346,22 +354,26 @@ class Controller {
     isThereAnyBoosterInPlayerPosition() {
         let response = null;
 
-        this.board.boosters.forEach(booster => {
-            if (booster.position.x === this._getRoundedPosition(this.player.position.x) && (booster.position.y === this._getRoundedPosition(this.player.position.y + this.board.portion) || booster.position.y === this._getRoundedPosition(this.player.position.y))) {
-                response = booster;
+        const boosters = this.board.boosters;
+
+        for (let i = boosters.length - 1; i >= 0; i--) {
+            if (boosters[i].position.x === this._getRoundedPosition(this.player.position.x) && (boosters[i].position.y === this._getRoundedPosition(this.player.position.y + this.board.portion) || boosters[i].position.y === this._getRoundedPosition(this.player.position.y))) {
+                response = boosters[i];
             }
-        });
+        }
 
         return response
     }
 
     canPlayerMoveRight(position) {
         let response = true;
-        this.board.getPosiblesCollitionsInX(position[0], 150).forEach(brick => {
-            if (brick[0] === this._getRoundedPosition(position[0] + this.player.width / 2 - this.player.velX) && (brick[1] === this._getRoundedPosition(position[1] + this.board.portion) || brick[1] === this._getRoundedPosition(position[1]))) {
+        const posiblesCollitions = this.board.getPosiblesCollitionsInX(position[0], 150);
+
+        for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
+            if (posiblesCollitions[i][0] === this._getRoundedPosition(position[0] + this.player.width / 2 - this.player.velX) && (posiblesCollitions[i][1] === this._getRoundedPosition(position[1] + this.board.portion) || posiblesCollitions[i][1] === this._getRoundedPosition(position[1]))) {
                 response = false;
             }
-        });
+        }
         if (this._canContinueFalling(this.player) && !this.player.jumping && !this.player.falling) {
             this.playerFalling();
         }
@@ -371,11 +383,14 @@ class Controller {
 
     canPlayerMoveLeft(position) {
         let response = true;
-        this.board.getPosiblesCollitionsInX(position[0], 150).forEach(brick => {
-            if (this._getRoundedPosition(position[0] + this.player.velX * 10) === brick[0] + this.board.portion && (brick[1] === this._getRoundedPosition(position[1] + this.board.portion) || brick[1] === this._getRoundedPosition(position[1]))) {
+        const posiblesCollitions = this.board.getPosiblesCollitionsInX(position[0], 150);
+
+        for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
+            if (this._getRoundedPosition(position[0] + this.player.velX * 10) === posiblesCollitions[i][0] + this.board.portion && (posiblesCollitions[i][1] === this._getRoundedPosition(position[1] + this.board.portion) || posiblesCollitions[i][1] === this._getRoundedPosition(position[1]))) {
                 response = false;
             }
-        });
+        }
+
         if (this._canContinueFalling(this.player) && !this.player.jumping && !this.player.falling) {
             this.playerFalling();
         }
@@ -428,17 +443,19 @@ class Controller {
         const portion = this.board.portion;
         const playerWidth = this.player.width;
 
-        this.board.getPosiblesCollitionsInX(playerXPos, 150).forEach(brick => {
-            if (playerXPos >= brick[0] + 2 && playerXPos <= brick[0] + portion) {
-                if (this._getRoundedPosition(playerYPos + 10) === brick[1]) {
+        const posiblesCollitions = this.board.getPosiblesCollitionsInX(playerXPos, 150);
+
+        for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
+            if (playerXPos >= posiblesCollitions[i][0] + 2 && playerXPos <= posiblesCollitions[i][0] + portion) {
+                if (this._getRoundedPosition(playerYPos + 10) === posiblesCollitions[i][1]) {
                     response = false;
                 }
-            } else if (playerXPos + playerWidth <= brick[0] + 1 + portion && playerXPos + playerWidth >= brick[0] + 1) {
-                if (this._getRoundedPosition(playerYPos + 10) === brick[1]) {
+            } else if (playerXPos + playerWidth <= posiblesCollitions[i][0] + 1 + portion && playerXPos + playerWidth >= posiblesCollitions[i][0] + 1) {
+                if (this._getRoundedPosition(playerYPos + 10) === posiblesCollitions[i][1]) {
                     response = false;
                 }
             }
-        });
+        }
 
         return response;
     }
@@ -471,17 +488,19 @@ class Controller {
 
         if (this.player.jumping) return false;
 
-        this.board.getPosiblesCollitionsInX(playerXPos, 150).forEach(brick => {
-            if (playerXPos >= brick[0] + 2 && playerXPos <= brick[0] + portion) {
-                if (playerYPos <= brick[1] && playerYPos + portion >= brick[1] + portion - 1) {
+        const posiblesCollitions = this.board.getPosiblesCollitionsInX(playerXPos, 150);
+
+        for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
+            if (playerXPos >= posiblesCollitions[i][0] + 2 && playerXPos <= posiblesCollitions[i][0] + portion) {
+                if (playerYPos <= posiblesCollitions[i][1] && playerYPos + portion >= posiblesCollitions[i][1] + portion - 1) {
                     response = false;
                 }
-            } else if (playerXPos + playerWidth <= brick[0] + 1 + portion && playerXPos + playerWidth >= brick[0] + 1) {
-                if (playerYPos <= brick[1] && playerYPos + portion >= brick[1] + portion - 1) {
+            } else if (playerXPos + playerWidth <= posiblesCollitions[i][0] + 1 + portion && playerXPos + playerWidth >= posiblesCollitions[i][0] + 1) {
+                if (playerYPos <= posiblesCollitions[i][1] && playerYPos + portion >= posiblesCollitions[i][1] + portion - 1) {
                     response = false;
                 }
             }
-        });
+        }
 
         return response;
     }
@@ -527,79 +546,79 @@ class Controller {
                     this.player.ammoRecharged.play();
                 }, 1200);
 
-                bullets.forEach(bullet => {
-                    this.board.shoots.push(bullet);
+                for (let i = bullets.length - 1; i >= 0; i--) {
+                    this.board.shoots.push(bullets[i]);
 
-                    bullet.moveInterval = setInterval(() => {
-                        switch (bullet.facing) {
+                    bullets[i].moveInterval = setInterval(() => {
+                        switch (bullets[i].facing) {
                             case 'right':
-                                if (this.canBulletMoveRight(bullet) && !this.isThereAnySpider(bullet)) {
-                                    bullet.position.x += bullet.velX;
+                                if (this.canBulletMoveRight(bullets[i]) && !this.isThereAnySpider(bullets[i])) {
+                                    bullets[i].position.x += bullets[i].velX;
 
                                 } else {
-                                    bullet.stopMoving();
-                                    bullet.position = {
+                                    bullets[i].stopMoving();
+                                    bullets[i].position = {
                                         x: -1,
                                         y: -1
                                     }
                                 }
                                 break;
                             case 'right-top':
-                                if (this.canBulletMoveRight(bullet) && !this.isThereAnySpider(bullet)) {
-                                    bullet.position.x += bullet.velX;
-                                    bullet.position.y += 1.5;
+                                if (this.canBulletMoveRight(bullets[i]) && !this.isThereAnySpider(bullets[i])) {
+                                    bullets[i].position.x += bullets[i].velX;
+                                    bullets[i].position.y += 1.5;
 
                                 } else {
-                                    bullet.stopMoving();
-                                    bullet.position = {
+                                    bullets[i].stopMoving();
+                                    bullets[i].position = {
                                         x: -1,
                                         y: -1
                                     }
                                 }
                                 break;
                             case 'right-bottom':
-                                if (this.canBulletMoveRight(bullet) && !this.isThereAnySpider(bullet)) {
-                                    bullet.position.x += bullet.velX;
-                                    bullet.position.y -= 1.5;
+                                if (this.canBulletMoveRight(bullets[i]) && !this.isThereAnySpider(bullets[i])) {
+                                    bullets[i].position.x += bullets[i].velX;
+                                    bullets[i].position.y -= 1.5;
 
                                 } else {
-                                    bullet.stopMoving();
-                                    bullet.position = {
+                                    bullets[i].stopMoving();
+                                    bullets[i].position = {
                                         x: -1,
                                         y: -1
                                     }
                                 }
                                 break;
                             case 'left-top':
-                                if (this.canBulletMoveLeft(bullet) && !this.isThereAnySpider(bullet)) {
-                                    bullet.position.x -= bullet.velX;
-                                    bullet.position.y += 1.5;
+                                if (this.canBulletMoveLeft(bullets[i]) && !this.isThereAnySpider(bullets[i])) {
+                                    bullets[i].position.x -= bullets[i].velX;
+                                    bullets[i].position.y += 1.5;
                                 } else {
-                                    bullet.stopMoving();
-                                    bullet.position = {
+                                    bullets[i].stopMoving();
+                                    bullets[i].position = {
                                         x: -1,
                                         y: -1
                                     }
                                 }
                                 break;
                             case 'left':
-                                if (this.canBulletMoveLeft(bullet) && !this.isThereAnySpider(bullet)) {
-                                    bullet.position.x -= bullet.velX;
+                                if (this.canBulletMoveLeft(bullets[i]) && !this.isThereAnySpider(bullets[i])) {
+                                    bullets[i].position.x -= bullets[i].velX;
                                 } else {
-                                    bullet.stopMoving();
-                                    bullet.position = {
+                                    bullets[i].stopMoving();
+                                    bullets[i].position = {
                                         x: -1,
                                         y: -1
                                     }
                                 }
                                 break;
                             case 'left-bottom':
-                                if (this.canBulletMoveLeft(bullet) && !this.isThereAnySpider(bullet)) {
-                                    bullet.position.x -= bullet.velX;
-                                    bullet.position.y -= 1.5;
+                                if (this.canBulletMoveLeft(bullets[i]) && !this.isThereAnySpider(bullets[i])) {
+                                    bullets[i].position.x -= bullets[i].velX;
+                                    bullets[i].position.y -= 1.5;
                                 } else {
-                                    bullet.stopMoving();
-                                    bullet.position = {
+                                    bullets[i].stopMoving();
+                                    bullets[i].position = {
                                         x: -1,
                                         y: -1
                                     }
@@ -608,27 +627,30 @@ class Controller {
 
                         }
                     }, 0);
-                });
+                }
+
             }
         });
     }
 
     isThereAnySpider(bullet) {
         let response = false;
+        const mobs = this.board.mobs;
         if (bullet.facing.includes('left')) {
-            this.board.mobs.forEach(mob => {
-                if (bullet.position.x + bullet.width >= mob.position.x && bullet.position.x + bullet.width <= mob.position.x + mob.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y + this.board.portion * 2 >= bullet.position.y)) {
+            for (let i = mobs.length - 1; i >= 0; i--) {
+                if (bullet.position.x + bullet.width >= mobs[i].position.x && bullet.position.x + bullet.width <= mobs[i].position.x + mobs[i].width && (mobs[i].position.y <= bullet.position.y + bullet.height && mobs[i].position.y + this.board.portion * 2 >= bullet.position.y)) {
                     response = true;
-                    this.bulletTouchesSpider(mob);
+                    this.bulletTouchesSpider(mobs[i]);
                 }
-            });
+            }
         } else {
-            this.board.mobs.forEach(mob => {
-                if (mob.position.x <= bullet.position.x + bullet.width && mob.position.x + mob.width >= bullet.position.x + bullet.width && (mob.position.y <= bullet.position.y + bullet.height && mob.position.y + this.board.portion * 2 >= bullet.position.y)) {
+            for (let i = mobs.length - 1; i >= 0; i--) {
+                if (mobs[i].position.x <= bullet.position.x + bullet.width && mobs[i].position.x + mobs[i].width >= bullet.position.x + bullet.width && (mobs[i].position.y <= bullet.position.y + bullet.height && mobs[i].position.y + this.board.portion * 2 >= bullet.position.y)) {
                     response = true;
-                    this.bulletTouchesSpider(mob);
+                    this.bulletTouchesSpider(mobs[i]);
                 }
-            });
+
+            }
         }
         return response;
     }
@@ -658,22 +680,26 @@ class Controller {
 
     canBulletMoveLeft(bullet) {
         let response = true;
-        this.board.getPosiblesCollitionsInX(bullet.position.x, 500).forEach(brick => {
-            if (this._getRoundedPosition(bullet.position.x + bullet.velX) < 0 || this._getRoundedPosition(bullet.position.x + bullet.velX) === brick[0] + this.board.portion && (brick[1] <= bullet.position.y + bullet.height && brick[1] + this.board.portion >= bullet.position.y)) {
+        const posiblesCollitions = this.board.getPosiblesCollitionsInX(bullet.position.x, 100);
+
+        for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
+            if (this._getRoundedPosition(bullet.position.x + bullet.velX) < 0 || this._getRoundedPosition(bullet.position.x + bullet.velX) === posiblesCollitions[i][0] + this.board.portion && (posiblesCollitions[i][1] <= bullet.position.y + bullet.height && posiblesCollitions[i][1] + this.board.portion >= bullet.position.y)) {
                 response = false;
             }
-        });
+        }
 
         return response;
     }
 
     canBulletMoveRight(bullet) {
         let response = true;
-        this.board.getPosiblesCollitionsInX(bullet.position.x, 500).forEach(brick => {
-            if (this._getRoundedPosition(bullet.position.x + bullet.velX) > this.view.domElement.scrollWidth || brick[0] === this._getRoundedPosition(bullet.position.x + bullet.width - bullet.velX) && (brick[1] <= bullet.position.y + bullet.height && brick[1] + this.board.portion >= bullet.position.y)) {
+        const posiblesCollitions = this.board.getPosiblesCollitionsInX(bullet.position.x, 100);
+
+        for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
+            if (this._getRoundedPosition(bullet.position.x + bullet.velX) > this.view.domElement.scrollWidth || posiblesCollitions[i][0] === this._getRoundedPosition(bullet.position.x + bullet.width - bullet.velX) && (posiblesCollitions[i][1] <= bullet.position.y + bullet.height && posiblesCollitions[i][1] + this.board.portion >= bullet.position.y)) {
                 response = false;
             }
-        });
+        }
 
         return response;
     }

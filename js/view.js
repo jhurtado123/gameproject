@@ -16,7 +16,8 @@ class View {
     startGame(player, board) {
         this.createCanvasElement(board);
         this.createDomElement(board);
-        this.updateEntities(board, player);
+        //this.updateEntities(board, player);
+        this.interval = requestAnimationFrame(() => this.updateEntities(board, player));
 
         this.menu.style.display = 'none';
         this.finished.style.display = 'none';
@@ -56,21 +57,20 @@ class View {
         document.addEventListener('keypress', callback);
     }
 
-    updateEntities(board, player) {
-        if (!this.interval) {
-            this.interval = setInterval(() => {
-                this.updatePlayer(player);
-                this.updateBullets(board.shoots);
-                this.updateSpiders(board.mobs);
 
-            });
-        }
+    updateEntities(board, player) {
+        setTimeout(() => {
+            this.updatePlayer(player);
+            this.updateBullets(board.shoots);
+            this.updateSpiders(board.mobs);
+
+            requestAnimationFrame(() => this.updateEntities(board, player));
+        }, 1000 / fps);
     }
 
     updatePlayer(player) {
-        if (document.querySelector('.player')) {
-            document.querySelector('.player').remove();
-        }
+        this.removeNodes(document.querySelectorAll('.player'));
+
         const playerElement = document.createElement('div');
         this.domElement.appendChild(playerElement);
         playerElement.className = `player facing-${player.facing}`;
@@ -91,41 +91,41 @@ class View {
     }
 
     updateBullets(shoots) {
-        document.querySelectorAll('.bullet').forEach(bullet => bullet.remove());
+        this.removeNodes(document.querySelectorAll('.bullet'));
 
-        shoots.forEach(bullet => {
+        for (let i = shoots.length - 1; i >= 0; i--) {
             const bulletElement = document.createElement('div');
             this.domElement.appendChild(bulletElement);
-            bulletElement.className = `bullet facing-${bullet.facing}`;
-            bulletElement.style.width = `${bullet.width}px`;
-            bulletElement.style.height = `${bullet.height}px`;
-            bulletElement.style.left = `${bullet.position.x}px`;
-            bulletElement.style.top = `${bullet.position.y}px`;
+            bulletElement.className = `bullet facing-${shoots[i].facing}`;
+            bulletElement.style.width = `${shoots[i].width}px`;
+            bulletElement.style.height = `${shoots[i].height}px`;
+            bulletElement.style.left = `${shoots[i].position.x}px`;
+            bulletElement.style.top = `${shoots[i].position.y}px`;
             bulletElement.style.backgroundSize = '100% 100%';
-        });
+        }
     }
 
     updateSpiders(spiders) {
-        document.querySelectorAll('.spider').forEach(spider => spider.remove());
+        this.removeNodes(document.querySelectorAll('.spider'));
 
-        spiders.forEach(spider => {
-            if (spider.position.x !== -1 && spider.position.y !== -1) {
+        for (let i = spiders.length - 1; i >= 0; i--) {
+            if (spiders[i].position.x !== -1 && spiders[i].position.y !== -1) {
                 const spiderElement = document.createElement('div');
                 this.domElement.appendChild(spiderElement);
-                spiderElement.className = `spider facing-${spider.facing}`;
-                spiderElement.style.width = `${spider.width}px`;
-                spiderElement.style.height = `${spider.height}px`;
-                spiderElement.style.left = `${spider.position.x}px`;
-                spiderElement.style.top = `${spider.position.y}px`;
+                spiderElement.className = `spider facing-${spiders[i].facing}`;
+                spiderElement.style.width = `${spiders[i].width}px`;
+                spiderElement.style.height = `${spiders[i].height}px`;
+                spiderElement.style.left = `${spiders[i].position.x}px`;
+                spiderElement.style.top = `${spiders[i].position.y}px`;
                 spiderElement.style.backgroundSize = '100% 100%';
             }
-        });
+        }
     }
 
     createCanvasElement(board) {
         const canvas = document.createElement('canvas');
-        canvas.width = board.width;
-        canvas.height = board.height;
+       canvas.width = 9500;
+        canvas.height = 1050;
         canvas.id = 'canvasRoot';
         canvas.style.border = "1px solid black";
         this.root.appendChild(canvas);
@@ -150,7 +150,6 @@ class View {
     }
 
     _fillDomElement(board) {
-
         let yPos = 0;
         let xPos = 0;
         for (let y = 0; y < board.level.length; y++) {
@@ -178,39 +177,43 @@ class View {
             yPos += board.portion;
         }
 
-        this
-            .printBoosters(board);
+        this.printBoosters(board);
 
-        this
-            .domElement
-            .scrollLeft = 0;
-        this
-            .domElement
-            .scrollTop = 2000;
+        this.domElement.scrollLeft = 0;
+        this.domElement.scrollTop = 2000;
     }
 
     printBoosters(board) {
 
-        document.querySelectorAll('.booster').forEach(boosterElement => boosterElement.remove());
-        board.boosters.forEach(booster => {
-            if (booster.position.x !== -1 && booster.position.y !== -1) {
+        this.removeNodes(document.querySelectorAll('.booster'));
+
+        const boosters = board.boosters;
+        for (let i = boosters.length - 1; i >= 0; i--) {
+            if (boosters[i].position.x !== -1 && boosters[i].position.y !== -1) {
                 const boosterElement = document.createElement('div');
                 this.domElement.appendChild(boosterElement);
-                boosterElement.className = `booster ${booster.type}`;
-                boosterElement.style.top = `${booster.position.y}px`;
-                boosterElement.style.left = `${booster.position.x}px`;
-                boosterElement.style.width = `${booster.width}px`;
-                boosterElement.style.height = `${booster.height}px`;
+                boosterElement.className = `booster ${boosters[i].type}`;
+                boosterElement.style.top = `${boosters[i].position.y}px`;
+                boosterElement.style.left = `${boosters[i].position.x}px`;
+                boosterElement.style.width = `${boosters[i].width}px`;
+                boosterElement.style.height = `${boosters[i].height}px`;
                 boosterElement.style.backgroundSize = '100% 100%';
             }
-        });
+        }
+
+    }
+
+    removeNodes(elements) {
+        for (let i = elements.length - 1; i >= 0; i--) {
+            elements[i].remove();
+        }
     }
 
     moveCameraToRight(board, posX) {
-        const rightQuart = (this.domElement.scrollLeft + board.width) - (board.width / 4);
+        let rightQuart = (this.domElement.scrollLeft + board.width) - (board.width / 4);
 
         if (posX > rightQuart) {
-            this.domElement.scrollLeft += 3;
+            this.domElement.scrollLeft += 2;
         }
     }
 
@@ -218,7 +221,7 @@ class View {
         const leftQuart = this.domElement.scrollLeft + (board.width / 4);
 
         if (posX < leftQuart && this.domElement.scrollLeft > 0) {
-            this.domElement.scrollLeft -= 3;
+            this.domElement.scrollLeft -= 2;
         }
     }
 

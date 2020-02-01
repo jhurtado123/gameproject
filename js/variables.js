@@ -109,3 +109,5 @@ let bricksClasses = [
     }
 
 ];
+
+let fps = 40;
