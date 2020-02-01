@@ -210,7 +210,7 @@ class View {
         const rightQuart = (this.domElement.scrollLeft + board.width) - (board.width / 4);
 
         if (posX > rightQuart) {
-            this.domElement.scrollLeft += 2;
+            this.domElement.scrollLeft += 3;
         }
     }
 
@@ -218,7 +218,7 @@ class View {
         const leftQuart = this.domElement.scrollLeft + (board.width / 4);
 
         if (posX < leftQuart && this.domElement.scrollLeft > 0) {
-            this.domElement.scrollLeft -= 2;
+            this.domElement.scrollLeft -= 3;
         }
     }
 
