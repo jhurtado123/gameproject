@@ -213,8 +213,13 @@ class View {
         let rightQuart = (this.domElement.scrollLeft + board.width) - (board.width / 4);
 
         if (posX > rightQuart) {
-            this.domElement.scrollLeft += 2;
+            for (let i = 0; i <= 1; i++) {
+                setTimeout(() => {
+                    this.domElement.scrollLeft += 1;
+                },20);
+            }
         }
+
     }
 
     moveCameraToLeft(board, posX) {
