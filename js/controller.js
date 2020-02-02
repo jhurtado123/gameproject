@@ -83,6 +83,12 @@ class Controller {
                 y: 450
             }, 0.4)
         );
+        this.board.mobs.push(
+            new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
+                x: 950,
+                y: 950
+            }, 0.4)
+        );
         this.startSpidersWalking();
     }
 
@@ -124,13 +130,15 @@ class Controller {
                             spider.position.x += spider.velX;
                         }
 
-                        if (this.isPlayerNextToSpider(spider) && spider.status !== 'attacking') {
+                        if (this.isPlayerNextToSpider(spider) && spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
                             spider.setSpiderAttackingMode();
-                            this.getAttacked('right');
-                            setTimeout(() => spider.setSpiderHuntingMode(), 1000);
-                        } else if (this.hasPlayerInRange(spider) && spider.status !== 'attacking') {
+                            setTimeout(() => {
+                                if (this.isPlayerNextToSpider(spider)) this.getAttacked('right')
+                            }, 500);
+                            setTimeout(() => {if (spider.status !== 'dying' && spider.status !== 'died') spider.setSpiderHuntingMode()}, 2000);
+                        } else if (this.hasPlayerInRange(spider) && spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
                             spider.setSpiderHuntingMode();
-                        } else if (spider.status !== 'attacking') {
+                        } else if (spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
                             spider.setSpiderWalkingMode();
                             if (spider.position.x - spider.firstPosition > 100 && spider.status === 'walking') {
                                 spider.toggleFacing();
@@ -148,13 +156,15 @@ class Controller {
                         }
 
 
-                        if (this.isPlayerNextToSpider(spider) && spider.status !== 'attacking') {
+                        if (this.isPlayerNextToSpider(spider) && spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
                             spider.setSpiderAttackingMode();
-                            this.getAttacked('left');
-                            setTimeout(() => spider.setSpiderHuntingMode(), 1000);
-                        } else if (this.hasPlayerInRange(spider) && spider.status !== 'attacking') {
+                            setTimeout(() => {
+                                if (this.isPlayerNextToSpider(spider)) this.getAttacked('left')
+                            }, 500);
+                            setTimeout(() => {if (spider.status !== 'dying' && spider.status !== 'died') spider.setSpiderHuntingMode()}, 2000);
+                        } else if (this.hasPlayerInRange(spider) && spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
                             spider.setSpiderHuntingMode();
-                        } else if (spider.status !== 'attacking') {
+                        } else if (spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
                             spider.setSpiderWalkingMode();
                             if (spider.firstPosition - spider.position.x > 100 && spider.status === 'walking') {
                                 spider.toggleFacing();
@@ -303,7 +313,7 @@ class Controller {
             switch (this.player.facing) {
                 case 'right':
                     if (this.canPlayerMoveRight([this.player.position.x + this.player.velX, this.player.position.y])) {
-                        this.view.moveCameraToRight(this.board, this.player.position.x + this.player.width/2);
+                        this.view.moveCameraToRight(this.board, this.player.position.x + this.player.width / 2);
                         this.player.moveRight();
                         const anyBooster = this.isThereAnyBoosterInPlayerPosition();
                         if (anyBooster) {
@@ -659,6 +669,8 @@ class Controller {
         spider.restLife();
 
         if (spider.life === 0) {
+            spider.velX = 0;
+            spider.status = 'dying';
 
             const posX = spider.position.x;
             const posY = spider.position.y;
@@ -672,8 +684,6 @@ class Controller {
                 this.view.printBoosters(this.board);
 
             }, 800);
-
-            spider.die();
         }
 
     }

@@ -204,11 +204,115 @@ section button {
     position: absolute;
     background: url("../img/spider.png") no-repeat center;
 }
+.spider.at-1 {
+    background: url("../img/arana/attacking-1.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.at-2 {
+    background: url("../img/arana/attacking-2.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.at-3 {
+    background: url("../img/arana/attacking-3.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.at-4 {
+    background: url("../img/arana/attacking-4.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.at-5 {
+    background: url("../img/arana/attacking-5.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.at-6 {
+    background: url("../img/arana/attacking-6.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wl-1 {
+    background: url("../img/arana/walking-1.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wl-2 {
+    background: url("../img/arana/walking-2.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wl-3 {
+    background: url("../img/arana/walking-3.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wl-4 {
+    background: url("../img/arana/walking-4.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wl-5 {
+    background: url("../img/arana/walking-5.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wl-6 {
+    background: url("../img/arana/walking-6.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wl-7 {
+    background: url("../img/arana/walking-7.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wl-8 {
+    background: url("../img/arana/walking-8.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wt-1 {
+    background: url("../img/arana/waiting-1.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wt-2 {
+    background: url("../img/arana/waiting-2.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wt-3 {
+    background: url("../img/arana/waiting-3.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wt-4 {
+    background: url("../img/arana/waiting-4.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.wt-5 {
+    background: url("../img/arana/waiting-5.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.di-1 {
+    background: url("../img/arana/death-1.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.di-2 {
+    background: url("../img/arana/death-2.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.di-3 {
+    background: url("../img/arana/death-3.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.di-4 {
+    background: url("../img/arana/death-4.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.di-5 {
+    background: url("../img/arana/death-5.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.di-6 {
+    background: url("../img/arana/death-6.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.spider.di-7 {
+    background: url("../img/arana/death-7.png") no-repeat center!important;
+    background-size: contain!important;
+}
 .spider.facing-left {
-    transform: scaleX(1);
+    transform: scaleX(-1);
 }
 .spider.facing-right {
-    transform: scaleX(-1);
+    transform: scaleX(1);
 }
 .brick.spider-web-1 {
     background: url("../img/telaranas/telarana-1.png") no-repeat center!important;

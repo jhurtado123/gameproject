@@ -112,7 +112,7 @@ class View {
             if (spiders[i].position.x !== -1 && spiders[i].position.y !== -1) {
                 const spiderElement = document.createElement('div');
                 this.domElement.appendChild(spiderElement);
-                spiderElement.className = `spider facing-${spiders[i].facing}`;
+                spiderElement.className = `spider facing-${spiders[i].facing} ${spiders[i].spriteStatus}`;
                 spiderElement.style.width = `${spiders[i].width}px`;
                 spiderElement.style.height = `${spiders[i].height}px`;
                 spiderElement.style.left = `${spiders[i].position.x}px`;
