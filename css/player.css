@@ -1,0 +1,103 @@
+/**
+SPRITES
+ */
+.player.wl-1 {
+    background: url("../img/player/player-1-walking-1.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wl-2 {
+    background: url("../img/player/player-1-walking-2.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wl-3 {
+    background: url("../img/player/player-1-walking-3.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wl-4 {
+    background: url("../img/player/player-1-walking-4.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wl-5 {
+    background: url("../img/player/player-1-walking-5.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wl-6 {
+    background: url("../img/player/player-1-walking-6.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wl-7 {
+    background: url("../img/player/player-1-walking-7.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wl-8 {
+    background: url("../img/player/player-1-walking-8.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wl-9 {
+    background: url("../img/player/player-1-walking-9.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wl-10 {
+    background: url("../img/player/player-1-walking-10.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wl-11 {
+    background: url("../img/player/player-1-walking-11.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wl-12 {
+    background: url("../img/player/player-1-walking-12.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wt-1 {
+    background: url("../img/player/player-1-waiting-1.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wt-2 {
+    background: url("../img/player/player-1-waiting-2.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wt-3 {
+    background: url("../img/player/player-1-waiting-3.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wt-4 {
+    background: url("../img/player/player-1-waiting-4.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.wt-5 {
+    background: url("../img/player/player-1-waiting-5.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.jm-1 {
+    background: url("../img/player/player-1-jumping-1.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.jm-2 {
+    background: url("../img/player/player-1-jumping-2.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.jm-3 {
+    background: url("../img/player/player-1-jumping-3.png") no-repeat center!important;
+    background-size: cover!important;
+}
+.player.di-1 {
+    background: url("../img/player/player-1-dying-1.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.player.di-2 {
+    background: url("../img/player/player-1-dying-2.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.player.di-3 {
+    background: url("../img/player/player-1-dying-3.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.player.di-4 {
+    background: url("../img/player/player-1-dying-4.png") no-repeat center!important;
+    background-size: contain!important;
+}
+.player.di-5 {
+    background: url("../img/player/player-1-dying-5.png") no-repeat center!important;
+    background-size: contain!important;
+}

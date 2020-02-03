@@ -16,7 +16,8 @@ class Spider extends Entity {
             hunting : ['wl-1','wl-2','wl-3','wl-4','wl-5','wl-6','wl-7','wl-8'],
             attacking : ['at-1','at-2', 'at-3', 'at-4', 'at-5', 'at-6'],
             waiting: ['wt-1','wt-2','wt-3','wt-4','wt-5'],
-            dying: ['di-1','di-2','di-3','di-4','di-5','di-6','di-7',]
+            dying: ['di-1','di-2','di-3','di-4','di-5','di-6','di-7'],
+            dead: []
 
         };
         this.spritesVel = 50;
@@ -24,7 +25,7 @@ class Spider extends Entity {
 
     startSpriteAnimation() {
 
-        this.spritesVel = 250;
+        this.spritesVel = 175;
         if (this.status === 'hunting') {
             this.spritesVel = 150;
         }

@@ -3,7 +3,7 @@ class Controller {
     constructor(boardWidth, boardHeight, boardPortion, level) {
         this.board = new Board(boardWidth, boardHeight, boardPortion, level, 1.5);
         this.view = new View();
-        this.player = new Player(this.board.portion, this.board.portion * 2, {
+        this.player = new Player(this.board.portion+23, this.board.portion * 2, {
             x: 100,
             y: this.board.height - this.board.portion * 2 - this.board.portion
         }, 3, 100, 1.7);
@@ -34,7 +34,7 @@ class Controller {
             this.view.domElement.innerHTML = '';
         }
         this.view = new View();
-        this.player = new Player(this.board.portion, this.board.portion * 2, {
+        this.player = new Player(this.board.portion+23, this.board.portion * 2, {
             x: 100,
             y: this.board.height - this.board.portion * 2 - this.board.portion
         }, 3, 100, 1.7);
@@ -97,18 +97,21 @@ class Controller {
             this.playerController = setInterval(() => {
                 if (this.player.life <= 0 || this.player.oxygen <= 0) {
                     //GAME OVER
-                    clearInterval(this.player.moveInterval);
-                    clearInterval(this.view.interval);
-                    clearInterval(this.playerController);
-                    this.view.lose.style.display = 'flex';
-                    this.playerController = null;
-                    clearInterval(this.player.falling);
-                    this.player.falling = null;
-                    clearInterval(this.player.jumping);
-                    this.player.jumping = null;
-                    this.player.position = {
-                        x: -10, y: -10
-                    }
+                    this.player.status = 'dying';
+                    setTimeout(() => {
+                       /** clearInterval(this.player.moveInterval);
+                        clearInterval(this.view.interval);
+                        clearInterval(this.playerController);
+                        this.view.lose.style.display = 'flex';
+                        this.playerController = null;
+                        clearInterval(this.player.falling);
+                        this.player.falling = null;
+                        clearInterval(this.player.jumping);
+                        this.player.jumping = null;
+                        this.player.position = {
+                            x: -10, y: -10
+                        }**/
+                    },1000);
                 }
             }, 100);
         }
@@ -313,6 +316,7 @@ class Controller {
             switch (this.player.facing) {
                 case 'right':
                     if (this.canPlayerMoveRight([this.player.position.x + this.player.velX, this.player.position.y])) {
+                        this.player.status = 'walking';
                         this.view.moveCameraToRight(this.board, this.player.position.x + this.player.width / 2);
                         this.player.moveRight();
                         const anyBooster = this.isThereAnyBoosterInPlayerPosition();
@@ -320,10 +324,13 @@ class Controller {
                             this.applyBooster(anyBooster);
                         }
 
+                    } else {
+                        this.player.status = 'waiting';
                     }
                     break;
                 case 'left':
                     if (this.canPlayerMoveLeft([this.player.position.x - this.player.velX, this.player.position.y])) {
+                        this.player.status = 'walking';
                         this.view.moveCameraToLeft(this.board, this.player.position.x);
 
                         this.player.moveLeft();
@@ -331,6 +338,8 @@ class Controller {
                         if (anyBooster) {
                             this.applyBooster(anyBooster);
                         }
+                    } else {
+                        this.player.status = 'waiting';
                     }
                     break;
             }
@@ -411,6 +420,7 @@ class Controller {
     stopMovingPlayerListener() {
         this.view.stopMovingPlayer(() => {
             this.player.stopMoving();
+            this.player.status = 'waiting';
         });
     }
 
@@ -436,6 +446,7 @@ class Controller {
                         this.player.stopPlayerJumping();
                         this.playerFalling();
                     } else {
+                        this.player.status = 'jumping';
                         this.player.position.y -= 3;
                         this.view.moveCameraToTop(this.board, this.player.position.y);
 
@@ -476,6 +487,7 @@ class Controller {
             if (this.player.jumping) this.player.stopPlayerFalling();
 
             if (this._canContinueFalling(this.player)) {
+                this.status = 'waiting';
                 this.player.position.y += 2;
                 if (this.player.position.y > 1000) {
                     this.player.die();
