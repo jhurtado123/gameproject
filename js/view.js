@@ -11,6 +11,7 @@ class View {
         this.menu = document.querySelector('#start');
         this.finished = document.querySelector('#win');
         this.lose = document.querySelector('#lose');
+        this.setListenersForPreGame();
     }
 
     startGame(player, board) {
@@ -27,6 +28,18 @@ class View {
     /*
     * EVENTS
     */
+    setListenersForPreGame() {
+        document.querySelector('.player-chooser .next').addEventListener('click', () => {
+           document.querySelectorAll('.player-wrap').forEach(element => {
+               element.classList.toggle('active');
+           });
+        });
+        document.querySelector('.player-chooser .prev').addEventListener('click', () => {
+            document.querySelectorAll('.player-wrap').forEach(element => {
+                element.classList.toggle('active');
+            });
+        });
+    }
     startGameListener(callback) {
         document.querySelectorAll('.start-game').forEach(element => {
             element.addEventListener('click', callback);

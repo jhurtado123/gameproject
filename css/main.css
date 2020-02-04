@@ -7,6 +7,7 @@ html, body {
 }
 *  {
     outline:none;
+    box-sizing: border-box;
 }
 
 #root {
@@ -20,9 +21,6 @@ html, body {
     border: 1px solid black
 }
 
-#root canvas {
-
-}
 
 #htmlCanvas {
     position: absolute;
@@ -41,6 +39,7 @@ html, body {
     background: url("../img/blocks/brick.png") no-repeat  bottom;
     background-size: cover;
     position: absolute;
+    z-index:1;
 }
 #htmlCanvas .brick.center {
     background: url("../img/blocks/brick-center.png") no-repeat  bottom;
@@ -142,36 +141,8 @@ html, body {
     transform: scaleX(-1);
 }
 
-#launchers {
-    height:100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left:0;
-    z-index: 99;
-}
 
-section button {
-    border:1px solid white;
-    background: transparent;
-    font-size:34px;
-    margin-top:50px;
-    padding:15px 30px;
-    color:white;
-    cursor: pointer;
-}
-#launchers section {
-    height: 100%;
-    width:100%;
-    color:white;
-    background: black;
-    font-size: 80px;
-    text-align: center;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-}
+
 #oxygen {
     height: 30px;
     width: 300px;
@@ -318,22 +289,26 @@ section button {
     background: url("../img/telaranas/telarana-1.png") no-repeat center!important;
     background-size: contain!important;
     opacity: 0.6;
+    z-index:0;
 }
 .brick.spider-web-2 {
     background: url("../img/telaranas/telarana-2.png") no-repeat center!important;
     background-size: contain!important;
     opacity: 0.4;
+    z-index:0;
 }
 .brick.spider-web-3 {
     background: url("../img/telaranas/telarana-3.png") no-repeat center!important;
     background-size: contain!important;
     opacity: 0.5;
     margin-left:-10px;
+    z-index: 0!important;
 }
 .brick.spider-web-4 {
     background: url("../img/telaranas/telarana-4.png") no-repeat center!important;
     background-size: contain!important;
     opacity: 0.5;
+    z-index:0;
 }
 
 .l1 {

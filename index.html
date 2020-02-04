@@ -6,6 +6,7 @@
     <!-- MAIN CSS -->
     <link href="css/main.css" rel="stylesheet">
     <link href="css/player.css" rel="stylesheet">
+    <link href="css/screens.css" rel="stylesheet">
 </head>
 <body>
 <div class="bullet"></div>
@@ -24,6 +25,22 @@
         <section id="win">
             <p>Ha habido venganza!</p>
             <button class="menu">Menu</button>
+        </section>
+        <section id="charChoose">
+            <h2>Escoge un jugador</h2>
+            <div class="player-chooser">
+                <div class="prev"></div>
+                <div class="player-wrap active" data-player="1">
+                    <img src="img/player/player1.gif">
+                    <h3>NAME</h3>
+                </div>
+                <div class="player-wrap" data-player="2">
+                    <img src="img/player/player1.gif">
+                    <h3>NAME 2</h3>
+                </div>
+                <div class="next"></div>
+            </div>
+            <button id="playerChoosed">Iniciar juego</button>
         </section>
     </div>
     <div id="oxygen">

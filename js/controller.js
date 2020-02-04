@@ -33,7 +33,6 @@ class Controller {
         if (this.view.domElement) {
             this.view.domElement.innerHTML = '';
         }
-        this.view = new View();
         this.player = new Player(this.board.portion+23, this.board.portion * 2, {
             x: 100,
             y: this.board.height - this.board.portion * 2 - this.board.portion
