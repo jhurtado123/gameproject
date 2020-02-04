@@ -23,6 +23,7 @@ class Controller {
     choosedPlayer() {
         this.setBoostersOnBoard();
         this.setSpidersOnBoard();
+        this.view.printBoosters(this.board);
         this.player.position.y = this.view.domElement.scrollHeight - this.board.portion * 2 - this.board.portion;
         this.view.interval = requestAnimationFrame(() => this.view.updateEntities(this.board, this.player));
         this.isPlayerDeath();
@@ -397,7 +398,7 @@ class Controller {
         const posiblesCollitions = this.board.getPosiblesCollitionsInX(position[0], 150);
 
         for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
-            if (posiblesCollitions[i][0] === this._getRoundedPosition(position[0] + this.player.width / 2 - this.player.velX) && (posiblesCollitions[i][1] === this._getRoundedPosition(position[1] + this.board.portion) || posiblesCollitions[i][1] === this._getRoundedPosition(position[1]))) {
+            if (posiblesCollitions[i][0] === this._getRoundedPosition(position[0] + this.player.width/1.5 - this.player.velX) && (posiblesCollitions[i][1] === this._getRoundedPosition(position[1] + this.board.portion) || posiblesCollitions[i][1] === this._getRoundedPosition(position[1]))) {
                 response = false;
             }
         }
@@ -413,7 +414,7 @@ class Controller {
         const posiblesCollitions = this.board.getPosiblesCollitionsInX(position[0], 150);
 
         for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
-            if (this._getRoundedPosition(position[0] + this.player.velX * 10) === posiblesCollitions[i][0] + this.board.portion && (posiblesCollitions[i][1] === this._getRoundedPosition(position[1] + this.board.portion) || posiblesCollitions[i][1] === this._getRoundedPosition(position[1]))) {
+            if (this._getRoundedPosition(position[0] + this.player.velX *14) === posiblesCollitions[i][0] + this.board.portion && (posiblesCollitions[i][1] === this._getRoundedPosition(position[1] + this.board.portion) || posiblesCollitions[i][1] === this._getRoundedPosition(position[1]))) {
                 response = false;
             }
         }
@@ -521,11 +522,11 @@ class Controller {
         const posiblesCollitions = this.board.getPosiblesCollitionsInX(playerXPos, 150);
 
         for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
-            if (playerXPos >= posiblesCollitions[i][0] + 2 && playerXPos <= posiblesCollitions[i][0] + portion) {
+            if (playerXPos >= posiblesCollitions[i][0]  && playerXPos <= posiblesCollitions[i][0] + portion) {
                 if (playerYPos <= posiblesCollitions[i][1] && playerYPos + portion >= posiblesCollitions[i][1] + portion - 1) {
                     response = false;
                 }
-            } else if (playerXPos + playerWidth <= posiblesCollitions[i][0] + 1 + portion && playerXPos + playerWidth >= posiblesCollitions[i][0] + 1) {
+            } else if (playerXPos + playerWidth <= posiblesCollitions[i][0] + 1 + portion+26 && playerXPos + playerWidth >= posiblesCollitions[i][0] + 1) {
                 if (playerYPos <= posiblesCollitions[i][1] && playerYPos + portion >= posiblesCollitions[i][1] + portion - 1) {
                     response = false;
                 }
