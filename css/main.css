@@ -35,6 +35,13 @@ html, body {
     background: url("../img/background.png") no-repeat  bottom;
     background-size: 100% 100%!important;
 }
+.spaceship {
+    background: url("../img/spaceship.png") no-repeat  bottom;
+    background-size: contain!important;
+    width:400px!important;
+    height:300px!important;
+    position: absolute;
+}
 #htmlCanvas .brick {
     background: url("../img/blocks/brick.png") no-repeat  bottom;
     background-size: cover;
