@@ -1,0 +1,108 @@
+.brick.spider-web-1 {
+    background: url("../img/telaranas/telarana-1.png") no-repeat center!important;
+    background-size: contain!important;
+    opacity: 0.6;
+    z-index:0;
+}
+.brick.spider-web-2 {
+    background: url("../img/telaranas/telarana-2.png") no-repeat center!important;
+    background-size: contain!important;
+    opacity: 0.4;
+    z-index:0;
+}
+.brick.spider-web-3 {
+    background: url("../img/telaranas/telarana-3.png") no-repeat center!important;
+    background-size: contain!important;
+    opacity: 0.5;
+    margin-left:-10px;
+    z-index: 0!important;
+}
+.brick.spider-web-4 {
+    background: url("../img/telaranas/telarana-4.png") no-repeat center!important;
+    background-size: contain!important;
+    opacity: 0.5;
+    z-index:0;
+}
+
+.l1 {
+    width:50px;
+    height:50px;
+}
+.l2 {
+    height:100px!important;
+    width: 100px!important;
+}
+.l3 {
+    width: 150px!important;
+    height:150px!important;
+}
+.l4 {
+    height:200px!important;
+    width: 200px!important;
+}
+
+
+.brick.lava-brick.right-left {
+    background: url("../img/blocks/lava-right-left.png") no-repeat center!important;
+    background-size: contain!important;
+}
+
+#htmlCanvas .brick {
+    background: url("../img/blocks/brick.png") no-repeat  bottom;
+    background-size: cover;
+    position: absolute;
+    z-index:1;
+}
+#htmlCanvas .brick.center {
+    background: url("../img/blocks/brick-center.png") no-repeat  bottom;
+    background-size: cover;
+    position: absolute;
+}
+#htmlCanvas .brick.lava-brick.right {
+    background: url("../img/blocks/lava-right.png") no-repeat  bottom;
+    background-size: cover;
+}
+#htmlCanvas .brick.lava-brick.left {
+    background: url("../img/blocks/lava-right.png") no-repeat  bottom;
+    background-size: cover;
+    transform: scaleX(-1);
+}
+#htmlCanvas .brick.lava {
+    background: url("../img/blocks/lava.png") no-repeat  bottom;
+    background-size: cover;
+    animation: lava infinite;
+    animation-duration: 3s;
+    z-index: 98;
+}
+@keyframes lava {
+    10% {
+        background-size: 100% 95%;
+    }
+    20% {
+        background-size: 100% 96%;
+    }
+    30% {
+        background-size: 100% 97%;
+    }
+    40% {
+        background-size: 100% 98%;
+    }
+    50% {
+        background-size: 100% 99%;
+    }
+    60% {
+        background-size: 100% 100%;
+    }
+    70% {
+        background-size: 100% 99%;
+    }
+    80% {
+        background-size: 100% 98%;
+    }
+    90% {
+        background-size: 100% 97%;
+    }
+    100% {
+        background-size: 100% 96%;
+    }
+}
