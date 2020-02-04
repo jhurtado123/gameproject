@@ -572,6 +572,7 @@ class Controller {
                 }
 
                 bullets[0].sound.play();
+                this.view.printShootFire(this.player);
                 this.player.lastShot = Date.now() / 1000;
                 setTimeout(() => {
                     this.player.ammoRecharged.play();

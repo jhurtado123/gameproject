@@ -101,3 +101,14 @@ SPRITES
     background: url("../img/player/player-1-dying-5.png") no-repeat center!important;
     background-size: contain!important;
 }
+.shoot-fire {
+    position: absolute;
+    background: url("../img/player/shoot.png") no-repeat center;
+    width: 30px;
+    height: 15px;
+    z-index:99;
+    background-size: contain;
+}
+.shoot-fire.left {
+    transform: scaleX(-1);
+}
