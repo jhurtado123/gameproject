@@ -11,18 +11,16 @@ class View {
         this.menu = document.querySelector('#start');
         this.finished = document.querySelector('#win');
         this.lose = document.querySelector('#lose');
+        this.choosePlayer = document.querySelector('#charChoose');
         this.setListenersForPreGame();
     }
 
     startGame(player, board) {
-        this.createCanvasElement(board);
         this.createDomElement(board);
-        //this.updateEntities(board, player);
-        this.interval = requestAnimationFrame(() => this.updateEntities(board, player));
-
         this.menu.style.display = 'none';
         this.finished.style.display = 'none';
         this.lose.style.display = 'none';
+        this.choosePlayer.style.display = 'flex';
     }
 
     /*
@@ -39,6 +37,9 @@ class View {
                 element.classList.toggle('active');
             });
         });
+    }
+    choosePlayerListener(callback) {
+        document.querySelector('#playerChoosed').addEventListener('click', callback);
     }
     startGameListener(callback) {
         document.querySelectorAll('.start-game').forEach(element => {
@@ -135,16 +136,6 @@ class View {
         }
     }
 
-    createCanvasElement(board) {
-        const canvas = document.createElement('canvas');
-       canvas.width = 9500;
-        canvas.height = 1050;
-        canvas.id = 'canvasRoot';
-        canvas.style.border = "1px solid black";
-        this.root.appendChild(canvas);
-        this.canvas = document.querySelector('#canvas');
-        this.ctx = canvas.getContext('2d');
-    }
 
     createDomElement(board) {
         const htmlCanvas = document.createElement('div');

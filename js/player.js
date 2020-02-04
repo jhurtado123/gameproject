@@ -13,6 +13,7 @@ class Player extends Entity {
         this.deathSound = new Audio('');
         this.hasBulletBoostActive = false;
         this.status = 'waiting';
+        this.character = 0;
 
         this.sprites = {
             walking : ['wl-1','wl-2','wl-3','wl-4','wl-5','wl-6','wl-7','wl-8','wl-9','wl-10','wl-11','wl-12'],

@@ -16,12 +16,15 @@ class Controller {
     }
 
     startGame() {
-        this.setBoostersOnBoard();
-        this.setSpidersOnBoard();
-
         this.view.startGame(this.player, this.board);
         this.startListeners();
+    }
+
+    choosedPlayer() {
+        this.setBoostersOnBoard();
+        this.setSpidersOnBoard();
         this.player.position.y = this.view.domElement.scrollHeight - this.board.portion * 2 - this.board.portion;
+        this.view.interval = requestAnimationFrame(() => this.view.updateEntities(this.board, this.player));
         this.isPlayerDeath();
     }
 
@@ -44,6 +47,12 @@ class Controller {
     setInitGameListener() {
         this.view.startGameListener(() => {
             this.resetGame();
+        });
+        this.view.choosePlayerListener(() => {
+            const selectedPlayer = document.querySelector('.player-wrap.active').getAttribute('data-player');
+            this.player.character = selectedPlayer;
+            this.view.choosePlayer.style.display = 'none';
+            this.choosedPlayer();
         });
     }
 
@@ -98,7 +107,7 @@ class Controller {
                     //GAME OVER
                     this.player.status = 'dying';
                     setTimeout(() => {
-                       /** clearInterval(this.player.moveInterval);
+                        clearInterval(this.player.moveInterval);
                         clearInterval(this.view.interval);
                         clearInterval(this.playerController);
                         this.view.lose.style.display = 'flex';
@@ -109,7 +118,7 @@ class Controller {
                         this.player.jumping = null;
                         this.player.position = {
                             x: -10, y: -10
-                        }**/
+                        }
                     },1000);
                 }
             }, 100);
