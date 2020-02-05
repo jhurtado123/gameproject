@@ -128,6 +128,7 @@ class Controller {
             this.view.domElement.style.opacity = "0";
             this.view.choosePlayer.classList.remove('active');
             this.view.menu.style.display = 'flex';
+            this.view.finished.style.display = 'none';
         });
     }
 
@@ -509,6 +510,10 @@ class Controller {
                         this.player.status = 'waiting';
                     }
                     break;
+            }
+            if (this._getRoundedPosition(this.player.position.x) === 8950) {
+                this.view.finished.style.display = 'flex';
+
             }
         }, 1);
     }

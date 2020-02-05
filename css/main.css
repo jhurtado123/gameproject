@@ -57,6 +57,7 @@ body {
     height:300px!important;
     position: absolute;
     transform: translate3d(0,0,1px);
+    z-index:5
 }
 
 

@@ -59,7 +59,7 @@ class View {
     }
 
     startMenuListener(callback) {
-        document.querySelector('.menu').addEventListener('click', callback);
+        document.querySelectorAll('.menu').forEach(element => element.addEventListener('click', callback));
     }
 
     startRestartListener(callback) {
