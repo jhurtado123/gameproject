@@ -87,7 +87,7 @@ class View {
 
         const playerElement = document.createElement('div');
         this.domElement.appendChild(playerElement);
-        playerElement.className = `player facing-${player.facing} ${player.spriteStatus}`;
+        playerElement.className = `player facing-${player.facing} ${player.spriteStatus} ch-${player.character}`;
         playerElement.style.width = `${player.width}px`;
         playerElement.style.height = `${player.height}px`;
         playerElement.style.top = `${player.position.y}px`;
