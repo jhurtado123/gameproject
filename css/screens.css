@@ -5,18 +5,119 @@
     top: 0;
     left:0;
     z-index: 99;
+    font-family: '28Days';
+}
+#launchers h1 {
+    font-size: 150px;
+    margin: 20px;
+    margin-bottom: 160px;
+    font-weight: normal;
+}
+#launchers h2 {
+    font-size: 80px;
+    font-weight: normal;
+}
+#start * {
+    transition: transform 0.4s, opacity 0.3s;
+    opacity: 1;
+}
+#start button {
+    margin-top: 460px;
+}
+#start h1 {
+    color: transparent;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    text-transform: uppercase;
+    text-align: center;
+
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    transform: translateX(-55%);
+    animation: title-animation 5s infinite;
+}
+
+@keyframes title-animation {
+
+0% {text-shadow: 0 0 5px rgba(255,255,255,0.6); left: 51%; top: 16%;}
+5% {text-shadow: 0 0 5px rgba(255,255,255,0.7); left: 50%; top: 14%;}
+10% {text-shadow: 0 0 5px rgba(255,255,255,0.8); left: 49%; top: 13%;}
+15% {text-shadow: 0 0 5px rgba(255,255,255,0.9); left: 50%; top: 15%;}
+16% {text-shadow: 0 0 5px grey; left: 50%}
+17% {text-shadow: 0 0 5px rgba(255,255,255,0.7); left: 50%;}
+20% {text-shadow: 0 0 5px rgba(255,255,255,1); left: 49%}
+25% {text-shadow: 0 0 5px rgba(255,255,255,0.9); left: 49%}
+30% {text-shadow: 0 0 5px rgba(255,255,255,1); left: 50%}
+35% {text-shadow: 0 0 5px rgba(255,255,255,1); left: 50%}
+36% {text-shadow: 0 0 5px grey; left: 50%}
+37% {text-shadow: 0 0 5px rgba(255,255,255,1); left: 50%}
+40% {text-shadow: 0 0 5px rgba(255,255,255,1); left: 51%}
+45% {text-shadow: 0 0 5px rgba(255,255,255,1); left: 51%}
+50% {text-shadow: 0 0 5px rgba(255,255,255,0.9); left: 51%}
+55% {text-shadow: 0 0 5px rgba(255,255,255,1); left: 50%}
+56% {text-shadow: 0 0 5px grey; left: 50%}
+57% {text-shadow: 0 0 5px rgba(255,255,255,0.9); left: 52%}
+60% {text-shadow: 0 0 5px rgba(255,255,255,0.8); left: 50%}
+65% {text-shadow: 0 0 5px rgba(255,255,255,0.8); left: 50%}
+70% {text-shadow: 0 0 5px rgba(255,255,255,0.9); left: 49%}
+75% {text-shadow: 0 0 5px rgba(255,255,255,0.8); left: 49%}
+76% {text-shadow: 0 0 5px grey; left: 50%}
+77% {text-shadow: 0 0 5px rgba(255,255,255,0.8); left: 49%}
+80% {text-shadow: 0 0 5px rgba(255,255,255,0.9); left: 49%}
+85% {text-shadow: 0 0 5px rgba(255,255,255,0.8); left: 51%}
+86% {text-shadow: 0 0 5px grey; left: 50%}
+87% {text-shadow: 0 0 5px rgba(255,255,255,0.8); left: 51%}
+90% {text-shadow: 0 0 5px rgba(255,255,255,0.8); left: 51%}
+95% {text-shadow: 0 0 5px rgba(255,255,255,0.9); left: 51%}
+100% {text-shadow: 0 0 5px rgba(255,255,255,0.8); left: 50%}
 }
 
 section button {
-    border:1px solid white;
     background: transparent;
     font-size:34px;
     margin-top:50px;
     padding:15px 30px;
     color:white;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 5px;
+    font-family:'28Days';
+    box-shadow: 0 0 5px rgba(255,255,255,1);
+    font-weight: lighter;
 }
+section button:hover {
+    animation: button-animation 5s infinite;
+}
+@keyframes button-animation {
+
+    0% {text-shadow: 0 0 5px rgba(255,255,255,0.6); }
+    5% {text-shadow: 0 0 5px rgba(255,255,255,0.7); }
+    10% {text-shadow: 0 0 5px rgba(255,255,255,0.8);}
+    15% {text-shadow: 0 0 5px rgba(255,255,255,0.9);}
+    17% {text-shadow: 0 0 5px rgba(255,255,255,0.7);}
+    20% {text-shadow: 0 0 5px rgba(255,255,255,1); }
+    25% {text-shadow: 0 0 5px rgba(255,255,255,0.9); }
+    30% {text-shadow: 0 0 5px rgba(255,255,255,1); }
+    35% {text-shadow: 0 0 5px rgba(255,255,255,1); }
+    37% {text-shadow: 0 0 5px rgba(255,255,255,1); }
+    40% {text-shadow: 0 0 5px rgba(255,255,255,1); }
+    45% {text-shadow: 0 0 5px rgba(255,255,255,1); }
+    50% {text-shadow: 0 0 5px rgba(255,255,255,0.9); }
+    55% {text-shadow: 0 0 5px rgba(255,255,255,1);}
+    57% {text-shadow: 0 0 5px rgba(255,255,255,0.9); }
+    60% {text-shadow: 0 0 5px rgba(255,255,255,0.8); }
+    65% {text-shadow: 0 0 5px rgba(255,255,255,0.8); }
+    70% {text-shadow: 0 0 5px rgba(255,255,255,0.9); }
+    75% {text-shadow: 0 0 5px rgba(255,255,255,0.8); }
+    77% {text-shadow: 0 0 5px rgba(255,255,255,0.8); }
+    80% {text-shadow: 0 0 5px rgba(255,255,255,0.9); }
+    85% {text-shadow: 0 0 5px rgba(255,255,255,0.8); }
+    87% {text-shadow: 0 0 5px rgba(255,255,255,0.8); }
+    90% {text-shadow: 0 0 5px rgba(255,255,255,0.8); }
+    95% {text-shadow: 0 0 5px rgba(255,255,255,0.9); }
+    100% {text-shadow: 0 0 5px rgba(255,255,255,0.8); }
+}
+
+
 #launchers section {
     height: 100%;
     width:100%;
@@ -28,6 +129,8 @@ section button {
     flex-flow: column;
     justify-content: center;
     align-items: center;
+    background:  linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url("../img/launchers-background.jpg") no-repeat center;
+    background-size: cover;
 }
 
 section#charChoose {
@@ -41,9 +144,15 @@ section#charChoose {
     flex-flow: column;
     align-items: center;
     justify-content: center;
+    transform: translateY(-1000px);
+    transition: transform 0.5s, opacity 1s;
+    opacity: 0;
+}
+section#charChoose.active {
+    transform: translateY(0px);
+    opacity: 1;
 }
 #charChoose h2 {
-    font-size: 35px;
     margin:0;
     height:15%;
 }
@@ -70,7 +179,7 @@ section#charChoose {
 .player-wrap h3 {
     margin:0;
     font-size: 20px;
-    margin-top:15px;
+    margin-top:30px;
 }
 .player-chooser {
     position: relative;
@@ -97,4 +206,11 @@ section#charChoose {
     background: url("../img/arrow.png") no-repeat center;
     background-size: contain;
     cursor: pointer;
+}
+button#restart {
+    margin-top: 10px;
+}
+#lose h1 {
+    font-size: 120px;
+    margin-bottom: 80px;
 }

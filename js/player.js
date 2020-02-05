@@ -44,7 +44,6 @@ class Player extends Entity {
 
         setTimeout(() => {
             const indexOfSprite = this.sprites[this.status].indexOf(this.spriteStatus);
-            if (this.status === 'dying') {console.log(indexOfSprite);console.log(this.spriteStatus);}
             if (indexOfSprite === -1 || indexOfSprite === this.sprites[this.status].length-1) {
                 this.spriteStatus = this.sprites[this.status][0];
                 if (this.status === 'jumping' && indexOfSprite === this.sprites[this.status].length-1) {

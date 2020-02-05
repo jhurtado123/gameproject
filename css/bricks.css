@@ -2,26 +2,27 @@
     background: url("../img/telaranas/telarana-1.png") no-repeat center!important;
     background-size: contain!important;
     opacity: 0.6;
-    z-index:0;
+    z-index:1;
 }
 .brick.spider-web-2 {
     background: url("../img/telaranas/telarana-2.png") no-repeat center!important;
     background-size: contain!important;
     opacity: 0.4;
-    z-index:0;
+    z-index:1;
 }
 .brick.spider-web-3 {
     background: url("../img/telaranas/telarana-3.png") no-repeat center!important;
     background-size: contain!important;
     opacity: 0.5;
-    margin-left:-10px;
-    z-index: 0!important;
+    margin-left: -10px;
+    z-index: 1!important;
 }
 .brick.spider-web-4 {
     background: url("../img/telaranas/telarana-4.png") no-repeat center!important;
     background-size: contain!important;
     opacity: 0.5;
-    z-index:0;
+    z-index:1;
+    transform: translateX(-10px);
 }
 
 .l1 {
@@ -51,12 +52,13 @@
     background: url("../img/blocks/brick.png") no-repeat  bottom;
     background-size: cover;
     position: absolute;
-    z-index:1;
+    z-index:2;
 }
 #htmlCanvas .brick.center {
     background: url("../img/blocks/brick-center.png") no-repeat  bottom;
     background-size: cover;
     position: absolute;
+    z-index: 3;
 }
 #htmlCanvas .brick.lava-brick.right {
     background: url("../img/blocks/lava-right.png") no-repeat  bottom;
@@ -106,6 +108,22 @@
         background-size: 100% 96%;
     }
 }
+
 [class*="brick"] {
     transform: translate3d(0,0,1px);
+}
+
+.spider-egg-1 {
+    background: url("../img/telaranas/spider-egg-1.png") no-repeat center;
+    background-size: contain;
+    position: absolute;
+    z-index:3;
+    transform: translateY(13px)!important;
+}
+.spider-egg-2 {
+    background: url("../img/telaranas/spider-egg-2.png") no-repeat center;
+    background-size: contain;
+    position: absolute;
+    z-index:3;
+    transform: translate(-30px,13px)!important;
 }

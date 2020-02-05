@@ -16,11 +16,20 @@ class View {
     }
 
     startGame(player, board) {
-        this.createDomElement(board);
-        this.menu.style.display = 'none';
-        this.finished.style.display = 'none';
-        this.lose.style.display = 'none';
-        this.choosePlayer.style.display = 'flex';
+        this.menu.querySelectorAll('*').forEach(element => {
+            element.style.transform = 'translate3d(-50%,1000px, 0)';
+            element.style.opacity = "0";
+        });
+        setTimeout(() => {
+            document.body.style.background = '#1A1F22';
+            this.createDomElement(board);
+            this.menu.style.display = 'none';
+            this.finished.style.display = 'none';
+            this.lose.style.display = 'none';
+            this.choosePlayer.style.display = 'flex';
+            this.choosePlayer.classList.add('active');
+        }, 150);
+
     }
 
     /*
@@ -138,19 +147,23 @@ class View {
 
 
     createDomElement(board) {
-        const htmlCanvas = document.createElement('div');
-        htmlCanvas.id = 'htmlCanvas';
-        this.root.appendChild(htmlCanvas);
-        this.domElement = document.querySelector('#htmlCanvas');
+        if (!this.domElement) {
+            const htmlCanvas = document.createElement('div');
+            htmlCanvas.id = 'htmlCanvas';
+            this.root.appendChild(htmlCanvas);
+            htmlCanvas.style.opacity = "0";
+            this.domElement = document.querySelector('#htmlCanvas');
 
 
-        this._fillDomElement(board);
+            this._fillDomElement(board);
 
-        const background = document.createElement('div');
-        this.domElement.appendChild(background);
-        background.className = "background";
-        background.style.width = `${this.domElement.scrollWidth}px`;
-        background.style.height = `${this.domElement.scrollHeight}px`;
+            const background = document.createElement('div');
+            this.domElement.appendChild(background);
+            background.className = "background";
+            background.style.width = `${this.domElement.scrollWidth}px`;
+            background.style.height = `${this.domElement.scrollHeight}px`;
+        }
+        this.domElement.style.opacity = "1";
     }
 
     _fillDomElement(board) {

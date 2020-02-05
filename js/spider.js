@@ -1,13 +1,14 @@
 class Spider extends Entity {
-    constructor(width, height, life, position, velX) {
+    constructor(width, height, life, position, velX, facing, isStatic) {
         super(width, height, life, position, velX);
 
-        this.facing = 'right';
+        this.facing = facing;
         this.firstPosition = position.x;
         this.attackSound = null;
         this.moveSound = null;
         this.deathSound = new Audio('sounds/spider-death.ogg');
         this.status = 'walking';
+        this.isStatic = isStatic;
         this.spriteStatus = 'at-1';
         this.startSpriteAnimation();
 
@@ -65,7 +66,7 @@ class Spider extends Entity {
 
     setSpiderHuntingMode() {
         this.status = 'hunting';
-        this.velX = 1.1;
+        this.velX = 2.2;
     }
     setSpiderWalkingMode() {
         this.status = 'walking';

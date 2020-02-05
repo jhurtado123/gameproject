@@ -3,7 +3,7 @@ class Controller {
     constructor(boardWidth, boardHeight, boardPortion, level) {
         this.board = new Board(boardWidth, boardHeight, boardPortion, level, 1.5);
         this.view = new View();
-        this.player = new Player(this.board.portion+23, this.board.portion * 2, {
+        this.player = new Player(this.board.portion + 23, this.board.portion * 2, {
             x: 100,
             y: this.board.height - this.board.portion * 2 - this.board.portion
         }, 3, 100, 1.7);
@@ -12,12 +12,15 @@ class Controller {
         this.setInitGameListener();
         this.setRestartGameListener();
         this.setGoToMenuListener();
+        this.restartedGame = false;
 
     }
 
     startGame() {
         this.view.startGame(this.player, this.board);
-        this.startListeners();
+        if (!this.restartedGame) {
+            this.startListeners();
+        }
     }
 
     choosedPlayer() {
@@ -30,18 +33,6 @@ class Controller {
     }
 
     resetGame() {
-        clearInterval(this.player.oxygenInterval);
-        this.player.oxygenInterval = null;
-        this.board.mobs = [];
-        this.board.boosters = [];
-        if (this.view.domElement) {
-            this.view.domElement.innerHTML = '';
-        }
-        this.player = new Player(this.board.portion+23, this.board.portion * 2, {
-            x: 100,
-            y: this.board.height - this.board.portion * 2 - this.board.portion
-        }, 3, 100, 1.7);
-
         this.startGame();
     }
 
@@ -60,13 +51,63 @@ class Controller {
     setRestartGameListener() {
         this.view.startRestartListener(() => {
             this.resetGame();
+            this.resetGameMechanichs();
         });
+    }
+
+    resetGameMechanichs() {
+        clearInterval(this.player.oxygenInterval);
+        this.player.oxygenInterval = null;
+        this.board.mobs.forEach(mob => {
+            clearInterval(mob.moveInterval);
+            mob.moveInterval = undefined;
+            mob.position = {
+                x: -1, y:-1
+            };
+        });
+        this.board.boosters.forEach(booster => {
+            booster.position = {
+                x: -1, y:-1
+            };
+        });
+        this.board.mobs = [];
+        this.board.boosters = [];
+        this.player.status = 'waiting';
+        this.player.position = {
+            x: 150,
+            y: this.view.domElement.scrollHeight - this.board.portion * 2 - this.board.portion
+        };
+        this.player.hasBulletBoostActive = false;
+        this.player.facing = 'right';
+        this.player.oxygen = 100;
+        this.player.life = 3;
+        this.view.domElement.scrollLeft = 0;
+        this.player.height = this.board.portion*2;
+        this.player.width = this.board.portion + 23;
+        clearInterval(this.view.interval);
+        this.view.interval = undefined;
+        clearInterval(this.player.moveInterval);
+        this.view.domElement.querySelector('.player').remove();
+        this.player.moveInterval = undefined;
+        this.restartedGame = true;
+        clearInterval(this.playerController);
+        this.playerController = undefined;
     }
 
     setGoToMenuListener() {
         this.view.startMenuListener(() => {
-            clearInterval(this.view.interval);
-            clearInterval(this.player.moveInterval);
+            this.resetGameMechanichs();
+            document.body.style.background = "url('./img/body-background.jpg')";
+            document.body.style.backgroundRepeat = 'no-repeat';
+            document.body.style.backgroundSize = 'cover';
+            const title = this.view.menu.querySelector('h1');
+            title.style.transform = 'translate3d(-50%,0, 0)';
+            title.style.opacity = "1";
+            const button = this.view.menu.querySelector('button');
+            button.style.transform = 'translateY( 0)';
+            button.style.opacity = "1";
+            this.view.domElement.style.opacity = "0";
+            this.view.choosePlayer.classList.remove('active');
             this.view.menu.style.display = 'flex';
         });
     }
@@ -84,19 +125,109 @@ class Controller {
             new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
                 x: 2250,
                 y: 850
-            }, 0.4)
+            }, 0.4, 'right', false)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion , this.board.portion, 1, {
+                x: 5754,
+                y: 765
+            }, 0.4, 'left', true)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion*2 , this.board.portion, 1, {
+                x: 6050,
+                y: 660
+            }, 0.4, 'right', true)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion*2 , this.board.portion, 1, {
+                x: 6350,
+                y: 510
+            }, 0.4, 'left', true)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion , this.board.portion, 1, {
+                x: 6550,
+                y: 460
+            }, 0.4, 'right', true)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion , this.board.portion, 1, {
+                x: 6750,
+                y: 510
+            }, 0.4, 'left', true)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion*2 , this.board.portion, 1, {
+                x: 7000,
+                y: 460
+            }, 0.4, 'right', true)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion , this.board.portion, 1, {
+                x: 7200,
+                y: 460
+            }, 0.4, 'left', true)
         );
         this.board.mobs.push(
             new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
                 x: 1500,
                 y: 450
-            }, 0.4)
+            }, 0.4,'left', false)
         );
         this.board.mobs.push(
             new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
                 x: 950,
                 y: 950
-            }, 0.4)
+            }, 0.4,'right', false)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
+                x: 2550,
+                y: 450
+            }, 0.4,'left', false)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
+                x: 3050,
+                y: 950
+            }, 0.4,'right', false)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
+                x: 5050,
+                y: 650
+            }, 0.4,'left', false)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion * 4, this.board.portion * 2, 1, {
+                x: 5600,
+                y: 950
+            }, 0.4,'right', false)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion * 4, this.board.portion * 2, 6, {
+                x: 6450,
+                y: 800
+            }, 0.4,'left', false)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion * 4, this.board.portion * 2, 6, {
+                x: 6850,
+                y: 800
+            }, 0.4,'right', false)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion * 4, this.board.portion * 2, 6, {
+                x: 7350,
+                y: 900
+            }, 0.4,'left', false)
+        );
+        this.board.mobs.push(
+            new Spider(this.board.portion * 4, this.board.portion * 2, 12, {
+                x: 8450,
+                y: 850
+            }, 0.4,'right', false)
         );
         this.startSpidersWalking();
     }
@@ -120,7 +251,7 @@ class Controller {
                         this.player.position = {
                             x: -10, y: -10
                         }
-                    },1000);
+                    }, 1000);
                 }
             }, 100);
         }
@@ -130,60 +261,68 @@ class Controller {
 
         this.board.mobs.forEach(spider => {
             if (!spider.moveInterval) {
-                spider.moveInterval = setInterval(() => {
-                    if (spider.facing === 'right') {
+                if (!spider.isStatic) {
+                    spider.moveInterval = setInterval(() => {
+                        if (spider.facing === 'right') {
 
-                        if (this.hasSpiderWallInFront(spider)) {
-                            spider.position.y -= 2;
+                            if (this.hasSpiderWallInFront(spider)) {
+                                spider.position.y -= 2;
+                            } else {
+                                if (!this.hasSpiderFloor(spider)) {
+                                    spider.position.y++;
+                                }
+                                spider.position.x += spider.velX;
+                            }
+
+                            if (this.isPlayerNextToSpider(spider) && spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
+                                spider.setSpiderAttackingMode();
+                                setTimeout(() => {
+                                    if (this.isPlayerNextToSpider(spider)) this.getAttacked('right')
+                                }, 500);
+                                setTimeout(() => {
+                                    if (spider.status !== 'dying' && spider.status !== 'died') spider.setSpiderHuntingMode()
+                                }, 2000);
+                            } else if (this.hasPlayerInRange(spider) && spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
+                                spider.setSpiderHuntingMode();
+                            } else if (spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
+                                spider.setSpiderWalkingMode();
+                                if (spider.position.x - spider.firstPosition > 100 && spider.status === 'walking') {
+                                    spider.toggleFacing();
+                                }
+                            }
                         } else {
-                            if (!this.hasSpiderFloor(spider)) {
-                                spider.position.y++;
-                            }
-                            spider.position.x += spider.velX;
-                        }
 
-                        if (this.isPlayerNextToSpider(spider) && spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
-                            spider.setSpiderAttackingMode();
-                            setTimeout(() => {
-                                if (this.isPlayerNextToSpider(spider)) this.getAttacked('right')
-                            }, 500);
-                            setTimeout(() => {if (spider.status !== 'dying' && spider.status !== 'died') spider.setSpiderHuntingMode()}, 2000);
-                        } else if (this.hasPlayerInRange(spider) && spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
-                            spider.setSpiderHuntingMode();
-                        } else if (spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
-                            spider.setSpiderWalkingMode();
-                            if (spider.position.x - spider.firstPosition > 100 && spider.status === 'walking') {
-                                spider.toggleFacing();
+                            if (this.hasSpiderWallInFront(spider)) {
+                                spider.position.y -= 2;
+                            } else {
+                                if (!this.hasSpiderFloor(spider)) {
+                                    spider.position.y++;
+                                }
+                                spider.position.x -= spider.velX;
                             }
-                        }
-                    } else {
-
-                        if (this.hasSpiderWallInFront(spider)) {
-                            spider.position.y -= 2;
-                        } else {
-                            if (!this.hasSpiderFloor(spider)) {
-                                spider.position.y++;
-                            }
-                            spider.position.x -= spider.velX;
-                        }
 
 
-                        if (this.isPlayerNextToSpider(spider) && spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
-                            spider.setSpiderAttackingMode();
-                            setTimeout(() => {
-                                if (this.isPlayerNextToSpider(spider)) this.getAttacked('left')
-                            }, 500);
-                            setTimeout(() => {if (spider.status !== 'dying' && spider.status !== 'died') spider.setSpiderHuntingMode()}, 2000);
-                        } else if (this.hasPlayerInRange(spider) && spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
-                            spider.setSpiderHuntingMode();
-                        } else if (spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
-                            spider.setSpiderWalkingMode();
-                            if (spider.firstPosition - spider.position.x > 100 && spider.status === 'walking') {
-                                spider.toggleFacing();
+                            if (this.isPlayerNextToSpider(spider) && spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
+                                spider.setSpiderAttackingMode();
+                                setTimeout(() => {
+                                    if (this.isPlayerNextToSpider(spider)) this.getAttacked('left')
+                                }, 500);
+                                setTimeout(() => {
+                                    if (spider.status !== 'dying' && spider.status !== 'died') spider.setSpiderHuntingMode()
+                                }, 2000);
+                            } else if (this.hasPlayerInRange(spider) && spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
+                                spider.setSpiderHuntingMode();
+                            } else if (spider.status !== 'attacking' && spider.status !== 'waiting' && spider.status !== 'dying') {
+                                spider.setSpiderWalkingMode();
+                                if (spider.firstPosition - spider.position.x > 100 && spider.status === 'walking') {
+                                    spider.toggleFacing();
+                                }
                             }
                         }
-                    }
-                }, 1);
+                    }, 1);
+                } else {
+                    spider.status= 'waiting';
+                }
             }
         });
 
@@ -298,8 +437,8 @@ class Controller {
             }, -1, 'life'
         ));
         this.board.boosters.push(new Booster(this.board.portion, this.board.portion, -1, {
-                x: 900,
-                y: 1000
+                x: 3500,
+                y: 700
             }, -1, 'bullet-boost'
         ))
     }
@@ -398,7 +537,7 @@ class Controller {
         const posiblesCollitions = this.board.getPosiblesCollitionsInX(position[0], 150);
 
         for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
-            if (posiblesCollitions[i][0] === this._getRoundedPosition(position[0] + this.player.width/1.5 - this.player.velX) && (posiblesCollitions[i][1] === this._getRoundedPosition(position[1] + this.board.portion) || posiblesCollitions[i][1] === this._getRoundedPosition(position[1]))) {
+            if (posiblesCollitions[i][0] === this._getRoundedPosition(position[0] + this.player.width / 1.5 - this.player.velX) && (posiblesCollitions[i][1] === this._getRoundedPosition(position[1] + this.board.portion) || posiblesCollitions[i][1] === this._getRoundedPosition(position[1]))) {
                 response = false;
             }
         }
@@ -414,7 +553,7 @@ class Controller {
         const posiblesCollitions = this.board.getPosiblesCollitionsInX(position[0], 150);
 
         for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
-            if (this._getRoundedPosition(position[0] + this.player.velX *14) === posiblesCollitions[i][0] + this.board.portion && (posiblesCollitions[i][1] === this._getRoundedPosition(position[1] + this.board.portion) || posiblesCollitions[i][1] === this._getRoundedPosition(position[1]))) {
+            if (this._getRoundedPosition(position[0] + this.player.velX * 14) === posiblesCollitions[i][0] + this.board.portion && (posiblesCollitions[i][1] === this._getRoundedPosition(position[1] + this.board.portion) || posiblesCollitions[i][1] === this._getRoundedPosition(position[1]))) {
                 response = false;
             }
         }
@@ -522,11 +661,11 @@ class Controller {
         const posiblesCollitions = this.board.getPosiblesCollitionsInX(playerXPos, 150);
 
         for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
-            if (playerXPos >= posiblesCollitions[i][0]  && playerXPos <= posiblesCollitions[i][0] + portion) {
+            if (playerXPos >= posiblesCollitions[i][0] && playerXPos <= posiblesCollitions[i][0] + portion) {
                 if (playerYPos <= posiblesCollitions[i][1] && playerYPos + portion >= posiblesCollitions[i][1] + portion - 1) {
                     response = false;
                 }
-            } else if (playerXPos + playerWidth <= posiblesCollitions[i][0] + 1 + portion+26 && playerXPos + playerWidth >= posiblesCollitions[i][0] + 1) {
+            } else if (playerXPos + playerWidth <= posiblesCollitions[i][0] + 1 + portion + 26 && playerXPos + playerWidth >= posiblesCollitions[i][0] + 1) {
                 if (playerYPos <= posiblesCollitions[i][1] && playerYPos + portion >= posiblesCollitions[i][1] + portion - 1) {
                     response = false;
                 }
@@ -745,12 +884,6 @@ class Controller {
             case 'gameOver':
                 break;
         }
-    }
-
-    startGameListener() {
-    }
-
-    resetGameListener() {
     }
 
     /*
