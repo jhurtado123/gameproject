@@ -288,7 +288,7 @@ class Controller {
                     spider.moveInterval = setInterval(() => {
                         if (spider.facing === 'right') {
 
-                            if (this.hasSpiderWallInFront(spider)) {
+                            if (this.hasSpiderWallInFront(spider) && !this.hasSpiderCeiling(spider)) {
                                 spider.position.y -= 2;
                             } else {
                                 if (!this.hasSpiderFloor(spider)) {
@@ -315,7 +315,7 @@ class Controller {
                             }
                         } else {
 
-                            if (this.hasSpiderWallInFront(spider)) {
+                            if (this.hasSpiderWallInFront(spider) && !this.hasSpiderCeiling(spider)) {
                                 spider.position.y -= 2;
                             } else {
                                 if (!this.hasSpiderFloor(spider)) {
@@ -348,6 +348,30 @@ class Controller {
                 }
             }
         });
+
+    }
+
+    hasSpiderCeiling(spider) {
+        let response = false;
+
+        const posiblesCollitions = this.board.getPosiblesCollitionsInX(spider.position.x, 100);
+
+        for (let i = posiblesCollitions.length - 1; i >= 0; i--) {
+            if (spider.facing === 'left') {
+                if (spider.position.x  >= posiblesCollitions[i][0] && spider.position.x  <= posiblesCollitions[i][0] + this.board.portion
+                    && posiblesCollitions[i][1] === this._getRoundedPosition(spider.position.y - 20 )) {
+                    response = true;
+                }
+            } else {
+                if (spider.position.x  <= posiblesCollitions[i][0] && spider.position.x  >= posiblesCollitions[i][0] - this.board.portion
+                    && posiblesCollitions[i][1] === this._getRoundedPosition(spider.position.y - 20 )) {
+                    response = true;
+                }
+            }
+        }
+
+        //TODO
+        return false;
 
     }
 
@@ -468,15 +492,17 @@ class Controller {
 
     movePlayerListener() {
         this.view.movePlayer((event) => {
-            switch (event.key) {
-                case 'd':
-                    this.player.facing = 'right';
-                    this.movePlayer();
-                    break;
-                case 'a':
-                    this.player.facing = 'left';
-                    this.movePlayer();
-                    break;
+            if (this.player.status !== 'dying') {
+                switch (event.key) {
+                    case 'd':
+                        this.player.facing = 'right';
+                        this.movePlayer();
+                        break;
+                    case 'a':
+                        this.player.facing = 'left';
+                        this.movePlayer();
+                        break;
+                }
             }
         });
     }
@@ -612,7 +638,7 @@ class Controller {
 
     startJumpingListener() {
         this.view.jumpPlayer((event) => {
-            if (event.key === 'w' && !this.player.jumping && !this.player.falling) {
+            if (event.key === 'w' && !this.player.jumping && !this.player.falling && this.player.status !== 'dying') {
 
                 if (this.player.falling) this.player.stopPlayerJumping();
 
@@ -705,7 +731,7 @@ class Controller {
 
     startPlayerShooting() {
         this.view.playerShoot((event) => {
-            if (event.key === 'Enter') {
+            if (event.key === 'Enter' && this.player.status !== 'dying') {
 
                 if (Date.now() / 1000 - this.player.lastShot < 1.5) {
                     this.player.noAmmoSound.play();
