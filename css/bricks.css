@@ -48,13 +48,13 @@
 }
 
 #htmlCanvas .brick {
-    background: url("../img/blocks/brick.jpg") no-repeat  bottom;
+    background: url("../img/blocks/brick.png") no-repeat  bottom;
     background-size: cover;
     position: absolute;
     z-index:1;
 }
 #htmlCanvas .brick.center {
-    background: url("../img/blocks/brick-center.jpg") no-repeat  bottom;
+    background: url("../img/blocks/brick-center.png") no-repeat  bottom;
     background-size: cover;
     position: absolute;
 }
