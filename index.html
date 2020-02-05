@@ -50,6 +50,17 @@
         <div class="fill-bar"></div>
     </div>
     <div id="livesWrap"></div>
+    <div class="mobile-controls">
+        <div class="move">
+            <div class="move-left"><</div>
+            <div class="move-right">></div>
+        </div>
+        <div class="jump-shoot">
+            <div class="jump-player">
+                ⇑
+            </div>
+        </div>
+    </div>
 </div>
 <script src="js/variables.js"></script>
 <script src="js/entity.js"></script>
@@ -61,7 +72,11 @@
 <script src="js/view.js"></script>
 <script src="js/controller.js"></script>
 <script>
-    let gameController = new Controller(1550, 850, 50, level);
+    if (window.innerWidth <= 1024) {
+        let gameController = new Controller(window.innerWidth, window.innerHeight, 50, level);
+    } else {
+        let gameController = new Controller(1550, 850, 50, level);
+    }
 </script>
 </body>
 </html>

@@ -33,6 +33,36 @@ body {
     overflow: hidden;
     box-shadow: 0 30px 40px rgba(0,0,0,1);
 }
+.mobile-controls {
+    display: none;
+}
+@media screen and (max-width: 1024px) {
+    #root {
+        width: 100vw;
+        height: 100vh;
+    }
+    .mobile-controls {
+        display: none;
+        position: fixed;
+        width: 100%;
+        bottom:15px;
+        flex-flow: row;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 5;
+        font-family: '28Days';
+        font-size: 60px;
+        font-weight:bold;
+        color:grey;
+    }
+    .mobile-controls .move-left, .mobile-controls .move-right {
+        display: inline-block;
+        margin:0 30px;
+    }
+    .mobile-controls .jump-player {
+        margin:0 30px;
+    }
+}
 
 
 #htmlCanvas {

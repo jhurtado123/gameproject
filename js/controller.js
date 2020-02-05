@@ -32,6 +32,7 @@ class Controller {
         this.setBoostersOnBoard();
         this.setSpidersOnBoard();
         this.view.printBoosters(this.board);
+        this.player.oxygen = 100;
         this.player.position.y = this.view.domElement.scrollHeight - this.board.portion * 2 - this.board.portion;
         this.view.interval = requestAnimationFrame(() => this.view.updateEntities(this.board, this.player));
         this.isPlayerDeath();
@@ -56,6 +57,7 @@ class Controller {
             this.player.character = selectedPlayer;
             this.view.choosePlayer.style.display = 'none';
             this.choosedPlayer();
+            this.view.showControlsIfMobile();
         });
     }
 
@@ -262,6 +264,7 @@ class Controller {
                         clearInterval(this.player.moveInterval);
                         clearInterval(this.view.interval);
                         clearInterval(this.playerController);
+                        document.querySelector('.mobile-controls').style.display = 'none';
                         this.view.lose.style.display = 'flex';
                         this.playerController = null;
                         clearInterval(this.player.falling);
@@ -513,6 +516,7 @@ class Controller {
             }
             if (this._getRoundedPosition(this.player.position.x) === 8950) {
                 this.view.finished.style.display = 'flex';
+                document.querySelector('.mobile-controls').style.display = 'none';
 
             }
         }, 1);

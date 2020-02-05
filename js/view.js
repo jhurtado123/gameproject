@@ -28,6 +28,9 @@ class View {
             this.lose.style.display = 'none';
             this.choosePlayer.style.display = 'flex';
             this.choosePlayer.classList.add('active');
+            this.moveRightPlayerMobile();
+            this.moveLeftPlayerMobile();
+            this.jumpPlayerMobile();
         }, 150);
 
     }
@@ -68,6 +71,27 @@ class View {
 
     movePlayer(callback) {
         document.addEventListener('keypress', callback);
+    }
+    moveRightPlayerMobile() {
+        document.querySelector('.move-right').addEventListener('mousedown', () => {
+            document.dispatchEvent(new KeyboardEvent('keypress',{key:'d'}));
+        });
+        document.querySelector('.move-right').addEventListener('mouseup', () => {
+            document.dispatchEvent(new KeyboardEvent('keyup',{key:'d'}));
+        });
+    }
+    moveLeftPlayerMobile() {
+        document.querySelector('.move-left').addEventListener('mousedown', () => {
+            document.dispatchEvent(new KeyboardEvent('keypress',{key:'a'}));
+        });
+        document.querySelector('.move-left').addEventListener('mouseup', () => {
+            document.dispatchEvent(new KeyboardEvent('keyup',{key:'a'}));
+        });
+    }
+    jumpPlayerMobile() {
+        document.querySelector('.jump-player').addEventListener('mousedown', () => {
+            document.dispatchEvent(new KeyboardEvent('keypress',{key:'w'}));
+        });
     }
 
     stopMovingPlayer(callback) {
@@ -214,8 +238,13 @@ class View {
         },40);
     }
 
-    printBoosters(board) {
+    showControlsIfMobile() {
+        if (window.innerWidth <= 1024) {
+             document.querySelector('.mobile-controls').style.display = 'flex';
+        }
+    }
 
+    printBoosters(board) {
         this.removeNodes(document.querySelectorAll('.booster'));
 
         const boosters = board.boosters;
