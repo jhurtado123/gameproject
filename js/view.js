@@ -73,23 +73,23 @@ class View {
         document.addEventListener('keypress', callback);
     }
     moveRightPlayerMobile() {
-        document.querySelector('.move-right').addEventListener('mousedown', () => {
+        document.querySelector('.move-right').addEventListener('touchstart', () => {
             document.dispatchEvent(new KeyboardEvent('keypress',{key:'d'}));
         });
-        document.querySelector('.move-right').addEventListener('mouseup', () => {
+        document.querySelector('.move-right').addEventListener('touchend', () => {
             document.dispatchEvent(new KeyboardEvent('keyup',{key:'d'}));
         });
     }
     moveLeftPlayerMobile() {
-        document.querySelector('.move-left').addEventListener('mousedown', () => {
+        document.querySelector('.move-left').addEventListener('touchstart', () => {
             document.dispatchEvent(new KeyboardEvent('keypress',{key:'a'}));
         });
-        document.querySelector('.move-left').addEventListener('mouseup', () => {
+        document.querySelector('.move-left').addEventListener('touchend', () => {
             document.dispatchEvent(new KeyboardEvent('keyup',{key:'a'}));
         });
     }
     jumpPlayerMobile() {
-        document.querySelector('.jump-player').addEventListener('mousedown', () => {
+        document.querySelector('.jump-player').addEventListener('touchstart', () => {
             document.dispatchEvent(new KeyboardEvent('keypress',{key:'w'}));
         });
     }
