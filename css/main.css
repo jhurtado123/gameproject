@@ -32,8 +32,9 @@ html, body {
 }
 .background {
     background: white;
-    background: url("../img/background.png") no-repeat  bottom;
+    background: url("../img/background.jpg") no-repeat  bottom;
     background-size: 100% 100%!important;
+    transform: translate3d(0,0,1px);
 }
 .spaceship {
     background: url("../img/spaceship.png") no-repeat  bottom;
@@ -41,6 +42,7 @@ html, body {
     width:400px!important;
     height:300px!important;
     position: absolute;
+    transform: translate3d(0,0,1px);
 }
 
 
@@ -51,11 +53,10 @@ html, body {
 
 .player {
     position: absolute;
-    background: url("../img/player.png") no-repeat center;
 }
 
 .facing-left {
-    transform: scaleX(-1);
+    transform: scaleX(-1)!important;
 }
 
 

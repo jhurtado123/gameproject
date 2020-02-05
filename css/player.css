@@ -110,5 +110,8 @@ SPRITES
     background-size: contain;
 }
 .shoot-fire.left {
-    transform: scaleX(-1);
+    transform: scaleX(-1)!important;
+}
+[class*="player"] {
+    transform: translate3d(0,0,1px);
 }

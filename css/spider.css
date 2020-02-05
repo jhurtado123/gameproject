@@ -1,6 +1,5 @@
 .spider {
     position: absolute;
-    background: url("../img/spider.png") no-repeat center;
 }
 .spider.at-1 {
     background: url("../img/arana/attacking-1.png") no-repeat center!important;
@@ -111,4 +110,7 @@
 }
 .spider.facing-right {
     transform: scaleX(1);
+}
+[class*="spider"] {
+    transform: translate3d(0,0,1px);
 }

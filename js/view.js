@@ -193,7 +193,7 @@ class View {
         elementFire.classList.add(`shoot-fire`);
         elementFire.classList.add(`${player.facing}`);
         elementFire.style.top = `${player.position.y +5 + player.height/2}px`;
-        elementFire.style.left = player.facing === 'right' ? `${player.position.x - 2 + player.width}px` : `${player.position.x - 30 }px`;
+        elementFire.style.left = player.facing === 'right' ? `${player.position.x + 2 + player.width}px` : `${player.position.x - 30 }px`;
         setTimeout(() => {
             elementFire.remove();
         },40);
