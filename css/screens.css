@@ -31,7 +31,7 @@
     position: absolute;
     left: 50%;
     top: 15%;
-    transform: translateX(-55%);
+    transform: translateX(-50%);
     animation: title-animation 5s infinite;
 }
 @media screen and (max-width: 1024px) {
