@@ -31,6 +31,7 @@ class View {
             this.moveRightPlayerMobile();
             this.moveLeftPlayerMobile();
             this.jumpPlayerMobile();
+            this.shootPlayerMobile();
         }, 150);
 
     }
@@ -91,6 +92,11 @@ class View {
     jumpPlayerMobile() {
         document.querySelector('.jump-player').addEventListener('touchstart', () => {
             document.dispatchEvent(new KeyboardEvent('keypress',{key:'w'}));
+        });
+    }
+    shootPlayerMobile() {
+        document.querySelector('.shoot-player').addEventListener('touchstart', () => {
+            document.dispatchEvent(new KeyboardEvent('keypress',{key:'Enter'}));
         });
     }
 
