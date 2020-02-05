@@ -11,6 +11,8 @@ class Spider extends Entity {
         this.isStatic = isStatic;
         this.spriteStatus = 'at-1';
         this.startSpriteAnimation();
+        this.huntSound = new Audio('sounds/spider-walk.mp3');
+        this.huntSound.loop = true;
 
         this.sprites = {
             walking : ['wl-1','wl-2','wl-3','wl-4','wl-5','wl-6','wl-7','wl-8'],
@@ -67,8 +69,11 @@ class Spider extends Entity {
     setSpiderHuntingMode() {
         this.status = 'hunting';
         this.velX = 2.2;
+        this.huntSound.play();
     }
     setSpiderWalkingMode() {
+        this.huntSound.pause();
+        this.huntSound.currentTime = 0;
         this.status = 'walking';
         this.velX = 0.4;
     }

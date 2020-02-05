@@ -13,6 +13,11 @@ class Controller {
         this.setRestartGameListener();
         this.setGoToMenuListener();
         this.restartedGame = false;
+        this.homeSound = new Audio('sounds/home-sound.mp3');
+        this.gameSound =new Audio('sounds/game-sound.mp3');
+        this.gameSound.loop = true;
+        this.homeSound.loop = true;
+        this.homeSound.play();
 
     }
 
@@ -38,9 +43,15 @@ class Controller {
 
     setInitGameListener() {
         this.view.startGameListener(() => {
+            new Audio('sounds/btn-click.mp3').play();
+            this.homeSound.pause();
+            this.homeSound.currentTime = 0;
+            this.gameSound.currentTime = 0;
+            this.gameSound.play();
             this.resetGame();
         });
         this.view.choosePlayerListener(() => {
+            new Audio('sounds/btn-click.mp3').play();
             const selectedPlayer = document.querySelector('.player-wrap.active').getAttribute('data-player');
             this.player.character = selectedPlayer;
             this.view.choosePlayer.style.display = 'none';
@@ -50,6 +61,10 @@ class Controller {
 
     setRestartGameListener() {
         this.view.startRestartListener(() => {
+            this.gameSound.pause();
+            this.gameSound.currentTime = 0;
+            this.gameSound.play();
+            new Audio('sounds/btn-click.mp3').play();
             this.resetGame();
             this.resetGameMechanichs();
         });
@@ -96,6 +111,10 @@ class Controller {
 
     setGoToMenuListener() {
         this.view.startMenuListener(() => {
+            new Audio('sounds/btn-click.mp3').play();
+            this.gameSound.pause();
+            this.homeSound.currentTime = 0;
+            this.homeSound.play();
             this.resetGameMechanichs();
             document.body.style.background = "url('./img/body-background.jpg')";
             document.body.style.backgroundRepeat = 'no-repeat';

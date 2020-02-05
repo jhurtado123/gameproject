@@ -37,11 +37,13 @@ class View {
     */
     setListenersForPreGame() {
         document.querySelector('.player-chooser .next').addEventListener('click', () => {
+            new Audio('sounds/player-change.mp3').play();
            document.querySelectorAll('.player-wrap').forEach(element => {
                element.classList.toggle('active');
            });
         });
         document.querySelector('.player-chooser .prev').addEventListener('click', () => {
+            new Audio('sounds/player-change.mp3').play();
             document.querySelectorAll('.player-wrap').forEach(element => {
                 element.classList.toggle('active');
             });
