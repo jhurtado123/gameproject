@@ -64,16 +64,25 @@ class Spider extends Entity {
     setSpiderAttackingMode() {
         this.status = 'attacking';
         this.velX = 0;
+        if (!this.huntSound.paused) {
+            this.huntSound.pause();
+            this.huntSound.currentTime = 0;
+        }
+
     }
 
     setSpiderHuntingMode() {
         this.status = 'hunting';
         this.velX = 2.2;
-        this.huntSound.play();
+        if (this.huntSound.paused) {
+            this.huntSound.play();
+        }
     }
     setSpiderWalkingMode() {
-        this.huntSound.pause();
-        this.huntSound.currentTime = 0;
+        if (!this.huntSound.paused) {
+            this.huntSound.pause();
+            this.huntSound.currentTime = 0;
+        }
         this.status = 'walking';
         this.velX = 0.4;
     }
@@ -102,6 +111,10 @@ class Spider extends Entity {
     }
 
     die() {
+        if (!this.huntSound.paused) {
+            this.huntSound.pause();
+            this.huntSound.currentTime = 0;
+        }
         this.status = 'died';
         this.stopMoving();
         setTimeout(() => this.deathSound.play(), 500);
