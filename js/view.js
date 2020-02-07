@@ -52,6 +52,12 @@ class View {
                 element.classList.toggle('active');
             });
         });
+        document.querySelector('.instructions').addEventListener('click', () => {
+            document.querySelector('#instructions').classList.add('active');
+        });
+        document.querySelector('#instructions .close').addEventListener('click', () => {
+            document.querySelector('#instructions').classList.remove('active');
+        });
     }
     choosePlayerListener(callback) {
         document.querySelector('#playerChoosed').addEventListener('click', callback);

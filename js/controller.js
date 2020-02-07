@@ -127,6 +127,9 @@ class Controller {
             const button = this.view.menu.querySelector('button');
             button.style.transform = 'translateY( 0)';
             button.style.opacity = "1";
+            const instructions = this.view.menu.querySelector('.instructions');
+            instructions.style.transform = 'translateY( 0)';
+            instructions.style.opacity = "0.5";
             this.view.domElement.style.opacity = "0";
             this.view.choosePlayer.classList.remove('active');
             this.view.menu.style.display = 'flex';

@@ -127,3 +127,9 @@
     z-index:3;
     transform: translate(-30px,13px)!important;
 }
+.lava-center {
+    background: url("../img/blocks/lava-center.png") no-repeat  bottom;
+    background-size: cover;
+    z-index:98;
+    position: absolute;
+}

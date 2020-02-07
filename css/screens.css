@@ -20,6 +20,76 @@
     transition: transform 0.4s, opacity 0.3s;
     opacity: 1;
 }
+#start .instructions {
+    color:white;
+    position: absolute;
+    bottom: 30px;
+    left:30px;
+    margin:0;
+    font-size: 36px;
+    cursor:pointer;
+    opacity: 0.5;
+}
+.instructions:hover {
+    animation: movement-loko 1s infinite;
+}
+@keyframes movement-loko {
+    5% {bottom:32px; left:32px}
+    10% {bottom:30px; left:31px}
+    15% {bottom:29px; left:30px}
+    20% {bottom:27px; left:31px}
+    25% {bottom:28px; left:30px}
+    30% {bottom:30px; left:28px}
+    35% {bottom:32px; left:27px}
+    40% {bottom:31px; left:28px}
+    45% {bottom:30px; left:30px}
+    50% {bottom:32px; left:28px}
+    55% {bottom:31px; left:29px}
+    60% {bottom:30px; left:30px}
+    65% {bottom:29px; left:31px}
+    70% {bottom:27px; left:31px}
+    75% {bottom:29px; left:32px}
+    80% {bottom:30px; left:30px}
+    85% {bottom:32px; left:30px}
+    90% {bottom:31px; left:28px}
+    95% {bottom:32px; left:27px}
+    100% {bottom:30px; left:29px}
+}
+#instructions {
+    display: block;
+    transform: translate(-50%,-2000px);
+    transition: transform 0.5s;
+    z-index:50;
+    position: absolute;
+    width: 40%!important;
+    height:60%!important;
+    background: #061D28!important;
+    top:50%;
+    left:50%;
+    border-radius: 10px;
+}
+#instructions.active {
+    transform: translate(-50%,-50%);
+}
+#instructions .close {
+    font-size: 22px;
+    position: absolute;
+    top:20px;
+    right:20px;
+    cursor:pointer;
+}
+#instructions h1 {
+    font-size: 4rem;
+    margin:0;
+    margin-bottom:80px;
+}
+#instructions p {
+    font-size: 2rem;
+    margin:0;
+    margin-bottom:10px;
+    text-align: left!important;
+    width:85%;
+}
 #start button {
     margin-top: 460px;
 }
