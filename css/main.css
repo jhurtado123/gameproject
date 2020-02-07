@@ -134,5 +134,13 @@ body {
     height: 50px;
 }
 
+img.hidden {
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:0;
+    visibility: hidden;
+    max-width: 90vw;
+}
 
 

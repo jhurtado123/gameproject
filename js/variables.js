@@ -4,12 +4,15 @@ let arrayImages = [
   'player/player-1-dying-1.png','player/player-1-dying-2.png','player/player-1-dying-3.png','player/player-1-dying-4.png','player/player-1-dying-5.png','player/player-1-jumping-1.png','player/player-1-jumping-2.png','player/player-1-jumping-3.png','player/player-1-waiting-1.png','player/player-1-waiting-2.png','player/player-1-waiting-3.png','player/player-1-waiting-4.png','player/player-1-waiting-5.png','player/player-1-walking-1.png','player/player-1-walking-2.png','player/player-1-walking-3.png','player/player-1-walking-4.png','player/player-1-walking-5.png','player/player-1-walking-6.png','player/player-1-walking-7.png','player/player-1-walking-8.png','player/player-1-walking-9.png','player/player-1-walking-10.png','player/player-1-walking-11.png','player/player-1-walking-12.png', 'player/player-2-dying-1.png','player/player-2-dying-2.png','player/player-2-dying-3.png','player/player-2-dying-4.png','player/player-2-dying-5.png','player/player-2-jumping-1.png','player/player-2-jumping-2.png','player/player-2-jumping-3.png','player/player-2-waiting-1.png','player/player-2-waiting-2.png','player/player-2-waiting-3.png','player/player-2-waiting-4.png','player/player-2-waiting-5.png','player/player-2-walking-1.png','player/player-2-walking-2.png','player/player-2-walking-3.png','player/player-2-walking-4.png','player/player-2-walking-5.png','player/player-2-walking-6.png','player/player-2-walking-7.png','player/player-2-walking-8.png','player/player-2-walking-9.png','player/player-2-walking-10.png','player/player-2-walking-11.png','player/player-2-walking-12.png',
     'arana/attacking-1.png', 'arana/attacking-2.png',  'arana/attacking-3.png', 'arana/attacking-4.png', 'arana/attacking-5.png', 'arana/attacking-6.png', 'arana/death-1.png', 'arana/death-2.png', 'arana/death-3.png', 'arana/death-4.png', 'arana/death-5.png', 'arana/death-6.png', 'arana/death-7.png', 'arana/waiting-1.png', 'arana/waiting-2.png', 'arana/waiting-3.png', 'arana/waiting-4.png', 'arana/waiting-5.png', 'arana/walking-1.png', 'arana/walking-2.png', 'arana/walking-3.png', 'arana/walking-4.png' , 'arana/walking-5.png', 'arana/walking-6.png', 'arana/walking-7.png','arana/walking-8.png','arana/',
     'blocks/brick.jpg','blocks/brick-center.jpg',
-    'background.jpg'
+    'player/shoot.png'
 ];
 let images = [];
 for (let i = arrayImages.length-1; i >= 0; i--) {
     images[i]= new Image();
-    images[i].src = `img/${arrayImages[i]}`;
+    let image = document.createElement('img');
+    image.src =  `img/${arrayImages[i]}`;
+    image.classList.add('hidden');
+    document.body.appendChild(image);
 }
 
 
