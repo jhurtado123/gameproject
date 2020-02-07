@@ -472,7 +472,7 @@ class Controller {
                 response = true;
             }
         } else {
-            if (playerX <= spiderX + 300 + spider.width && playerX >= spiderX + spider.width && playerY + this.player.height / 2 >= spiderY - this.board.portion * 4 && playerY + this.player.height / 2 <= spiderY + spider.height + this.board.portion) {
+            if (playerX <= spiderX + 300 + spider.width && playerX >= spiderX  && playerY + this.player.height / 2 >= spiderY - this.board.portion * 4 && playerY + this.player.height / 2 <= spiderY + spider.height + this.board.portion) {
                 response = true;
             }
         }
